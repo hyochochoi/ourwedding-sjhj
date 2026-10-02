@@ -21,6 +21,9 @@ export type Database = {
           content: string
           created_at: string
           id: string
+          pos_x: number
+          pos_y: number
+          star_type: string
         }
         Insert: {
           author: string
@@ -28,6 +31,9 @@ export type Database = {
           content: string
           created_at?: string
           id?: string
+          pos_x?: number
+          pos_y?: number
+          star_type?: string
         }
         Update: {
           author?: string
@@ -35,6 +41,30 @@ export type Database = {
           content?: string
           created_at?: string
           id?: string
+          pos_x?: number
+          pos_y?: number
+          star_type?: string
+        }
+        Relationships: []
+      }
+      invitees: {
+        Row: {
+          code: string
+          created_at: string
+          id: string
+          name: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: string
+          name: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: string
+          name?: string
         }
         Relationships: []
       }
@@ -109,7 +139,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_guestbook_stars: {
+        Args: never
+        Returns: {
+          color_index: number
+          id: string
+          pos_x: number
+          pos_y: number
+          star_type: string
+        }[]
+      }
+      get_invitee_name: { Args: { _code: string }; Returns: string }
     }
     Enums: {
       [_ in never]: never
