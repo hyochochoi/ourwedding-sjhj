@@ -4,12 +4,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 
 const SIDES = ["신랑측", "신부측"] as const;
 const ATTEND = ["참석", "불참석"] as const;
-const MEALS = ["예정", "안함", "미정"] as const;
+const MEALS = ["식사 예정", "식사 안함"] as const;
 
 function Choice({
   options,
@@ -21,7 +20,7 @@ function Choice({
   onChange: (v: string) => void;
 }) {
   return (
-    <div className="grid grid-cols-[repeat(auto-fit,minmax(0,1fr))] gap-2">
+    <div className="grid grid-cols-2 gap-2">
       {options.map((option) => (
         <button
           key={option}
@@ -41,15 +40,18 @@ function Choice({
   );
 }
 
-export function RsvpForm({ onDone }: { onDone?: () => void }) {
+export function RsvpForm({
+  onDone,
+  defaultName = "",
+}: {
+  onDone?: () => void;
+  defaultName?: string;
+}) {
   const [side, setSide] = useState<string>(SIDES[0]);
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [name, setName] = useState(defaultName);
   const [attendance, setAttendance] = useState<string>(ATTEND[0]);
   const [guestCount, setGuestCount] = useState("1");
-  const [companion, setCompanion] = useState("");
   const [meal, setMeal] = useState<string>(MEALS[0]);
-  const [message, setMessage] = useState("");
   const [saving, setSaving] = useState(false);
 
   async function submit(event: React.FormEvent) {
@@ -59,15 +61,13 @@ export function RsvpForm({ onDone }: { onDone?: () => void }) {
       return;
     }
     setSaving(true);
+    const attending = attendance === "참석";
     const { error } = await supabase.from("rsvp_submissions").insert({
       side,
       name: name.trim(),
-      phone: phone.trim() || null,
       attendance,
-      guest_count: Number(guestCount) || 1,
-      companion: companion.trim() || null,
-      meal_preference: meal,
-      message: message.trim() || null,
+      guest_count: attending ? Number(guestCount) || 1 : 0,
+      meal_preference: attending ? meal : null,
     });
     setSaving(false);
 
@@ -75,14 +75,20 @@ export function RsvpForm({ onDone }: { onDone?: () => void }) {
       toast.error("전달에 실패했어요. 잠시 후 다시 시도해 주세요.");
       return;
     }
-    toast.success("참석 의사가 전달되었습니다. 감사합니다!");
+    toast.success("소중한 답변 감사합니다!");
     onDone?.();
   }
 
   return (
     <form onSubmit={submit} className="space-y-4">
+      <p className="rounded-xl bg-primary/15 p-3 text-center text-xs leading-relaxed text-foreground">
+        식사 준비를 위해 여쭤봐요 🙂
+        <br />
+        간단히 알려주시면 정성껏 준비하겠습니다.
+      </p>
+
       <div className="space-y-2">
-        <Label>구분</Label>
+        <Label>어느 쪽 하객이신가요?</Label>
         <Choice options={SIDES} value={side} onChange={setSide} />
       </div>
 
@@ -93,6 +99,7 @@ export function RsvpForm({ onDone }: { onDone?: () => void }) {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="성함을 입력해 주세요"
+          maxLength={20}
         />
       </div>
 
@@ -104,26 +111,14 @@ export function RsvpForm({ onDone }: { onDone?: () => void }) {
       {attendance === "참석" && (
         <>
           <div className="space-y-2">
-            <Label htmlFor="rsvp-count">참석 인원</Label>
+            <Label htmlFor="rsvp-count">본인 포함 인원</Label>
             <Input
               id="rsvp-count"
               inputMode="numeric"
               value={guestCount}
               onChange={(e) => setGuestCount(e.target.value.replace(/\D/g, ""))}
-              placeholder="본인 포함 총 참석인원"
             />
           </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="rsvp-companion">동행인</Label>
-            <Input
-              id="rsvp-companion"
-              value={companion}
-              onChange={(e) => setCompanion(e.target.value)}
-              placeholder="함께 오시는 분 성함"
-            />
-          </div>
-
           <div className="space-y-2">
             <Label>식사 여부</Label>
             <Choice options={MEALS} value={meal} onChange={setMeal} />
@@ -131,30 +126,8 @@ export function RsvpForm({ onDone }: { onDone?: () => void }) {
         </>
       )}
 
-      <div className="space-y-2">
-        <Label htmlFor="rsvp-phone">연락처 (선택)</Label>
-        <Input
-          id="rsvp-phone"
-          inputMode="tel"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          placeholder="010-0000-0000"
-        />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="rsvp-message">남기실 말씀 (선택)</Label>
-        <Textarea
-          id="rsvp-message"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          rows={2}
-          placeholder="신랑신부에게 전하고 싶은 말"
-        />
-      </div>
-
       <Button type="submit" disabled={saving} className="w-full rounded-full">
-        {saving ? "전달 중..." : "참석 의사 전달하기"}
+        {saving ? "전달 중..." : "전달하기"}
       </Button>
     </form>
   );
