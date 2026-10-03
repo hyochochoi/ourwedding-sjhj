@@ -6,39 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
-const SIDES = ["신랑측", "신부측"] as const;
-const ATTEND = ["참석", "불참석"] as const;
-const MEALS = ["식사 예정", "식사 안함"] as const;
-
-function Choice({
-  options,
-  value,
-  onChange,
-}: {
-  options: readonly string[];
-  value: string;
-  onChange: (v: string) => void;
-}) {
-  return (
-    <div className="grid grid-cols-2 gap-2">
-      {options.map((option) => (
-        <button
-          key={option}
-          type="button"
-          onClick={() => onChange(option)}
-          className={cn(
-            "rounded-full border border-border px-3 py-2 text-sm transition-colors",
-            value === option
-              ? "border-primary bg-primary text-primary-foreground"
-              : "bg-secondary/40 text-foreground hover:border-primary/60",
-          )}
-        >
-          {option}
-        </button>
-      ))}
-    </div>
-  );
-}
+const ATTEND = ["참석", "불참"] as const;
 
 export function RsvpForm({
   onDone,
@@ -47,35 +15,30 @@ export function RsvpForm({
   onDone?: () => void;
   defaultName?: string;
 }) {
-  const [side, setSide] = useState<string>(SIDES[0]);
   const [name, setName] = useState(defaultName);
   const [attendance, setAttendance] = useState<string>(ATTEND[0]);
-  const [guestCount, setGuestCount] = useState("1");
-  const [meal, setMeal] = useState<string>(MEALS[0]);
+  const [companions, setCompanions] = useState("0");
+  const [phone, setPhone] = useState("");
+  const [reminder, setReminder] = useState(true);
   const [saving, setSaving] = useState(false);
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
-    if (!name.trim()) {
-      toast.error("성함을 입력해 주세요.");
-      return;
-    }
+    if (!name.trim()) return void toast.error("성함을 입력해 주세요.");
+    if (!phone.trim()) return void toast.error("연락처를 입력해 주세요.");
     setSaving(true);
     const attending = attendance === "참석";
     const { error } = await supabase.from("rsvp_submissions").insert({
-      side,
+      side: "미지정",
       name: name.trim(),
+      phone: phone.trim(),
       attendance,
-      guest_count: attending ? Number(guestCount) || 1 : 0,
-      meal_preference: attending ? meal : null,
+      guest_count: attending ? 1 + (Number(companions) || 0) : 0,
+      reminder_consent: reminder,
     });
     setSaving(false);
-
-    if (error) {
-      toast.error("전달에 실패했어요. 잠시 후 다시 시도해 주세요.");
-      return;
-    }
-    toast.success("소중한 답변 감사합니다!");
+    if (error) return void toast.error("전달에 실패했어요. 잠시 후 다시 시도해 주세요.");
+    toast.success("소중한 답변 감사합니다 🌿");
     onDone?.();
   }
 
@@ -88,43 +51,55 @@ export function RsvpForm({
       </p>
 
       <div className="space-y-2">
-        <Label>어느 쪽 하객이신가요?</Label>
-        <Choice options={SIDES} value={side} onChange={setSide} />
-      </div>
-
-      <div className="space-y-2">
         <Label htmlFor="rsvp-name">성함</Label>
-        <Input
-          id="rsvp-name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="성함을 입력해 주세요"
-          maxLength={20}
-        />
+        <Input id="rsvp-name" value={name} onChange={(e) => setName(e.target.value)} maxLength={20} placeholder="성함" />
       </div>
 
       <div className="space-y-2">
         <Label>참석 여부</Label>
-        <Choice options={ATTEND} value={attendance} onChange={setAttendance} />
+        <div className="grid grid-cols-2 gap-2">
+          {ATTEND.map((option) => (
+            <button
+              key={option}
+              type="button"
+              onClick={() => setAttendance(option)}
+              className={cn(
+                "rounded-full border border-border px-3 py-2 text-sm transition-colors",
+                attendance === option ? "border-primary bg-primary text-primary-foreground" : "bg-secondary/40",
+              )}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
       </div>
 
       {attendance === "참석" && (
-        <>
-          <div className="space-y-2">
-            <Label htmlFor="rsvp-count">본인 포함 인원</Label>
-            <Input
-              id="rsvp-count"
-              inputMode="numeric"
-              value={guestCount}
-              onChange={(e) => setGuestCount(e.target.value.replace(/\D/g, ""))}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label>식사 여부</Label>
-            <Choice options={MEALS} value={meal} onChange={setMeal} />
-          </div>
-        </>
+        <div className="space-y-2">
+          <Label htmlFor="rsvp-companions">동행인 수 (본인 제외)</Label>
+          <Input
+            id="rsvp-companions"
+            inputMode="numeric"
+            value={companions}
+            onChange={(e) => setCompanions(e.target.value.replace(/\D/g, "").slice(0, 2))}
+          />
+        </div>
       )}
+
+      <div className="space-y-2">
+        <Label htmlFor="rsvp-phone">연락처</Label>
+        <Input id="rsvp-phone" inputMode="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="010-0000-0000" />
+      </div>
+
+      <label className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
+        <input
+          type="checkbox"
+          checked={reminder}
+          onChange={(e) => setReminder(e.target.checked)}
+          className="mt-0.5 size-4 accent-[var(--primary)]"
+        />
+        예식 일주일 전(3월 7일), 예식 안내 리마인드 메시지를 받을게요.
+      </label>
 
       <Button type="submit" disabled={saving} className="w-full rounded-full">
         {saving ? "전달 중..." : "전달하기"}

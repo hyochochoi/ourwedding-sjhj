@@ -94,7 +94,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Gowun+Batang:wght@400;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Gowun+Batang:wght@400;700&family=Shrikhand&display=swap",
       },
       {
         rel: "stylesheet",
@@ -130,7 +130,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
-      <Toaster position="top-center" richColors closeButton />
+      <Toaster position="bottom-center" toastOptions={{ classNames: { toast: "!bg-primary !text-primary-foreground !border-primary/40 !rounded-full !shadow-lg", description: "!text-primary-foreground/80" } }} />
     </QueryClientProvider>
   );
 }
