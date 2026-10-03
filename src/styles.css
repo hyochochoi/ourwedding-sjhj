@@ -46,6 +46,7 @@
   --color-note-6: var(--note-6);
   --font-sans: "Noto Sans KR", system-ui, sans-serif;
   --font-serif: "Gowun Batang", serif;
+  --font-display: "Shrikhand", "Gowun Batang", serif;
 }
 
 :root {
@@ -164,8 +165,13 @@
 
 /* 편지봉투 오프닝 */
 :root {
-  --envelope: oklch(0.93 0.03 100);
-  --envelope-shade: oklch(0.86 0.04 105);
+  --envelope: oklch(0.47 0.045 122);
+  --envelope-shade: oklch(0.4 0.04 120);
+  --cream: oklch(0.96 0.025 95);
+  --tape-lime: oklch(0.89 0.1 113 / 75%);
+  --tape-cream: oklch(0.95 0.03 95 / 80%);
+  --tape-green: oklch(0.55 0.06 135 / 80%);
+  --film: oklch(0.25 0.03 125);
   --sky: oklch(0.24 0.035 120);
   --star-1: oklch(0.93 0.12 110);
   --star-2: oklch(0.95 0.08 85);
@@ -178,6 +184,11 @@
 @theme inline {
   --color-envelope: var(--envelope);
   --color-envelope-shade: var(--envelope-shade);
+  --color-cream: var(--cream);
+  --color-tape-lime: var(--tape-lime);
+  --color-tape-cream: var(--tape-cream);
+  --color-tape-green: var(--tape-green);
+  --color-film: var(--film);
   --color-sky: var(--sky);
 }
 
@@ -187,7 +198,7 @@
 }
 @keyframes letter-rise {
   from { transform: translateY(0); }
-  to { transform: translateY(-58%); }
+  to { transform: translateY(-50%); }
 }
 @keyframes twinkle {
   0%, 100% { opacity: 1; transform: scale(1); }
@@ -203,4 +214,13 @@
 }
 @utility twinkle {
   animation: twinkle 2.6s ease-in-out infinite;
+}
+
+@utility tab-fade {
+  animation: fade-in 0.45s ease-out;
+}
+@utility film-holes {
+  background-image: radial-gradient(circle, var(--cream) 0 2.5px, transparent 3px);
+  background-size: 100% 14px;
+  background-repeat: repeat-y;
 }
