@@ -217,10 +217,14 @@
 }
 
 @utility tab-fade {
-  animation: fade-in 0.45s ease-out;
+  animation: tab-fade-in 0.45s ease-out;
 }
 @utility film-holes {
   background-image: radial-gradient(circle, var(--cream) 0 2.5px, transparent 3px);
   background-size: 100% 14px;
   background-repeat: repeat-y;
+}
+@keyframes tab-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
 }
