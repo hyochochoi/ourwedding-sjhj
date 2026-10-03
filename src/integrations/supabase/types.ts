@@ -28,7 +28,7 @@ export type Database = {
         Insert: {
           author: string
           color_index?: number
-          content: string
+          content?: string
           created_at?: string
           id?: string
           pos_x?: number
@@ -106,6 +106,7 @@ export type Database = {
           message: string | null
           name: string
           phone: string | null
+          reminder_consent: boolean
           side: string
         }
         Insert: {
@@ -118,6 +119,7 @@ export type Database = {
           message?: string | null
           name: string
           phone?: string | null
+          reminder_consent?: boolean
           side: string
         }
         Update: {
@@ -130,6 +132,7 @@ export type Database = {
           message?: string | null
           name?: string
           phone?: string | null
+          reminder_consent?: boolean
           side?: string
         }
         Relationships: []
