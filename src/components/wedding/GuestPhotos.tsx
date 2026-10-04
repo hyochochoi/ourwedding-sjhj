@@ -50,7 +50,7 @@ export function GuestPhotosButton() {
         const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${encodeURIComponent(who).replace(/%/g, "")}.${ext}`;
         const { error } = await supabase.storage
           .from("guest-photos")
-          .upload(path, file, { contentType: file.type || undefined });
+          .upload(path, file, file.type ? { contentType: file.type } : {});
         if (error) failed += 1;
         setDone((d) => d + 1);
       }
