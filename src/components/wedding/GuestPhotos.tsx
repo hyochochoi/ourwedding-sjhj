@@ -45,6 +45,7 @@ export function GuestPhotosButton() {
     async function worker() {
       while (cursor < files.length) {
         const file = files[cursor++];
+        if (!file) break;
         const ext = file.name.split(".").pop()?.toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
         const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${encodeURIComponent(who).replace(/%/g, "")}.${ext}`;
         const { error } = await supabase.storage
