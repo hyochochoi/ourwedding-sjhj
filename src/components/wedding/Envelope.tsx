@@ -38,7 +38,7 @@ export function Envelope({
           {/* 편지지: 약 50%만 빠져나옴 */}
           <div
             className={cn(
-              "absolute inset-x-5 bottom-3 h-[92%] rounded-md bg-cream px-5 pt-5 text-left text-paper-foreground shadow-md",
+              "absolute inset-x-5 bottom-3 z-[5] h-[92%] rounded-md bg-cream px-5 pt-5 text-left text-paper-foreground shadow-md",
               phase !== "closed" && "letter-rise",
             )}
           >
