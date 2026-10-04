@@ -14,6 +14,8 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:image", content: "https://project--d3a0a8ce-35e8-4a92-a71d-3e459eec1df0.lovable.app/og-wedding.jpg" },
+      { name: "twitter:image", content: "https://project--d3a0a8ce-35e8-4a92-a71d-3e459eec1df0.lovable.app/og-wedding.jpg" },
     ],
   }),
   component: () => <InvitationPage />,
