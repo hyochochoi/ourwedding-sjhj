@@ -58,8 +58,8 @@ export function Envelope({
           {/* 덮개 */}
           <div
             className={cn(
-              "absolute inset-x-0 top-0 z-20 h-[55%] rounded-t-lg bg-envelope-shade [clip-path:polygon(0_0,100%_0,50%_100%)]",
-              phase !== "closed" && "flap-open !z-0",
+              "absolute inset-x-0 top-0 h-[55%] rounded-t-lg bg-envelope-shade [clip-path:polygon(0_0,100%_0,50%_100%)]",
+              phase === "closed" ? "z-20" : "flap-open z-0",
             )}
           />
           {/* 실링 + 받는 분 */}

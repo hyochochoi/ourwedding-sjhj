@@ -11,9 +11,9 @@ const HANDWRITTEN_LETTER_URL = "";
 
 function FilmStrip({ photos, tilt }: { photos: string[]; tilt: string }) {
   return (
-    <div className={`relative w-[19%] shrink-0 rounded-sm bg-film px-[18%] py-3 shadow-lg ${tilt}`}>
-      <span className="film-holes absolute inset-y-2 left-[3%] w-[8%]" />
-      <span className="film-holes absolute inset-y-2 right-[3%] w-[8%]" />
+    <div className={`relative w-[19%] shrink-0 rounded-sm bg-film px-3 py-3 shadow-lg ${tilt}`}>
+      <span className="film-holes absolute inset-y-2 left-0.5 w-2" />
+      <span className="film-holes absolute inset-y-2 right-0.5 w-2" />
       <div className="space-y-2">
         {photos.map((src, i) => (
           <img
