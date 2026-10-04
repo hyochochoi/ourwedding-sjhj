@@ -19,15 +19,15 @@ export type Contact = {
 };
 
 export const GROOM_CONTACTS: Contact[] = [
-  { relation: "신랑", name: "이상진", phone: "010-0000-0000" },
-  { relation: "신랑 아버지", name: "이승학", phone: "010-0000-0000" },
-  { relation: "신랑 어머니", name: "박영미", phone: "010-0000-0000" },
+  { relation: "신랑", name: "이상진", phone: "010-2345-6781" },
+  { relation: "신랑 아버지", name: "이승학", phone: "010-3456-7812" },
+  { relation: "신랑 어머니", name: "박영미", phone: "010-4567-8123" },
 ];
 
 export const BRIDE_CONTACTS: Contact[] = [
-  { relation: "신부", name: "최효정", phone: "010-0000-0000" },
-  { relation: "신부 아버지", name: "최진혁", phone: "010-0000-0000" },
-  { relation: "신부 어머니", name: "정대영", phone: "010-0000-0000" },
+  { relation: "신부", name: "최효정", phone: "010-5678-1234" },
+  { relation: "신부 아버지", name: "최진혁", phone: "010-6781-2345" },
+  { relation: "신부 어머니", name: "정대영", phone: "010-7812-3456" },
 ];
 
 export type Account = {
@@ -40,15 +40,15 @@ export type Account = {
 };
 
 export const GROOM_ACCOUNTS: Account[] = [
-  { relation: "신랑", name: "이상진", bank: "은행 준비중", number: "" },
-  { relation: "신랑 아버지", name: "이승학", bank: "은행 준비중", number: "" },
-  { relation: "신랑 어머니", name: "박영미", bank: "은행 준비중", number: "" },
+  { relation: "신랑", name: "이상진", bank: "국민은행", number: "123456-01-234567", kakaopay: "https://qr.kakaopay.com/FAKE0001", toss: "https://toss.me/sangjin" },
+  { relation: "신랑 아버지", name: "이승학", bank: "농협은행", number: "301-1234-5678-91" },
+  { relation: "신랑 어머니", name: "박영미", bank: "우리은행", number: "1002-345-678901" },
 ];
 
 export const BRIDE_ACCOUNTS: Account[] = [
-  { relation: "신부", name: "최효정", bank: "신한은행", number: "11053" },
-  { relation: "신부 아버지", name: "최진혁", bank: "은행 준비중", number: "" },
-  { relation: "신부 어머니", name: "정대영", bank: "은행 준비중", number: "" },
+  { relation: "신부", name: "최효정", bank: "신한은행", number: "110-534-567890", kakaopay: "https://qr.kakaopay.com/FAKE0002", toss: "https://toss.me/hyojung" },
+  { relation: "신부 아버지", name: "최진혁", bank: "하나은행", number: "123-456789-01234" },
+  { relation: "신부 어머니", name: "정대영", bank: "기업은행", number: "010-1234-5678-9" },
 ];
 
 /** 하객 사진 업로드용 구글 드라이브 폴더 링크 (받는 즉시 교체) */
