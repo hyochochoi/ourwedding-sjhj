@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Check, Copy } from "lucide-react";
 import { toast } from "sonner";
-import { Section } from "@/components/wedding/Section";
 import {
   Accordion,
   AccordionContent,
@@ -27,7 +26,7 @@ function AccountRow({ account }: { account: Account }) {
     try {
       await navigator.clipboard.writeText(full);
       setCopied(true);
-      toast.success("계좌번호가 복사되었습니다");
+      toast.success("계좌번호가 복사되었습니다 🌿");
       window.setTimeout(() => setCopied(false), 2000);
     } catch {
       toast.error("복사에 실패했어요. 길게 눌러 복사해 주세요.");
@@ -68,7 +67,7 @@ function AccountRow({ account }: { account: Account }) {
 
 export function Accounts() {
   return (
-    <Section eyebrow="Gift" title="마음 전하실 곳">
+    <div>
       <p className="mb-5 text-center text-xs leading-relaxed text-muted-foreground">
         축하의 마음을 담아 축의금을 전달하실 수 있도록
         <br />
@@ -104,6 +103,6 @@ export function Accounts() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-    </Section>
+    </div>
   );
 }
