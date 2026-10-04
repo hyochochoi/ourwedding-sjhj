@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Personal invite links live at /i/$code (invitees table, read via get_invitee_name RPC); admin actions go through ADMIN_CODE-checked server functions in src/lib/admin.functions.ts — guests never read private tables directly.

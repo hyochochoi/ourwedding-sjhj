@@ -38,7 +38,7 @@ export function Envelope({
           {/* 편지지: 약 50%만 빠져나옴 */}
           <div
             className={cn(
-              "absolute inset-x-5 bottom-3 h-[92%] rounded-md bg-cream px-5 pt-5 text-left text-paper-foreground shadow-md",
+              "absolute inset-x-5 bottom-3 z-[5] h-[92%] rounded-md bg-cream px-5 pt-5 text-left text-paper-foreground shadow-md",
               phase !== "closed" && "letter-rise",
             )}
           >
@@ -58,8 +58,8 @@ export function Envelope({
           {/* 덮개 */}
           <div
             className={cn(
-              "absolute inset-x-0 top-0 z-20 h-[55%] rounded-t-lg bg-envelope-shade [clip-path:polygon(0_0,100%_0,50%_100%)]",
-              phase !== "closed" && "flap-open !z-0",
+              "absolute inset-x-0 top-0 h-[55%] rounded-t-lg bg-envelope-shade [clip-path:polygon(0_0,100%_0,50%_100%)]",
+              phase === "closed" ? "z-20" : "flap-open z-0",
             )}
           />
           {/* 실링 + 받는 분 */}

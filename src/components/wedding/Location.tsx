@@ -1,6 +1,5 @@
 import { Bus, Car, Copy, MapPin, TrainFront } from "lucide-react";
 import { toast } from "sonner";
-import { Section } from "@/components/wedding/Section";
 import { Button } from "@/components/ui/button";
 import { WEDDING } from "@/lib/wedding-data";
 
@@ -54,7 +53,7 @@ export function Location() {
   }
 
   return (
-    <Section eyebrow="Location" title="오시는 길">
+    <div>
       <div className="soft-card overflow-hidden">
         <iframe
           title="예식장 지도"
@@ -110,6 +109,6 @@ export function Location() {
           </div>
         ))}
       </div>
-    </Section>
+    </div>
   );
 }

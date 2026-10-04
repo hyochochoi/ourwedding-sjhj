@@ -16,7 +16,7 @@ export function RsvpSection({ guestName }: { guestName?: string }) {
             참석 여부 전달하기
           </AccordionTrigger>
           <AccordionContent className="pb-4">
-            <RsvpForm defaultName={guestName} />
+            <RsvpForm defaultName={guestName ?? ""} />
           </AccordionContent>
         </AccordionItem>
       </Accordion>

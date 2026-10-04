@@ -11,16 +11,15 @@ const HANDWRITTEN_LETTER_URL = "";
 
 function FilmStrip({ photos, tilt }: { photos: string[]; tilt: string }) {
   return (
-    <div className={`relative w-[22%] shrink-0 rounded-sm bg-film px-[14%] py-3 shadow-lg ${tilt}`}>
-      <span className="film-holes absolute inset-y-2 left-[3%] w-[8%]" />
-      <span className="film-holes absolute inset-y-2 right-[3%] w-[8%]" />
+    <div className={`relative w-[19%] shrink-0 rounded-sm bg-film px-3 py-3 shadow-lg ${tilt}`}>
+      <span className="film-holes absolute inset-y-2 left-0.5 w-2" />
+      <span className="film-holes absolute inset-y-2 right-0.5 w-2" />
       <div className="space-y-2">
         {photos.map((src, i) => (
           <img
             key={i}
             src={src}
             alt="연애 시절 사진"
-            loading="lazy"
             draggable={false}
             className="no-zoom aspect-[3/4] w-full rounded-[2px] object-cover"
           />
@@ -40,7 +39,7 @@ export function Invitation() {
       <div className="relative flex items-start justify-between gap-2">
         <FilmStrip photos={[g1, g2, heroImage]} tilt="-rotate-2" />
 
-        <div className="relative min-w-0 flex-1 pt-4">
+        <div className="relative min-w-0 flex-1 px-1 pt-4">
           <Tape className="-top-1 left-1/2 -translate-x-1/2 -rotate-3 bg-tape-lime" />
           <Tape className="-bottom-2 -left-3 rotate-[25deg] bg-tape-green" />
           <div className="relative rounded-md bg-cream p-3 text-paper-foreground shadow-[0_18px_40px_-20px_rgba(0,0,0,0.9)]">
@@ -53,7 +52,7 @@ export function Invitation() {
                 className="no-zoom w-full"
               />
             ) : (
-              <p className="serif-title px-1 py-5 text-center text-[0.8rem] leading-[2.1]">
+              <p className="serif-title py-5 text-center text-[0.72rem] leading-[2] break-keep">
                 오랜 시간 걸음 지키며
                 <br />
                 서로의 하루가 되어주었습니다.
