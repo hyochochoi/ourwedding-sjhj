@@ -33,7 +33,7 @@ export function InvitationPage({ guestName }: { guestName?: string | null }) {
       <StarDivider />
       <Guestbook />
       <StarDivider />
-      <RsvpSection guestName={guestName ?? undefined} />
+      <RsvpSection guestName={guestName ?? ""} />
       <Footer />
     </div>
   );

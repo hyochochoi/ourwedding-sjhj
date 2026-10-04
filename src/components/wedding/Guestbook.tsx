@@ -76,7 +76,7 @@ export function Guestbook() {
             className={cn("absolute -translate-x-1/2 -translate-y-1/2", sent ? "twinkle" : "animate-pulse")}
             style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
           >
-            <StarIcon type={starType} color={STAR_COLORS[colorIndex]} className="size-7" />
+            <StarIcon type={starType} color={STAR_COLORS[colorIndex] ?? "var(--star-1)"} className="size-7" />
           </span>
         )}
         <span className="pointer-events-none absolute bottom-3 left-0 right-0 text-center text-[0.7rem] text-muted-foreground">
@@ -97,7 +97,7 @@ export function Guestbook() {
                   starType === type.id ? "border-primary bg-primary/15" : "bg-secondary/30",
                 )}
               >
-                <StarIcon type={type.id} color={STAR_COLORS[colorIndex]} className="size-5" />
+                <StarIcon type={type.id} color={STAR_COLORS[colorIndex] ?? "var(--star-1)"} className="size-5" />
                 {type.label}
               </button>
             ))}
