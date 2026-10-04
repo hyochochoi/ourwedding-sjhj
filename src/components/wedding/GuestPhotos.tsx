@@ -1,17 +1,23 @@
 import { useRef, useState } from "react";
 import { ImageUp } from "lucide-react";
 import { toast } from "sonner";
-import { Section } from "@/components/wedding/Section";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
 
 const MAX_FILES = 1000;
 const MAX_SIZE = 50 * 1024 * 1024;
 const CONCURRENCY = 4;
 
-export function GuestPhotos() {
+export function GuestPhotosButton() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploader, setUploader] = useState("");
   const [total, setTotal] = useState(0);
@@ -28,7 +34,8 @@ export function GuestPhotos() {
     }
     if (skipped > 0) toast.info(`50MB가 넘는 파일 ${skipped}개는 제외했어요.`);
 
-    const who = (uploader.trim() || "익명").replace(/[^\p{L}\p{N}_-]/gu, "").slice(0, 20) || "guest";
+    const who =
+      (uploader.trim() || "guest").replace(/[^\p{L}\p{N}_-]/gu, "").slice(0, 20) || "guest";
     setBusy(true);
     setTotal(files.length);
     setDone(0);
@@ -39,7 +46,7 @@ export function GuestPhotos() {
       while (cursor < files.length) {
         const file = files[cursor++];
         const ext = file.name.split(".").pop()?.toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
-        const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${who}.${ext}`;
+        const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${encodeURIComponent(who).replace(/%/g, "")}.${ext}`;
         const { error } = await supabase.storage
           .from("guest-photos")
           .upload(path, file, { contentType: file.type || undefined });
@@ -52,48 +59,53 @@ export function GuestPhotos() {
     setBusy(false);
     if (inputRef.current) inputRef.current.value = "";
     if (failed) toast.error(`${failed}장은 올리지 못했어요. 다시 시도해 주세요.`);
-    toast.success(`${files.length - failed}장의 사진이 전달되었어요. 감사합니다!`);
+    toast.success(`${files.length - failed}장의 사진이 전달되었어요 🌿`);
   }
 
   return (
-    <Section eyebrow="Share" title="하객 사진 보내주기">
-      <div className="soft-card space-y-4 p-5 text-center">
-        <p className="text-xs leading-relaxed text-muted-foreground">
-          예식 당일 담아주신 사진과 영상을 보내주세요.
-          <br />한 번에 최대 1,000장까지 올리실 수 있어요.
-        </p>
-
-        <Input
-          value={uploader}
-          onChange={(e) => setUploader(e.target.value)}
-          placeholder="보내는 분 이름 (선택)"
-          maxLength={20}
-          disabled={busy}
-        />
-
-        <input
-          ref={inputRef}
-          type="file"
-          accept="image/*,video/*"
-          multiple
-          hidden
-          onChange={(e) => void handleFiles(e.target.files)}
-        />
-        <Button
-          className="w-full rounded-full"
-          disabled={busy}
-          onClick={() => inputRef.current?.click()}
+    <Dialog>
+      <DialogTrigger asChild>
+        <button
+          type="button"
+          className="mx-auto flex -rotate-2 items-center gap-2 rounded-full border-2 border-dashed border-primary-foreground/30 bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-[0_6px_0_var(--envelope-shade)] transition-transform hover:rotate-0"
         >
-          <ImageUp className="size-4" />
-          {busy ? `올리는 중 ${done} / ${total}` : "사진 선택해서 올리기"}
-        </Button>
-
-        {busy && <Progress value={total ? (done / total) * 100 : 0} />}
-
-        <p className="text-[0.7rem] text-muted-foreground">
-          올리는 동안 화면을 닫지 말아주세요. 사진은 신랑 · 신부만 볼 수 있어요.
-        </p>
-      </div>
-    </Section>
+          <ImageUp className="size-4" /> 하객 사진 보내주기
+        </button>
+      </DialogTrigger>
+      <DialogContent className="dotted-bg max-w-[400px] rounded-3xl border-border">
+        <DialogHeader>
+          <DialogTitle className="serif-title text-center text-base">하객 사진 보내주기</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4 text-center">
+          <p className="text-xs leading-relaxed text-muted-foreground">
+            예식 당일 담아주신 사진과 영상을 보내주세요.
+            <br />한 번에 최대 1,000장까지 올리실 수 있어요.
+          </p>
+          <Input
+            value={uploader}
+            onChange={(e) => setUploader(e.target.value)}
+            placeholder="보내는 분 이름 (선택)"
+            maxLength={20}
+            disabled={busy}
+          />
+          <input
+            ref={inputRef}
+            type="file"
+            accept="image/*,video/*"
+            multiple
+            hidden
+            onChange={(e) => void handleFiles(e.target.files)}
+          />
+          <Button className="w-full rounded-full" disabled={busy} onClick={() => inputRef.current?.click()}>
+            <ImageUp className="size-4" />
+            {busy ? `올리는 중 ${done} / ${total}` : "사진 선택해서 올리기"}
+          </Button>
+          {busy && <Progress value={total ? (done / total) * 100 : 0} />}
+          <p className="text-[0.7rem] text-muted-foreground">
+            올리는 동안 창을 닫지 말아주세요. 사진은 신랑 · 신부만 볼 수 있어요.
+          </p>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
