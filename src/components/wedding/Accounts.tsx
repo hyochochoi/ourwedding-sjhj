@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { Check, Copy } from "lucide-react";
+import { Check, Copy, MessageSquare, Phone } from "lucide-react";
+import { Section } from "@/components/wedding/Section";
+import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import {
   Accordion,
@@ -11,7 +13,10 @@ import { Button } from "@/components/ui/button";
 import {
   BRIDE_ACCOUNTS,
   GROOM_ACCOUNTS,
+  BRIDE_CONTACTS,
+  GROOM_CONTACTS,
   type Account,
+  type Contact,
 } from "@/lib/wedding-data";
 
 function AccountRow({ account }: { account: Account }) {
@@ -65,44 +70,86 @@ function AccountRow({ account }: { account: Account }) {
   );
 }
 
-export function Accounts() {
+function ContactRow({ person }: { person: Contact }) {
+  const tel = person.phone.replace(/-/g, "");
   return (
-    <div>
-      <p className="mb-5 text-center text-xs leading-relaxed text-muted-foreground">
-        축하의 마음을 담아 축의금을 전달하실 수 있도록
-        <br />
-        계좌번호를 안내드립니다.
-      </p>
-
-      <Accordion type="single" collapsible className="space-y-3">
-        <AccordionItem
-          value="groom"
-          className="soft-card overflow-hidden border-b-0 px-4"
-        >
-          <AccordionTrigger className="text-sm hover:no-underline">
-            신랑측 계좌번호
-          </AccordionTrigger>
-          <AccordionContent className="space-y-3 pb-4">
-            {GROOM_ACCOUNTS.map((account) => (
-              <AccountRow key={account.relation} account={account} />
-            ))}
-          </AccordionContent>
-        </AccordionItem>
-
-        <AccordionItem
-          value="bride"
-          className="soft-card overflow-hidden border-b-0 px-4"
-        >
-          <AccordionTrigger className="text-sm hover:no-underline">
-            신부측 계좌번호
-          </AccordionTrigger>
-          <AccordionContent className="space-y-3 pb-4">
-            {BRIDE_ACCOUNTS.map((account) => (
-              <AccountRow key={account.relation} account={account} />
-            ))}
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
+    <div className="flex items-center justify-between rounded-2xl border border-border bg-secondary/30 px-4 py-3">
+      <div>
+        <p className="text-[0.7rem] text-muted-foreground">{person.relation}</p>
+        <p className="serif-title text-sm">{person.name}</p>
+      </div>
+      <div className="flex gap-2">
+        <a href={`tel:${tel}`} aria-label={`${person.name}에게 전화`} className="rounded-full border border-primary/40 p-2 text-primary">
+          <Phone className="size-4" />
+        </a>
+        <a href={`sms:${tel}`} aria-label={`${person.name}에게 문자`} className="rounded-full border border-primary/40 p-2 text-primary">
+          <MessageSquare className="size-4" />
+        </a>
+      </div>
     </div>
+  );
+}
+
+function Group({ value, title, children }: { value: string; title: string; children: React.ReactNode }) {
+  return (
+    <AccordionItem value={value} className="soft-card overflow-hidden border-b-0 px-4">
+      <AccordionTrigger className="text-sm hover:no-underline">{title}</AccordionTrigger>
+      <AccordionContent className="space-y-3 pb-4">{children}</AccordionContent>
+    </AccordionItem>
+  );
+}
+
+export function Accounts() {
+  const [tab, setTab] = useState<"account" | "contact">("account");
+  return (
+    <Section eyebrow="With Heart" title="마음 전하실 곳">
+      <div className="mb-5 grid grid-cols-2 gap-1 rounded-full bg-secondary/50 p-1">
+        {([
+          ["account", "계좌번호"],
+          ["contact", "연락하기"],
+        ] as const).map(([id, label]) => (
+          <button
+            key={id}
+            type="button"
+            onClick={() => setTab(id)}
+            className={cn(
+              "rounded-full py-2 text-sm transition-colors",
+              tab === id ? "bg-primary font-medium text-primary-foreground" : "text-foreground/80",
+            )}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      <div key={tab} className="tab-fade">
+        {tab === "account" ? (
+          <>
+            <p className="mb-4 text-center text-xs leading-relaxed text-muted-foreground">
+              축하의 마음을 담아 축의금을 전달하실 수 있도록
+              <br />
+              계좌번호를 안내드립니다.
+            </p>
+            <Accordion type="single" collapsible className="space-y-3">
+              <Group value="groom" title="신랑측 계좌번호">
+                {GROOM_ACCOUNTS.map((a) => <AccountRow key={a.relation} account={a} />)}
+              </Group>
+              <Group value="bride" title="신부측 계좌번호">
+                {BRIDE_ACCOUNTS.map((a) => <AccountRow key={a.relation} account={a} />)}
+              </Group>
+            </Accordion>
+          </>
+        ) : (
+          <Accordion type="multiple" defaultValue={["groom", "bride"]} className="space-y-3">
+            <Group value="groom" title="신랑측 연락처">
+              {GROOM_CONTACTS.map((p) => <ContactRow key={p.relation} person={p} />)}
+            </Group>
+            <Group value="bride" title="신부측 연락처">
+              {BRIDE_CONTACTS.map((p) => <ContactRow key={p.relation} person={p} />)}
+            </Group>
+          </Accordion>
+        )}
+      </div>
+    </Section>
   );
 }

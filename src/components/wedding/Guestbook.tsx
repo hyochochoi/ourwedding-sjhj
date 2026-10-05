@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { Section } from "@/components/wedding/Section";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 
@@ -23,6 +24,7 @@ function StarIcon({ type, color, className }: { type: string; color: string; cla
 
 export function Guestbook() {
   const [author, setAuthor] = useState("");
+  const [message, setMessage] = useState("");
   const [starType, setStarType] = useState<string>("star");
   const [colorIndex, setColorIndex] = useState(0);
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
@@ -46,7 +48,7 @@ export function Guestbook() {
     setSaving(true);
     const { error } = await supabase.from("guestbook_messages").insert({
       author: author.trim(),
-      content: "",
+      content: message.trim(),
       color_index: colorIndex,
       star_type: starType,
       pos_x: pos.x,
@@ -59,11 +61,11 @@ export function Guestbook() {
   }
 
   return (
-    <Section eyebrow="Guestbook" title="축하의 별 띄우기">
+    <Section eyebrow="Constellation" title="축하의 별 띄우기">
       <p className="mb-4 text-center text-xs leading-relaxed text-muted-foreground">
-        이름을 적고 밤하늘에 축하의 별을 띄워주세요.
+        밤하늘을 눌러 자리를 고르고, 축하의 별을 띄워주세요.
         <br />
-        별은 신랑 · 신부에게만 전해집니다.
+        이름과 메시지는 신랑 · 신부에게만 전해집니다.
       </p>
 
       <div
@@ -115,6 +117,7 @@ export function Guestbook() {
             ))}
           </div>
           <Input value={author} onChange={(e) => setAuthor(e.target.value)} placeholder="이름" maxLength={20} />
+          <Textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={2} maxLength={300} placeholder="축하 메시지 (선택)" />
           <Button type="submit" disabled={saving} className="w-full rounded-full">
             {saving ? "별 띄우는 중..." : "별 띄우기"}
           </Button>
