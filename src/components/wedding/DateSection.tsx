@@ -3,132 +3,84 @@ import { Section } from "@/components/wedding/Section";
 import { Button } from "@/components/ui/button";
 import { WEDDING } from "@/lib/wedding-data";
 import { useCountdown } from "@/hooks/use-wedding";
+import { googleCalendarUrl } from "@/lib/calendar";
 import { cn } from "@/lib/utils";
 
-const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
-const YEAR = 2027;
-const MONTH = 2; // 0-indexed: 3월
-const DAY = 14;
-
-function buildCells() {
-  const first = new Date(YEAR, MONTH, 1).getDay();
-  const total = new Date(YEAR, MONTH + 1, 0).getDate();
-  const cells: (number | null)[] = Array.from({ length: first }, () => null);
-  for (let d = 1; d <= total; d += 1) cells.push(d);
-  return cells;
-}
+const WEEK = [
+  { w: "MON", d: 8 },
+  { w: "TUE", d: 9 },
+  { w: "WED", d: 10 },
+  { w: "THU", d: 11 },
+  { w: "FRI", d: 12 },
+  { w: "SAT", d: 13 },
+  { w: "SUN", d: 14 },
+];
 
 function pad(n: number) {
   return String(n).padStart(2, "0");
 }
 
-/** 2027-03-14 13:00 KST → UTC 형식 */
-const START_UTC = "20270314T040000Z";
-const END_UTC = "20270314T060000Z";
-const TITLE = `${WEDDING.groom.name} ♥ ${WEDDING.bride.name} 결혼식`;
-
-function googleUrl() {
-  const params = new URLSearchParams({
-    action: "TEMPLATE",
-    text: TITLE,
-    dates: `${START_UTC}/${END_UTC}`,
-    details: `${WEDDING.venue} ${WEDDING.hall}`,
-    location: WEDDING.address,
-  });
-  return `https://calendar.google.com/calendar/render?${params.toString()}`;
-}
-
-function downloadIcs() {
-  const ics = [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    "PRODID:-//wedding//invitation//KR",
-    "BEGIN:VEVENT",
-    `UID:${Date.now()}@wedding`,
-    `DTSTART:${START_UTC}`,
-    `DTEND:${END_UTC}`,
-    `SUMMARY:${TITLE}`,
-    `LOCATION:${WEDDING.address}`,
-    `DESCRIPTION:${WEDDING.venue} ${WEDDING.hall}`,
-    "END:VEVENT",
-    "END:VCALENDAR",
-  ].join("\r\n");
-
-  const url = URL.createObjectURL(
-    new Blob([ics], { type: "text/calendar;charset=utf-8" }),
-  );
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = "wedding.ics";
-  link.click();
-  URL.revokeObjectURL(url);
+function saveToCalendar() {
+  const ua = navigator.userAgent;
+  if (/android/i.test(ua)) {
+    window.open(googleCalendarUrl(), "_blank", "noopener");
+    return;
+  }
+  // iOS·Mac 사파리는 text/calendar 응답을 열면 "캘린더에 추가" 화면이 바로 뜹니다.
+  window.location.href = "/api/public/wedding/ics";
 }
 
 export function DateSection() {
   const countdown = useCountdown();
-  const cells = buildCells();
 
   return (
     <Section eyebrow="The Day" title="2027. 03. 14">
-      <div className="soft-card p-5">
-        <div className="grid grid-cols-7 gap-y-2 text-center text-xs">
-          {WEEKDAYS.map((w, i) => (
-            <span
-              key={w}
-              className={cn(
-                "pb-2 text-muted-foreground",
-                i === 0 && "text-destructive/80",
-              )}
-            >
-              {w}
-            </span>
-          ))}
-          {cells.map((day, index) => (
-            <span
-              key={index}
-              className={cn(
-                "mx-auto flex size-8 items-center justify-center rounded-full",
-                day === DAY &&
-                  "bg-primary font-medium text-primary-foreground shadow-[0_0_0_4px_color-mix(in_oklab,var(--primary)_22%,transparent)]",
-                day !== DAY && index % 7 === 0 && "text-destructive/80",
-              )}
-            >
-              {day ?? ""}
-            </span>
-          ))}
+      <div className="soft-card p-4">
+        <p className="mb-3 text-center text-[0.7rem] tracking-[0.3em] text-muted-foreground">MARCH 2027</p>
+        <div className="grid grid-cols-7 gap-1 text-center">
+          {WEEK.map(({ w, d }) => {
+            const isDay = d === 14;
+            return (
+              <div
+                key={w}
+                className={cn(
+                  "flex flex-col items-center gap-1 rounded-2xl py-2",
+                  isDay && "bg-primary text-primary-foreground shadow-[0_0_0_4px_color-mix(in_oklab,var(--primary)_22%,transparent)]",
+                )}
+              >
+                <span className={cn("text-[0.6rem] tracking-wider", isDay ? "font-medium" : "text-muted-foreground")}>{w}</span>
+                <span className={cn("text-base tabular-nums", isDay && "font-semibold")}>{d}</span>
+                {isDay && <span className="text-[0.55rem]">♥</span>}
+              </div>
+            );
+          })}
         </div>
-
-        <p className="mt-5 text-center text-sm text-muted-foreground">
-          {WEDDING.dateLabel}
-        </p>
+        <p className="mt-4 text-center text-sm text-muted-foreground">{WEDDING.dateLabel}</p>
       </div>
 
       <div className="mt-5 text-center">
-        <p className="serif-title text-sm">
-          {WEDDING.groom.name} <span className="text-primary">❤</span>{" "}
-          {WEDDING.bride.name}의 결혼식이{" "}
-          <span className="text-primary">
-            {countdown ? countdown.days : "–"}
-          </span>
-          일 남았습니다
-        </p>
-        <p className="mt-2 text-xs text-muted-foreground tabular-nums">
-          {countdown
-            ? `${countdown.days}일 ${pad(countdown.hours)}시간 ${pad(countdown.minutes)}분 ${pad(countdown.seconds)}초`
-            : "계산 중..."}
+        <div className="flex items-center justify-center gap-2">
+          {[
+            [countdown?.days ?? "–", "DAYS"],
+            [countdown ? pad(countdown.hours) : "–", "HOUR"],
+            [countdown ? pad(countdown.minutes) : "–", "MIN"],
+            [countdown ? pad(countdown.seconds) : "–", "SEC"],
+          ].map(([v, l]) => (
+            <div key={l} className="flex min-w-[3.4rem] flex-col items-center rounded-xl border border-primary/30 px-2 py-1.5">
+              <span className="text-base font-medium text-primary tabular-nums">{v}</span>
+              <span className="text-[0.6rem] tracking-widest text-muted-foreground">{l}</span>
+            </div>
+          ))}
+        </div>
+        <p className="serif-title mt-4 text-sm">
+          {WEDDING.groom.name} <span className="text-primary">❤</span> {WEDDING.bride.name}의 결혼식이{" "}
+          <span className="text-primary">D-{countdown ? countdown.days : "–"}</span> 남았습니다
         </p>
       </div>
 
-      <div className="mt-5 grid grid-cols-2 gap-2">
-        <Button className="rounded-full" onClick={downloadIcs}>
-          <CalendarPlus className="size-4" /> 캘린더 저장
-        </Button>
-        <Button variant="secondary" className="rounded-full" asChild>
-          <a href={googleUrl()} target="_blank" rel="noreferrer">
-            구글 캘린더 추가
-          </a>
-        </Button>
-      </div>
+      <Button className="mt-5 w-full rounded-full" onClick={saveToCalendar}>
+        <CalendarPlus className="size-4" /> 내 캘린더에 저장하기
+      </Button>
     </Section>
   );
 }
