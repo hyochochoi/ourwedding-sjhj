@@ -5,10 +5,7 @@ import { Copy, Download, Star, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { supabase } from "@/integrations/supabase/client";
-import { answerQuestion } from "@/lib/qna.functions";
 import {
   createInvitee,
   deleteInvitee,
@@ -33,7 +30,6 @@ export const Route = createFileRoute("/admin")({
 
 type AdminData = Awaited<ReturnType<typeof getAdminData>>;
 type Photo = { name: string; downloadUrl: string; previewUrl: string };
-type Question = { id: string; author: string; question: string; answer: string | null; created_at: string };
 
 const STAR_COLORS = ["var(--star-1)", "var(--star-2)", "var(--star-3)", "var(--star-4)", "var(--star-5)", "var(--star-6)"];
 
@@ -74,12 +70,11 @@ function AdminPage() {
     <div className="mx-auto min-h-screen w-full max-w-[640px] px-4 py-8">
       <h1 className="serif-title text-lg">신랑 · 신부 관리</h1>
       <Tabs defaultValue="rsvp" className="mt-4">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="rsvp">참석</TabsTrigger>
           <TabsTrigger value="stars">별</TabsTrigger>
           <TabsTrigger value="links">링크</TabsTrigger>
-          <TabsTrigger value="photos">사진</TabsTrigger>
-          <TabsTrigger value="qna">문의</TabsTrigger>
+          <TabsTrigger value="photos">사진·영상</TabsTrigger>
         </TabsList>
 
         <TabsContent value="rsvp" className="space-y-3 pt-4">
@@ -87,6 +82,7 @@ function AdminPage() {
             응답 {data.rsvps.length}건 · 참석 {attending.length}건 · 총 {people}명 · 리마인드 동의{" "}
             {data.rsvps.filter((r) => r.reminder_consent).length}명
           </p>
+          <RsvpChart rsvps={data.rsvps} />
           {data.rsvps.map((r) => (
             <div key={r.id} className="soft-card p-3 text-xs">
               <p className="text-sm">
@@ -114,9 +110,18 @@ function AdminPage() {
             ))}
           </div>
           <p className="text-sm">별 {data.guestbook.length}개</p>
-          <p className="text-xs leading-relaxed text-muted-foreground">
-            {data.guestbook.map((s) => s.author).join(", ")}
-          </p>
+          <div className="space-y-2">
+            {data.guestbook.map((s) => (
+              <div key={s.id} className="soft-card p-3 text-xs">
+                <p className="text-sm">
+                  <Star className="mr-1 inline size-3" style={{ color: STAR_COLORS[s.color_index % 6], fill: STAR_COLORS[s.color_index % 6] }} />
+                  {s.author}
+                  <span className="ml-2 text-[0.65rem] text-muted-foreground">{new Date(s.created_at).toLocaleString("ko-KR")}</span>
+                </p>
+                {s.content && <p className="mt-1 whitespace-pre-wrap text-muted-foreground">{s.content}</p>}
+              </div>
+            ))}
+          </div>
         </TabsContent>
 
         <TabsContent value="links" className="pt-4">
@@ -127,9 +132,6 @@ function AdminPage() {
           <PhotoManager code={code} />
         </TabsContent>
 
-        <TabsContent value="qna" className="pt-4">
-          <QnaManager code={code} />
-        </TabsContent>
       </Tabs>
     </div>
   );
@@ -242,46 +244,42 @@ function PhotoManager({ code }: { code: string }) {
   );
 }
 
-function QnaManager({ code }: { code: string }) {
-  const [questions, setQuestions] = useState<Question[] | null>(null);
-  const [drafts, setDrafts] = useState<Record<string, string>>({});
-  const send = useServerFn(answerQuestion);
-
-  async function load() {
-    const { data } = await supabase.from("qna_questions").select("*").order("created_at", { ascending: false });
-    setQuestions((data as Question[]) ?? []);
-  }
-
-  if (questions === null) {
-    return <Button variant="secondary" className="rounded-full" onClick={load}>문의 불러오기</Button>;
-  }
-
+function Bar({ label, value, max }: { label: string; value: number; max: number }) {
   return (
-    <div className="space-y-3">
-      {questions.length === 0 && <p className="text-xs text-muted-foreground">문의가 없습니다.</p>}
-      {questions.map((q) => (
-        <div key={q.id} className="soft-card space-y-2 p-3">
-          <p className="text-[0.7rem] text-muted-foreground">{q.author}</p>
-          <p className="text-sm whitespace-pre-wrap">{q.question}</p>
-          {q.answer && <p className="rounded-lg bg-primary/15 p-2 text-xs">A. {q.answer}</p>}
-          <Textarea rows={2} value={drafts[q.id] ?? ""} onChange={(e) => setDrafts((d) => ({ ...d, [q.id]: e.target.value }))} placeholder="답변 작성" />
-          <Button
-            size="sm"
-            className="rounded-full"
-            onClick={async () => {
-              try {
-                await send({ data: { id: q.id, answer: drafts[q.id] ?? "", code } });
-                toast.success("답변이 등록되었습니다");
-                await load();
-              } catch (e) {
-                toast.error(e instanceof Error ? e.message : "실패");
-              }
-            }}
-          >
-            답변 등록
-          </Button>
+    <div className="flex items-center gap-2 text-xs">
+      <span className="w-20 shrink-0 text-muted-foreground">{label}</span>
+      <div className="h-4 flex-1 overflow-hidden rounded-full bg-secondary/50">
+        <div className="h-full rounded-full bg-primary" style={{ width: `${max ? (value / max) * 100 : 0}%` }} />
+      </div>
+      <span className="w-10 text-right tabular-nums">{value}</span>
+    </div>
+  );
+}
+
+function RsvpChart({ rsvps }: { rsvps: AdminData["rsvps"] }) {
+  const yes = rsvps.filter((r) => r.attendance === "참석");
+  const no = rsvps.length - yes.length;
+  const people = yes.reduce((sum, r) => sum + (r.guest_count || 0), 0);
+  const remind = rsvps.filter((r) => r.reminder_consent).length;
+  const max = Math.max(rsvps.length, people, 1);
+  const pct = rsvps.length ? Math.round((yes.length / rsvps.length) * 100) : 0;
+  return (
+    <div className="soft-card space-y-3 p-4">
+      <div className="flex items-center gap-4">
+        <div
+          className="size-20 shrink-0 rounded-full"
+          style={{ background: `conic-gradient(var(--primary) ${pct}%, var(--secondary) 0)` }}
+          aria-label={`참석 ${pct}%`}
+        >
+          <div className="m-3 flex size-14 items-center justify-center rounded-full bg-background text-sm">{pct}%</div>
         </div>
-      ))}
+        <p className="text-xs leading-relaxed text-muted-foreground">참석 응답 비율<br />식사 예상 인원 {people}명</p>
+      </div>
+      <Bar label="응답" value={rsvps.length} max={max} />
+      <Bar label="참석" value={yes.length} max={max} />
+      <Bar label="불참" value={no} max={max} />
+      <Bar label="총 인원" value={people} max={max} />
+      <Bar label="리마인드" value={remind} max={max} />
     </div>
   );
 }

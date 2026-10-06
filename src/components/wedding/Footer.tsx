@@ -34,7 +34,7 @@ export function Footer() {
     <footer className="px-6 pt-4 pb-14 text-center">
       <div className="grid grid-cols-2 gap-2">
         <Button variant="secondary" className="rounded-full" onClick={share}>
-          <Share2 className="size-4" /> 공유하기
+          <Share2 className="size-4" /> 카카오톡 공유
         </Button>
         <Button variant="secondary" className="rounded-full" onClick={copyLink}>
           <Link2 className="size-4" /> 링크 복사
