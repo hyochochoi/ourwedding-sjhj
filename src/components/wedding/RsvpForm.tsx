@@ -19,19 +19,19 @@ export function RsvpForm({
   const [attendance, setAttendance] = useState<string>(ATTEND[0]);
   const [companions, setCompanions] = useState("0");
   const [phone, setPhone] = useState("");
-  const [reminder, setReminder] = useState(true);
+  const [reminder, setReminder] = useState(false);
   const [saving, setSaving] = useState(false);
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
     if (!name.trim()) return void toast.error("성함을 입력해 주세요.");
-    if (!phone.trim()) return void toast.error("연락처를 입력해 주세요.");
+    if (reminder && !phone.trim()) return void toast.error("리마인드를 받으실 연락처를 입력해 주세요.");
     setSaving(true);
     const attending = attendance === "참석";
     const { error } = await supabase.from("rsvp_submissions").insert({
       side: "미지정",
       name: name.trim(),
-      phone: phone.trim(),
+      phone: reminder ? phone.trim() : null,
       attendance,
       guest_count: attending ? 1 + (Number(companions) || 0) : 0,
       reminder_consent: reminder,
@@ -86,11 +86,6 @@ export function RsvpForm({
         </div>
       )}
 
-      <div className="space-y-2">
-        <Label htmlFor="rsvp-phone">연락처</Label>
-        <Input id="rsvp-phone" inputMode="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="010-0000-0000" />
-      </div>
-
       <label className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
         <input
           type="checkbox"
@@ -100,6 +95,14 @@ export function RsvpForm({
         />
         예식 일주일 전(3월 7일), 예식 안내 리마인드 메시지를 받을게요.
       </label>
+
+      {reminder && (
+      <div className="animate-in fade-in space-y-2">
+        <Label htmlFor="rsvp-phone">연락처</Label>
+        <Input id="rsvp-phone" inputMode="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="010-0000-0000" />
+      </div>
+
+      )}
 
       <Button type="submit" disabled={saving} className="w-full rounded-full">
         {saving ? "전달 중..." : "전달하기"}

@@ -21,7 +21,7 @@ export const getAdminData = createServerFn({ method: "POST" })
       db.from("rsvp_submissions").select("*").order("created_at", { ascending: false }),
       db
         .from("guestbook_messages")
-        .select("id, author, star_type, pos_x, pos_y, color_index, created_at")
+        .select("id, author, content, star_type, pos_x, pos_y, color_index, created_at")
         .order("created_at", { ascending: false }),
       db.from("invitees").select("*").order("created_at", { ascending: false }),
     ]);
