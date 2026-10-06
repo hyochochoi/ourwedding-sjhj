@@ -38,14 +38,14 @@ export function RsvpForm({
     });
     setSaving(false);
     if (error) return void toast.error("전달에 실패했어요. 잠시 후 다시 시도해 주세요.");
-    toast.success("소중한 답변 감사합니다 🌿");
+    toast.success("소중한 답변 감사합니다");
     onDone?.();
   }
 
   return (
     <form onSubmit={submit} className="space-y-4">
       <p className="rounded-xl bg-primary/15 p-3 text-center text-xs leading-relaxed text-foreground">
-        식사 준비를 위해 여쭤봐요 🙂
+        식사 준비를 위해 여쭤봐요
         <br />
         간단히 알려주시면 정성껏 준비하겠습니다.
       </p>

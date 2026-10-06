@@ -30,10 +30,9 @@ export function WeddingDayPopup() {
         />
       ))}
       <div className="soft-card relative max-w-[300px] p-6 text-center">
-        <p className="text-3xl">🎉</p>
         <p className="serif-title mt-2 text-lg">오늘입니다!</p>
         <p className="mt-1 text-xs text-muted-foreground">
-          {WEDDING.groom.name} 🤍 {WEDDING.bride.name}의 결혼식 · 오후 1시
+          {WEDDING.groom.name} {WEDDING.bride.name}의 결혼식 · 오후 1시
         </p>
         <Button size="sm" className="mt-4 rounded-full" onClick={() => setOpen(false)}>
           청첩장 보기

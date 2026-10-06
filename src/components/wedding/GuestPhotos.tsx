@@ -64,7 +64,7 @@ export function GuestPhotosButton() {
     if (inputRef.current) inputRef.current.value = "";
     if (failed) toast.error(`${failed}장은 올리지 못했어요. 다시 시도해 주세요.`);
     setFinished(files.length - failed);
-    toast.success(`${files.length - failed}개의 사진·영상이 전달되었어요 🌿`);
+    toast.success(`${files.length - failed}개의 사진·영상이 전달되었어요`);
   }
 
   return (
@@ -112,7 +112,7 @@ export function GuestPhotosButton() {
             </div>
           )}
           {!busy && finished !== null && (
-            <p className="rounded-xl bg-primary/15 p-3 text-xs">✅ 업로드 완료! {finished}개가 신랑·신부에게 전달되었어요.</p>
+            <p className="rounded-xl bg-primary/15 p-3 text-xs"> 업로드 완료! {finished}개가 신랑·신부에게 전달되었어요.</p>
           )}
           <p className="text-[0.7rem] text-muted-foreground">
             올리는 동안 창을 닫지 말아주세요. 사진은 신랑 · 신부만 볼 수 있어요.
