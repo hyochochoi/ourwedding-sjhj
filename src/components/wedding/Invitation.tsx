@@ -22,9 +22,6 @@ function FilmStrip({ photos, reverse, tilt }: { photos: string[]; reverse?: bool
               <img src={src} alt="" draggable={false} className="no-zoom aspect-[3/2] w-full object-cover sepia-[0.15]" />
             </div>
             <div className="film-sprockets h-2" />
-            <p className="mt-0.5 text-[0.45rem] tracking-widest text-primary/70">
-              {String((i % photos.length) + 1).padStart(2, "0")}A ▸
-            </p>
           </div>
         ))}
       </div>

@@ -1,3 +1,4 @@
+import { Leaf } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { RsvpForm } from "@/components/wedding/RsvpForm";
@@ -66,7 +67,7 @@ export function Envelope({
           <div className="absolute inset-x-0 bottom-5 z-30 text-center text-cream">
             {phase === "closed" && (
               <span className="serif-title mx-auto mb-2 flex size-11 items-center justify-center rounded-full bg-primary text-primary-foreground shadow">
-                🌿
+                <Leaf className="size-5" />
               </span>
             )}
             <p className="serif-title text-base">To. {guestName}</p>

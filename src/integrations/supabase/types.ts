@@ -14,6 +14,24 @@ export type Database = {
   }
   public: {
     Tables: {
+      guest_photo_tags: {
+        Row: {
+          category: string
+          created_at: string
+          name: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          name: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          name?: string
+        }
+        Relationships: []
+      }
       guestbook_messages: {
         Row: {
           author: string

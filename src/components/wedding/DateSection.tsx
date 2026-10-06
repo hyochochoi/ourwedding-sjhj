@@ -50,7 +50,7 @@ export function DateSection() {
               >
                 <span className={cn("text-[0.6rem] tracking-wider", isDay ? "font-medium" : "text-muted-foreground")}>{w}</span>
                 <span className={cn("text-base tabular-nums", isDay && "font-semibold")}>{d}</span>
-                {isDay && <span className="text-[0.55rem]">♥</span>}
+                {isDay && <span className="text-[0.55rem]">♡</span>}
               </div>
             );
           })}
@@ -73,7 +73,7 @@ export function DateSection() {
           ))}
         </div>
         <p className="serif-title mt-4 text-sm">
-          {WEDDING.groom.name} <span className="text-primary">❤</span> {WEDDING.bride.name}의 결혼식이{" "}
+          {WEDDING.groom.name} <span className="text-primary">♡</span> {WEDDING.bride.name}의 결혼식이{" "}
           <span className="text-primary">D-{countdown ? countdown.days : "–"}</span> 남았습니다
         </p>
       </div>

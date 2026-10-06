@@ -157,7 +157,7 @@ function InviteeManager({
     try {
       const res = await create({ data: { code, name } });
       await navigator.clipboard.writeText(`${origin}/i/${res.code}`).catch(() => undefined);
-      toast.success(`${name}님 링크를 만들고 복사했어요 🌿`);
+      toast.success(`${name}님 링크를 만들고 복사했어요`);
       setName("");
       onChange();
     } catch (e) {
@@ -179,7 +179,7 @@ function InviteeManager({
               <p className="text-sm">To. {inv.name}</p>
               <p className="truncate text-[0.7rem] text-muted-foreground">{url}</p>
             </div>
-            <Button size="icon" variant="ghost" aria-label="복사" onClick={() => { void navigator.clipboard.writeText(url); toast.success("링크가 복사되었습니다 🌿"); }}>
+            <Button size="icon" variant="ghost" aria-label="복사" onClick={() => { void navigator.clipboard.writeText(url); toast.success("링크가 복사되었습니다"); }}>
               <Copy className="size-4" />
             </Button>
             <Button size="icon" variant="ghost" aria-label="삭제" onClick={async () => { await remove({ data: { code, id: inv.id } }); onChange(); }}>

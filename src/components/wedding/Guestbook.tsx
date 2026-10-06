@@ -57,7 +57,7 @@ export function Guestbook() {
     setSaving(false);
     if (error) return void toast.error("전송에 실패했어요. 잠시 후 다시 시도해 주세요.");
     setSent(true);
-    toast.success("신랑·신부에게 반짝이는 축하의 별이 전송되었습니다 ✨");
+    toast.success("신랑·신부에게 반짝이는 축하의 별이 전송되었습니다");
   }
 
   return (
@@ -82,7 +82,7 @@ export function Guestbook() {
           </span>
         )}
         <span className="pointer-events-none absolute bottom-3 left-0 right-0 text-center text-[0.7rem] text-muted-foreground">
-          {sent ? "별이 하늘로 올라갔어요 ✨" : pos ? "자리를 골랐어요" : "눌러서 내 별 자리 고르기"}
+          {sent ? "별이 하늘로 올라갔어요" : pos ? "자리를 골랐어요" : "눌러서 내 별 자리 고르기"}
         </span>
       </div>
 

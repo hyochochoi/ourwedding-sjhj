@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SlugRouteImport } from './routes/$slug'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ICodeRouteImport } from './routes/i.$code'
 import { Route as ApiPublicWeddingIcsRouteImport } from './routes/api/public/wedding.ics'
@@ -17,6 +18,11 @@ import { Route as ApiPublicWeddingIcsRouteImport } from './routes/api/public/wed
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SlugRoute = SlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -37,12 +43,14 @@ const ApiPublicWeddingIcsRoute = ApiPublicWeddingIcsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$slug': typeof SlugRoute
   '/admin': typeof AdminRoute
   '/i/$code': typeof ICodeRoute
   '/api/public/wedding/ics': typeof ApiPublicWeddingIcsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$slug': typeof SlugRoute
   '/admin': typeof AdminRoute
   '/i/$code': typeof ICodeRoute
   '/api/public/wedding/ics': typeof ApiPublicWeddingIcsRoute
@@ -50,20 +58,28 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$slug': typeof SlugRoute
   '/admin': typeof AdminRoute
   '/i/$code': typeof ICodeRoute
   '/api/public/wedding/ics': typeof ApiPublicWeddingIcsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/i/$code' | '/api/public/wedding/ics'
+  fullPaths: '/' | '/$slug' | '/admin' | '/i/$code' | '/api/public/wedding/ics'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/i/$code' | '/api/public/wedding/ics'
-  id: '__root__' | '/' | '/admin' | '/i/$code' | '/api/public/wedding/ics'
+  to: '/' | '/$slug' | '/admin' | '/i/$code' | '/api/public/wedding/ics'
+  id:
+    | '__root__'
+    | '/'
+    | '/$slug'
+    | '/admin'
+    | '/i/$code'
+    | '/api/public/wedding/ics'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SlugRoute: typeof SlugRoute
   AdminRoute: typeof AdminRoute
   ICodeRoute: typeof ICodeRoute
   ApiPublicWeddingIcsRoute: typeof ApiPublicWeddingIcsRoute
@@ -76,6 +92,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$slug': {
+      id: '/$slug'
+      path: '/$slug'
+      fullPath: '/$slug'
+      preLoaderRoute: typeof SlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -104,6 +127,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SlugRoute: SlugRoute,
   AdminRoute: AdminRoute,
   ICodeRoute: ICodeRoute,
   ApiPublicWeddingIcsRoute: ApiPublicWeddingIcsRoute,

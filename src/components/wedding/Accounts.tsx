@@ -31,7 +31,7 @@ function AccountRow({ account }: { account: Account }) {
     try {
       await navigator.clipboard.writeText(full);
       setCopied(true);
-      toast.success("계좌번호가 복사되었습니다 🌿");
+      toast.success("계좌번호가 복사되었습니다");
       window.setTimeout(() => setCopied(false), 2000);
     } catch {
       toast.error("복사에 실패했어요. 길게 눌러 복사해 주세요.");
