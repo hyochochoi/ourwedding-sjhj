@@ -3,7 +3,7 @@ import { WEDDING } from "@/lib/wedding-data";
 /** 2027-03-14 13:00 KST → UTC */
 export const START_UTC = "20270314T040000Z";
 export const END_UTC = "20270314T060000Z";
-export const EVENT_TITLE = `${WEDDING.groom.name} ♥ ${WEDDING.bride.name} 결혼식`;
+export const EVENT_TITLE = `${WEDDING.groom.name} ♡ ${WEDDING.bride.name} 결혼식`;
 
 export function buildIcs() {
   return [
