@@ -12,6 +12,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
+import { classifyGuestPhoto } from "@/lib/photos.functions";
 import { Section } from "@/components/wedding/Section";
 
 const MAX_FILES = 1000;
@@ -55,6 +56,7 @@ export function GuestPhotosButton() {
           .from("guest-photos")
           .upload(path, file, file.type ? { contentType: file.type } : {});
         if (error) failed += 1;
+        else void classifyGuestPhoto({ data: { path } }).catch(() => undefined);
         setDone((d) => d + 1);
       }
     }
