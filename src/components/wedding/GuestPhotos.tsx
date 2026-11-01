@@ -15,8 +15,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { classifyGuestPhoto } from "@/lib/photos.functions";
 import { Section } from "@/components/wedding/Section";
 
-const MAX_FILES = 1000;
-const MAX_SIZE = 50 * 1024 * 1024;
+import { MAX_PHOTO_FILES as MAX_FILES, MAX_PHOTO_SIZE as MAX_SIZE } from "@/lib/wedding-rules";
 const CONCURRENCY = 4;
 
 export function GuestPhotosButton() {
@@ -86,7 +85,7 @@ export function GuestPhotosButton() {
         <div className="space-y-4 text-center">
           <p className="text-xs leading-relaxed text-muted-foreground">
             예식 당일 담아주신 사진과 영상을 보내주세요.
-            <br />한 번에 최대 1,000장까지 올리실 수 있어요.
+            <br />한 번에 최대 100,000개까지 올리실 수 있어요.
           </p>
           <Input
             value={uploader}

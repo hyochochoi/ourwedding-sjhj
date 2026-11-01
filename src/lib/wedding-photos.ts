@@ -1,0 +1,12 @@
+import cover from "@/assets/효정님-05848_복사.jpeg.asset.json";
+import p1 from "@/assets/DSC05540.jpeg.asset.json";
+import p2 from "@/assets/DSC05350.jpeg.asset.json";
+import p3 from "@/assets/IMG_2596.jpeg.asset.json";
+import p4 from "@/assets/IMG_2811.jpeg.asset.json";
+import p5 from "@/assets/IMG_2753.jpeg.asset.json";
+import p6 from "@/assets/IMG_2804.jpeg.asset.json";
+import p7 from "@/assets/IMG_2663.jpeg.asset.json";
+import p8 from "@/assets/IMG_2788.jpeg.asset.json";
+import p9 from "@/assets/IMG_2756.jpeg.asset.json";
+export const COVER_PHOTO = cover.url;
+export const WEDDING_PHOTOS = [p1,p2,p3,p4,p5,p6,p7,p8,p9].map((asset, i) => ({ src: asset.url, alt: `상진과 효정의 순간 ${i + 1}` }));

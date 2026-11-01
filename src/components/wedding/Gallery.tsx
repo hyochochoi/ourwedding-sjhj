@@ -1,13 +1,5 @@
 import { Section } from "@/components/wedding/Section";
-import g1 from "@/assets/gallery-1.jpg";
-import g2 from "@/assets/gallery-2.jpg";
-import g3 from "@/assets/gallery-3.jpg";
-
-const PHOTOS = [
-  { src: g1, alt: "함께 걷는 신랑 신부" },
-  { src: g2, alt: "웃고 있는 신랑 신부" },
-  { src: g3, alt: "노을 지는 들판의 신랑 신부" },
-];
+import { WEDDING_PHOTOS as PHOTOS } from "@/lib/wedding-photos";
 
 export function Gallery() {
   return (
@@ -33,9 +25,6 @@ export function Gallery() {
           </figure>
         ))}
       </div>
-      <p className="mt-2 text-center text-[0.7rem] text-muted-foreground">
-        사진은 확대 · 저장이 제한되어 있습니다
-      </p>
     </Section>
   );
 }

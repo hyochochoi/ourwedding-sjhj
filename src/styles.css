@@ -44,9 +44,9 @@
   --color-note-4: var(--note-4);
   --color-note-5: var(--note-5);
   --color-note-6: var(--note-6);
-  --font-sans: "Noto Sans KR", system-ui, sans-serif;
-  --font-serif: "Gowun Batang", serif;
-  --font-display: "Shrikhand", "Gowun Batang", serif;
+  --font-sans: "Pretendard", system-ui, sans-serif;
+  --font-serif: "Pretendard", sans-serif;
+  --font-display: "Reenie Beanie", cursive;
 }
 
 :root {
@@ -124,7 +124,7 @@
 
 @utility serif-title {
   font-family: var(--font-serif);
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
 }
 
 @utility soft-card {
@@ -171,7 +171,7 @@
   --tape-lime: oklch(0.89 0.1 113 / 75%);
   --tape-cream: oklch(0.95 0.03 95 / 80%);
   --tape-green: oklch(0.55 0.06 135 / 80%);
-  --film: oklch(0.25 0.03 125);
+  --film: oklch(0.12 0 0);
   --sky: oklch(0.24 0.035 120);
   --star-1: oklch(0.93 0.12 110);
   --star-2: oklch(0.95 0.08 85);
@@ -260,3 +260,8 @@
 @utility confetti-piece {
   animation: confetti-fall 2.8s cubic-bezier(0.2, 0.6, 0.4, 1) forwards;
 }
+
+:root { --cover-shade: linear-gradient(to bottom, transparent 45%, oklch(0.12 0 0 / 80%)); }
+.cover-shade { background: var(--cover-shade); }
+body { letter-spacing: 0; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; } }

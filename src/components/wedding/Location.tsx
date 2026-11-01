@@ -24,11 +24,6 @@ const TABS = [
     ],
   },
   {
-    id: "car",
-    label: "자가용",
-    items: [["내비게이션", "‘웨스턴타워 3차’ 또는 ‘정발산로 24’를 검색해 주세요. 자유로·강변북로에서 약 20분 거리입니다."]],
-  },
-  {
     id: "parking",
     label: "주차",
     items: [["주차 안내", "웨스턴타워 3차 B동 지하주차장(지하 1~4층)을 이용해 주세요. 하객 2시간 무료이며 9층 안내데스크에서 주차 등록을 도와드립니다."]],
@@ -75,7 +70,7 @@ export function Location() {
         ))}
       </div>
 
-      <div className="mt-6 grid grid-cols-4 gap-1 rounded-full bg-secondary/50 p-1">
+      <div className="mt-6 grid grid-cols-3 gap-1 rounded-full bg-secondary/50 p-1">
         {TABS.map((t) => (
           <button
             key={t.id}

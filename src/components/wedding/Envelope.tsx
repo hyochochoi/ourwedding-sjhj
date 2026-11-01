@@ -83,7 +83,7 @@ export function Envelope({
           <div className="animate-in fade-in slide-in-from-bottom-3 mt-6 w-full space-y-2 duration-500">
             {showRsvp ? (
               <div className="soft-card p-4">
-                <RsvpForm onDone={onClose} defaultName={guestName === "소중한 분" ? "" : guestName} />
+                <RsvpForm onDone={onClose} onCancel={() => setShowRsvp(false)} defaultName={guestName === "소중한 분" ? "" : guestName} />
               </div>
             ) : (
               <>
