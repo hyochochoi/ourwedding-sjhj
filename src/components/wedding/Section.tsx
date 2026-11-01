@@ -40,7 +40,7 @@ export function Section({
       {(eyebrow || title) && (
         <header className="mb-6 text-center">
           {eyebrow && (
-            <p className="text-[0.7rem] tracking-[0.35em] text-primary uppercase">
+            <p className="font-display text-4xl tracking-normal text-primary">
               {eyebrow}
             </p>
           )}

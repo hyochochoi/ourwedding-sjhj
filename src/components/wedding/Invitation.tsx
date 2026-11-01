@@ -1,13 +1,8 @@
-import { Clover, Heart } from "lucide-react";
 import { Section } from "@/components/wedding/Section";
 import { HANDWRITTEN_LETTER_URL, WEDDING } from "@/lib/wedding-data";
-import heroImage from "@/assets/hero.jpg";
-import g1 from "@/assets/gallery-1.jpg";
-import g2 from "@/assets/gallery-2.jpg";
-import g3 from "@/assets/gallery-3.jpg";
-
-const TOP = [g1, g2, heroImage, g3, g1, g2];
-const BOTTOM = [g3, heroImage, g2, g1, g3, heroImage];
+import { WEDDING_PHOTOS } from "@/lib/wedding-photos";
+const TOP = WEDDING_PHOTOS.slice(0, 5).map(p => p.src);
+const BOTTOM = WEDDING_PHOTOS.slice(4).map(p => p.src);
 
 /** 실제 35mm 필름처럼: 위아래 구멍 줄 + 프레임 + 프레임 번호. 한 화면에 약 5컷. */
 function FilmStrip({ photos, reverse, tilt }: { photos: string[]; reverse?: boolean; tilt: string }) {
@@ -18,7 +13,7 @@ function FilmStrip({ photos, reverse, tilt }: { photos: string[]; reverse?: bool
         {frames.map((src, i) => (
           <div key={i} className="w-[calc(480px/5)] max-w-[20vw] shrink-0 px-[3px]">
             <div className="film-sprockets h-2" />
-            <div className="my-1 border border-black/60 bg-black p-[2px]">
+            <div className="my-1 border border-film bg-film p-[2px]">
               <img src={src} alt="" draggable={false} className="no-zoom aspect-[3/2] w-full object-cover sepia-[0.15]" />
             </div>
             <div className="film-sprockets h-2" />
@@ -70,8 +65,6 @@ export function Invitation() {
             </p>
           )}
         </div>
-        <Clover className="absolute -top-3 -left-2 z-20 size-7 -rotate-12 fill-primary text-envelope-shade" />
-        <Heart className="absolute top-1/3 -right-2 z-20 size-5 rotate-12 fill-primary text-primary" />
       </div>
 
       <FilmStrip photos={BOTTOM} reverse tilt="rotate-1" />
