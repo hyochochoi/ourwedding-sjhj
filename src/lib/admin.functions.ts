@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { inviteSlugSchema, resetConfirmation } from "./wedding-rules";
 
 function checkCode(code: string) {
   const adminCode = process.env["ADMIN_CODE"];
@@ -55,9 +56,12 @@ export const getGuestPhotos = createServerFn({ method: "POST" })
     const { data: previews } = await db.storage
       .from("guest-photos")
       .createSignedUrls(names, 60 * 60);
+    const { data: tags, error: tagError } = await db.from("guest_photo_tags").select("name, category").in("name", names);
+    if (tagError) throw new Error("분류 정보를 불러오지 못했어요.");
     return {
       photos: names.map((name, i) => ({
         name,
+        category: tags?.find(t => t.name === name)?.category ?? "미분류",
         downloadUrl: signed?.[i]?.signedUrl ?? "",
         previewUrl: previews?.[i]?.signedUrl ?? "",
       })),
@@ -67,16 +71,14 @@ export const getGuestPhotos = createServerFn({ method: "POST" })
 
 export const createInvitee = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) =>
-    z.object({ code: z.string().min(1), name: z.string().trim().min(1).max(30) }).parse(d),
+    z.object({ code: z.string().min(1), name: z.string().trim().min(1).max(30), slug: inviteSlugSchema }).parse(d),
   )
   .handler(async ({ data }) => {
     checkCode(data.code);
     const db = await admin();
-    const alphabet = "abcdefghjkmnpqrstuvwxyz23456789";
-    const bytes = crypto.getRandomValues(new Uint8Array(7));
-    const slug = Array.from(bytes, (b) => alphabet[b % alphabet.length]).join("");
+    const slug = data.slug;
     const { error } = await db.from("invitees").insert({ code: slug, name: data.name });
-    if (error) throw new Error(error.message);
+    if (error) throw new Error(error.code === "23505" ? "이미 사용 중인 영문 이름입니다." : "링크를 만들지 못했어요.");
     return { code: slug };
   });
 
@@ -91,3 +93,28 @@ export const deleteInvitee = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
+export const resetRsvps = createServerFn({ method: "POST" })
+ .inputValidator((d: unknown) => z.object({ code: z.string().min(1), confirmation: resetConfirmation }).parse(d))
+ .handler(async ({ data }) => {
+  checkCode(data.code); const db = await admin();
+  const { error } = await db.from("rsvp_submissions").delete().not("id", "is", null);
+  if (error) throw new Error("응답 초기화에 실패했어요.");
+  return { ok: true };
+ });
+export const resetGuestPhotos = createServerFn({ method: "POST" })
+ .inputValidator((d: unknown) => z.object({ code: z.string().min(1), confirmation: resetConfirmation }).parse(d))
+ .handler(async ({ data }) => {
+  checkCode(data.code); const db = await admin();
+  // Delete one bounded page per call; callers continue until complete.
+  const { data: files, error } = await db.storage.from("guest-photos").list("", { limit: 200 });
+  if (error) throw new Error("사진 목록을 불러오지 못했어요.");
+  const names = (files ?? []).filter(f => f.id).map(f => f.name);
+  if (names.length) {
+   const removed = await db.storage.from("guest-photos").remove(names);
+   if (removed.error) throw new Error("일부 사진을 삭제하지 못했어요. 다시 시도해 주세요.");
+   const tags = await db.from("guest_photo_tags").delete().in("name", names);
+   if (tags.error) throw new Error("분류 정보를 삭제하지 못했어요.");
+  }
+  return { removed: names.length, hasMore: names.length === 200 };
+ });
