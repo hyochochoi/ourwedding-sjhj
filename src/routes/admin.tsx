@@ -5,12 +5,17 @@ import { Copy, Download, Star, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Checkbox } from "@/components/ui/checkbox";
+import { rsvpSummary, inviteSlugSchema } from "@/lib/wedding-rules";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   createInvitee,
   deleteInvitee,
   getAdminData,
   getGuestPhotos,
+  resetRsvps,
+  resetGuestPhotos,
 } from "@/lib/admin.functions";
 
 export const Route = createFileRoute("/admin")({
@@ -29,7 +34,7 @@ export const Route = createFileRoute("/admin")({
 });
 
 type AdminData = Awaited<ReturnType<typeof getAdminData>>;
-type Photo = { name: string; downloadUrl: string; previewUrl: string };
+type Photo = { name: string; downloadUrl: string; previewUrl: string; category?: string };
 
 const STAR_COLORS = ["var(--star-1)", "var(--star-2)", "var(--star-3)", "var(--star-4)", "var(--star-5)", "var(--star-6)"];
 
@@ -38,6 +43,7 @@ function AdminPage() {
   const [data, setData] = useState<AdminData | null>(null);
   const [loading, setLoading] = useState(false);
   const fetchData = useServerFn(getAdminData);
+  const resetResponses = useServerFn(resetRsvps);
 
   async function login(event?: React.FormEvent) {
     event?.preventDefault();
@@ -82,7 +88,9 @@ function AdminPage() {
             응답 {data.rsvps.length}건 · 참석 {attending.length}건 · 총 {people}명 · 리마인드 동의{" "}
             {data.rsvps.filter((r) => r.reminder_consent).length}명
           </p>
-          <RsvpChart rsvps={data.rsvps} />
+          <ResetControl label="응답 내역 초기화" onReset={async confirmation => { await resetResponses({data:{code,confirmation}}); await login(); }} />
+          <div className="grid gap-4 sm:grid-cols-2">{["신부", "신랑"].map(side => <RsvpChart key={side} side={side} rsvps={data.rsvps.filter(r => r.side === side)} />)}</div>
+          {data.rsvps.some(r => r.side !== "신랑" && r.side !== "신부") && <p className="text-xs text-muted-foreground">기존 미지정 응답 {data.rsvps.filter(r => r.side !== "신랑" && r.side !== "신부").length}건</p>}
           {data.rsvps.map((r) => (
             <div key={r.id} className="soft-card p-3 text-xs">
               <p className="text-sm">
@@ -147,6 +155,7 @@ function InviteeManager({
   onChange: () => void;
 }) {
   const [name, setName] = useState("");
+  const [slug, setSlug] = useState("");
   const create = useServerFn(createInvitee);
   const remove = useServerFn(deleteInvitee);
   const origin = typeof window === "undefined" ? "" : window.location.origin;
@@ -154,11 +163,14 @@ function InviteeManager({
   async function add(event: React.FormEvent) {
     event.preventDefault();
     if (!name.trim()) return;
+    const parsed = inviteSlugSchema.safeParse(slug);
+    if (!parsed.success) return void toast.error("영문 이름은 영어 소문자, 숫자, 하이픈으로 입력해 주세요.");
     try {
-      const res = await create({ data: { code, name } });
-      await navigator.clipboard.writeText(`${origin}/i/${res.code}`).catch(() => undefined);
+      const res = await create({ data: { code, name, slug: parsed.data } });
+      await navigator.clipboard.writeText(`${origin}/to-${res.code}`).catch(() => undefined);
       toast.success(`${name}님 링크를 만들고 복사했어요`);
       setName("");
+      setSlug("");
       onChange();
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "생성 실패");
@@ -167,12 +179,13 @@ function InviteeManager({
 
   return (
     <div className="space-y-3">
-      <form onSubmit={add} className="flex gap-2">
+      <form onSubmit={add} className="grid gap-2">
         <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="받는 분 이름 (예: 김민지)" />
+        <Input value={slug} onChange={e => setSlug(e.target.value)} maxLength={40} placeholder="영문 이름 (예: hyojeong)" aria-label="영문 이름" />
         <Button type="submit" className="shrink-0 rounded-full">만들기</Button>
       </form>
       {invitees.map((inv) => {
-        const url = `${origin}/i/${inv.code}`;
+        const url = `${origin}/to-${inv.code}`;
         return (
           <div key={inv.id} className="soft-card flex items-center gap-2 p-3">
             <div className="min-w-0 flex-1">
@@ -192,56 +205,39 @@ function InviteeManager({
   );
 }
 
+function ResetControl({ label, onReset }: { label: string; onReset: (confirmation: "초기화") => Promise<void> }) {
+ const [open,setOpen] = useState(false); const [text,setText] = useState(""); const [busy,setBusy] = useState(false);
+ return <><Button variant="destructive" size="sm" onClick={() => {setText("");setOpen(true);}}><Trash2 className="size-4" />{label}</Button>
+ <Dialog open={open} onOpenChange={value => { if (!busy) setOpen(value); }}><DialogContent><DialogHeader><DialogTitle>{label}</DialogTitle></DialogHeader>
+ <p className="text-sm text-muted-foreground">모든 내역이 영구 삭제됩니다. 되돌릴 수 없습니다.</p>
+ <Input aria-label="초기화 확인" placeholder="초기화 입력" value={text} onChange={e => setText(e.target.value)} disabled={busy} />
+ <div className="flex justify-end gap-2"><Button variant="secondary" disabled={busy} onClick={() => setOpen(false)}>취소</Button><Button variant="destructive" disabled={busy || text !== "초기화"} onClick={async () => {setBusy(true);try {await onReset("초기화");setOpen(false);toast.success("초기화되었습니다");} catch(e){toast.error(e instanceof Error ? e.message : "삭제 실패");}finally{setBusy(false);}}}>{busy ? "삭제 중…" : "삭제 확정"}</Button></div>
+ </DialogContent></Dialog></>;
+}
 function PhotoManager({ code }: { code: string }) {
-  const [photos, setPhotos] = useState<Photo[]>([]);
-  const [hasMore, setHasMore] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const fetchPhotos = useServerFn(getGuestPhotos);
-
-  async function loadMore() {
-    setLoading(true);
-    try {
-      const res = await fetchPhotos({ data: { code, offset: photos.length } });
-      setPhotos((p) => [...p, ...res.photos]);
-      setHasMore(res.hasMore);
-    } catch (e) {
-      toast.error(e instanceof Error ? e.message : "불러오기 실패");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function downloadAll() {
-    for (const photo of photos) {
-      const a = document.createElement("a");
-      a.href = photo.downloadUrl;
-      a.download = photo.name;
-      a.click();
-      await new Promise((r) => setTimeout(r, 350));
-    }
-  }
-
-  return (
-    <div className="space-y-3">
-      <div className="flex gap-2">
-        <Button variant="secondary" className="rounded-full" disabled={loading || !hasMore} onClick={loadMore}>
-          {loading ? "불러오는 중..." : photos.length ? "더 불러오기" : "사진 불러오기"}
-        </Button>
-        {photos.length > 0 && (
-          <Button className="rounded-full" onClick={downloadAll}>
-            <Download className="size-4" /> 불러온 {photos.length}장 모두 받기
-          </Button>
-        )}
-      </div>
-      <div className="grid grid-cols-3 gap-2">
-        {photos.map((p) => (
-          <a key={p.name} href={p.downloadUrl} className="block overflow-hidden rounded-lg bg-secondary">
-            <img src={p.previewUrl} alt={p.name} loading="lazy" className="aspect-square w-full object-cover" />
-          </a>
-        ))}
-      </div>
-    </div>
-  );
+ const [photos,setPhotos] = useState<Photo[]>([]); const [hasMore,setHasMore] = useState(true); const [loading,setLoading] = useState(false);
+ const [selected,setSelected] = useState<Set<string>>(new Set()); const [preview,setPreview] = useState<Photo | null>(null); const [downloading,setDownloading] = useState(false);
+ const fetchPhotos = useServerFn(getGuestPhotos); const reset = useServerFn(resetGuestPhotos);
+ async function loadMore() {setLoading(true);try {const res = await fetchPhotos({data:{code,offset:photos.length}});setPhotos(p => [...p,...res.photos]);setHasMore(res.hasMore);}catch(e){toast.error(e instanceof Error ? e.message : "불러오기 실패");}finally{setLoading(false);}}
+ async function downloadSelected() {
+ setDownloading(true);
+ try {for (const photo of photos.filter(p => selected.has(p.name))) {
+ const response = await fetch(photo.downloadUrl); if (!response.ok) throw new Error("다운로드 실패");
+ const url = URL.createObjectURL(await response.blob());const a=document.createElement("a");a.href=url;a.download=photo.name;document.body.append(a);a.click();a.remove();window.setTimeout(() => URL.revokeObjectURL(url),60000);
+ }toast.success("선택한 파일을 저장했습니다");}catch{toast.error("일부 파일을 저장하지 못했어요. 브라우저의 여러 파일 다운로드 허용을 확인해 주세요.");}finally{setDownloading(false);}
+ }
+ const video = (name: string) => /\.(mp4|mov|m4v|webm|avi|mkv|3gp|hevc)$/i.test(name);
+ return <div className="space-y-4">
+ <div className="flex flex-wrap items-center gap-2"><Button variant="secondary" disabled={loading || !hasMore} onClick={loadMore}>{loading ? "불러오는 중…" : photos.length ? "더 불러오기" : "사진·영상 불러오기"}</Button>
+ <Button disabled={!selected.size || downloading} onClick={downloadSelected}><Download className="size-4" />선택 {selected.size}개 받기</Button>
+ <ResetControl label="사진·영상 초기화" onReset={async confirmation => {let more=true;while(more){const res=await reset({data:{code,confirmation}});more=res.hasMore;}setPhotos([]);setSelected(new Set());setHasMore(true);setPreview(null);}} /></div>
+ {photos.length > 0 && <label className="flex items-center gap-2 text-sm"><Checkbox checked={selected.size === photos.length} onCheckedChange={checked => setSelected(checked ? new Set(photos.map(p=>p.name)) : new Set())} />불러온 {photos.length}개 전체 선택</label>}
+ {!loading && !hasMore && !photos.length && <p className="py-10 text-center text-sm text-muted-foreground">아직 전달된 사진·영상이 없습니다.</p>}
+ <div className="grid grid-cols-3 gap-2">{photos.map(photo => <div key={photo.name} className="relative overflow-hidden rounded-lg bg-secondary">
+ <Button variant="ghost" className="h-auto w-full p-0" aria-label={`미리보기 ${photo.name}`} onClick={() => setPreview(photo)}>{video(photo.name) ? <video src={photo.previewUrl} preload="metadata" muted playsInline className="aspect-square w-full object-cover" /> : <img src={photo.previewUrl} alt={photo.name} loading="lazy" className="aspect-square w-full object-cover" />}</Button>
+ <div className="flex items-center justify-between gap-1 p-2"><Checkbox aria-label={`선택 ${photo.name}`} checked={selected.has(photo.name)} onCheckedChange={checked => setSelected(previous => {const next=new Set(previous);if(checked)next.add(photo.name);else next.delete(photo.name);return next;})} /><span className="truncate text-[0.65rem]">{photo.category}</span></div></div>)}</div>
+ <Dialog open={!!preview} onOpenChange={open => {if(!open)setPreview(null);}}><DialogContent className="max-w-3xl"><DialogHeader><DialogTitle className="break-all text-sm">사진·영상 미리보기</DialogTitle></DialogHeader>{preview && (video(preview.name) ? <video src={preview.previewUrl} controls playsInline className="max-h-[70svh] w-full" /> : <img src={preview.previewUrl} alt="하객 사진" className="max-h-[70svh] w-full object-contain" />)}</DialogContent></Dialog>
+ </div>;
 }
 
 function Bar({ label, value, max }: { label: string; value: number; max: number }) {
@@ -256,30 +252,7 @@ function Bar({ label, value, max }: { label: string; value: number; max: number 
   );
 }
 
-function RsvpChart({ rsvps }: { rsvps: AdminData["rsvps"] }) {
-  const yes = rsvps.filter((r) => r.attendance === "참석");
-  const no = rsvps.length - yes.length;
-  const people = yes.reduce((sum, r) => sum + (r.guest_count || 0), 0);
-  const remind = rsvps.filter((r) => r.reminder_consent).length;
-  const max = Math.max(rsvps.length, people, 1);
-  const pct = rsvps.length ? Math.round((yes.length / rsvps.length) * 100) : 0;
-  return (
-    <div className="soft-card space-y-3 p-4">
-      <div className="flex items-center gap-4">
-        <div
-          className="size-20 shrink-0 rounded-full"
-          style={{ background: `conic-gradient(var(--primary) ${pct}%, var(--secondary) 0)` }}
-          aria-label={`참석 ${pct}%`}
-        >
-          <div className="m-3 flex size-14 items-center justify-center rounded-full bg-background text-sm">{pct}%</div>
-        </div>
-        <p className="text-xs leading-relaxed text-muted-foreground">참석 응답 비율<br />식사 예상 인원 {people}명</p>
-      </div>
-      <Bar label="응답" value={rsvps.length} max={max} />
-      <Bar label="참석" value={yes.length} max={max} />
-      <Bar label="불참" value={no} max={max} />
-      <Bar label="총 인원" value={people} max={max} />
-      <Bar label="리마인드" value={remind} max={max} />
-    </div>
-  );
+function RsvpChart({ side, rsvps }: { side: string; rsvps: AdminData["rsvps"] }) {
+ const {yes,no,people} = rsvpSummary(rsvps);const max=Math.max(yes,no,people,1);
+ return <div className="soft-card space-y-3 p-4"><h2 className="text-base font-medium">{side} 측</h2><p className="text-xs text-muted-foreground">식사 예상 인원 {people}명</p><Bar label="참석" value={yes} max={max} /><Bar label="불참" value={no} max={max} /><Bar label="인원" value={people} max={max} /></div>;
 }
