@@ -35,7 +35,6 @@ export function Invitation() {
 
       <div className="relative mx-auto my-10 max-w-[320px] px-1">
         <Tape className="-top-2 left-1/2 -translate-x-1/2 -rotate-3 bg-tape-lime" />
-        <Tape className="-bottom-2 -left-3 rotate-[25deg] bg-tape-green" />
         <div className="relative rounded-md bg-cream p-4 text-paper-foreground shadow-[0_18px_40px_-20px_rgba(0,0,0,0.9)]">
           {HANDWRITTEN_LETTER_URL ? (
             <img

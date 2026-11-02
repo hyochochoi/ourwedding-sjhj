@@ -44,7 +44,7 @@ export function Envelope({
             )}
           >
             <p className="text-[0.65rem] tracking-[0.3em] opacity-60">INVITATION</p>
-            <p className="serif-title mt-1 text-lg">To. {guestName}</p>
+            <p className="serif-title mt-1 text-lg">To. {guestName}{guestName === "소중한 분" ? "" : " 님"}</p>
             <div className="mt-3 space-y-1 text-xs leading-relaxed">
               <p>2027. 03. 14 SUN · 오후 1시</p>
               <p>
@@ -70,7 +70,7 @@ export function Envelope({
                 <Leaf className="size-5" />
               </span>
             )}
-            <p className="serif-title text-base">To. {guestName}</p>
+            <p className="serif-title text-base">To. {guestName}{guestName === "소중한 분" ? "" : " 님"}</p>
             {phase === "closed" && (
               <p className="bounce-hint mt-1 text-[0.7rem] opacity-80">
                 봉투를 눌러 열어보세요

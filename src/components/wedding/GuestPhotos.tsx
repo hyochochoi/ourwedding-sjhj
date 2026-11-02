@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { ImageUp } from "lucide-react";
+import { ImageUp, Star } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -113,7 +113,7 @@ export function GuestPhotosButton() {
             </div>
           )}
           {!busy && finished !== null && (
-            <p className="rounded-xl bg-primary/15 p-3 text-xs"> 업로드 완료! {finished}개가 신랑·신부에게 전달되었어요.</p>
+            <p className="flex items-center justify-center gap-1 rounded-xl bg-primary/15 p-3 text-xs"><Star className="size-3 fill-primary text-primary" /> 업로드 완료! {finished}개가 신랑·신부에게 전달되었어요.</p>
           )}
           <p className="text-[0.7rem] text-muted-foreground">
             올리는 동안 창을 닫지 말아주세요. 사진은 신랑 · 신부만 볼 수 있어요.
