@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { ImageUp } from "lucide-react";
+import { ImageUp, Star } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
