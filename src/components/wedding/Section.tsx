@@ -38,14 +38,11 @@ export function Section({
       className={cn("reveal px-6 py-4", className)}
     >
       {(eyebrow || title) && (
-        <header className="mb-6 text-center">
+        <header className="mb-6 text-center" aria-label={title}>
           {eyebrow && (
-            <p className="font-display text-6xl leading-none tracking-normal text-primary">
+            <p className="font-display text-4xl leading-none tracking-normal text-primary">
               {eyebrow}
             </p>
-          )}
-          {title && (
-            <h2 className="serif-title mt-2 text-2xl text-foreground">{title}</h2>
           )}
         </header>
       )}
