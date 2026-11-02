@@ -1,4 +1,4 @@
-import { CalendarPlus } from "lucide-react";
+import { CalendarPlus, Heart } from "lucide-react";
 import { Section } from "@/components/wedding/Section";
 import { Button } from "@/components/ui/button";
 import { WEDDING } from "@/lib/wedding-data";
@@ -6,15 +6,9 @@ import { useCountdown } from "@/hooks/use-wedding";
 import { googleCalendarUrl } from "@/lib/calendar";
 import { cn } from "@/lib/utils";
 
-const WEEK = [
-  { w: "MON", d: 8 },
-  { w: "TUE", d: 9 },
-  { w: "WED", d: 10 },
-  { w: "THU", d: 11 },
-  { w: "FRI", d: 12 },
-  { w: "SAT", d: 13 },
-  { w: "SUN", d: 14 },
-];
+const DAYS = ["일", "월", "화", "수", "목", "금", "토"];
+// 2027년 3월 1일은 월요일
+const CELLS: (number | null)[] = [null, ...Array.from({ length: 31 }, (_, i) => i + 1)];
 
 function pad(n: number) {
   return String(n).padStart(2, "0");
@@ -36,21 +30,17 @@ export function DateSection() {
   return (
     <Section eyebrow="The Day" title="2027. 03. 14">
       <div className="soft-card p-4">
-        <p className="mb-3 text-center text-[0.7rem] tracking-[0.3em] text-muted-foreground">MARCH 2027</p>
-        <div className="grid grid-cols-7 gap-1 text-center">
-          {WEEK.map(({ w, d }) => {
+        <p className="serif-title mb-3 text-center text-lg">3월</p>
+        <div className="grid grid-cols-7 gap-y-1 text-center">
+          {DAYS.map((w, i) => (
+            <span key={w} className={cn("py-1 text-xs", i === 0 ? "text-destructive" : i === 6 ? "text-primary" : "text-muted-foreground")}>{w}</span>
+          ))}
+          {CELLS.map((d, i) => {
             const isDay = d === 14;
             return (
-              <div
-                key={w}
-                className={cn(
-                  "flex flex-col items-center gap-1 rounded-2xl py-2",
-                  isDay && "bg-primary text-primary-foreground shadow-[0_0_0_4px_color-mix(in_oklab,var(--primary)_22%,transparent)]",
-                )}
-              >
-                <span className={cn("text-[0.6rem] tracking-wider", isDay ? "font-medium" : "text-muted-foreground")}>{w}</span>
-                <span className={cn("text-base tabular-nums", isDay && "font-semibold")}>{d}</span>
-                {isDay && <span className="text-[0.55rem]">♡</span>}
+              <div key={i} className="relative flex h-10 items-center justify-center">
+                {isDay && <Heart className="absolute size-9 fill-primary text-primary" aria-hidden />}
+                <span className={cn("relative text-sm tabular-nums", isDay ? "font-semibold text-primary-foreground" : i % 7 === 0 ? "text-destructive" : "")}>{d ?? ""}</span>
               </div>
             );
           })}
