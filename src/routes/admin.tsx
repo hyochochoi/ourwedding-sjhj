@@ -89,6 +89,7 @@ function AdminPage() {
             {data.rsvps.filter((r) => r.reminder_consent).length}명
           </p>
           <ResetControl label="응답 내역 초기화" onReset={async confirmation => { await resetResponses({data:{code,confirmation}}); await login(); }} />
+          <SideDonut rsvps={data.rsvps} />
           <div className="grid gap-4 sm:grid-cols-2">{["신부", "신랑"].map(side => <RsvpChart key={side} side={side} rsvps={data.rsvps.filter(r => r.side === side)} />)}</div>
           {data.rsvps.some(r => r.side !== "신랑" && r.side !== "신부") && <p className="text-xs text-muted-foreground">기존 미지정 응답 {data.rsvps.filter(r => r.side !== "신랑" && r.side !== "신부").length}건</p>}
           {data.rsvps.map((r) => (
@@ -255,4 +256,26 @@ function Bar({ label, value, max }: { label: string; value: number; max: number 
 function RsvpChart({ side, rsvps }: { side: string; rsvps: AdminData["rsvps"] }) {
  const {yes,no,people} = rsvpSummary(rsvps);const max=Math.max(yes,no,people,1);
  return <div className="soft-card space-y-3 p-4"><h2 className="text-base font-medium">{side} 측</h2><p className="text-xs text-muted-foreground">식사 예상 인원 {people}명</p><Bar label="참석" value={yes} max={max} /><Bar label="불참" value={no} max={max} /><Bar label="인원" value={people} max={max} /></div>;
+}
+
+function SideDonut({ rsvps }: { rsvps: AdminData["rsvps"] }) {
+  const g = rsvpSummary(rsvps.filter((r) => r.side === "신랑")).people;
+  const b = rsvpSummary(rsvps.filter((r) => r.side === "신부")).people;
+  const total = g + b;
+  const c = 2 * Math.PI * 40;
+  const gLen = total ? (g / total) * c : 0;
+  return (
+    <div className="soft-card flex items-center gap-6 p-4">
+      <svg viewBox="0 0 100 100" className="size-32 -rotate-90" aria-label="신랑 신부 측 참석 인원">
+        <circle cx="50" cy="50" r="40" fill="none" strokeWidth="16" className="stroke-secondary" />
+        {total > 0 && <circle cx="50" cy="50" r="40" fill="none" strokeWidth="16" className="stroke-cream" strokeDasharray={`${c - gLen} ${c}`} strokeDashoffset={-gLen} />}
+        {total > 0 && <circle cx="50" cy="50" r="40" fill="none" strokeWidth="16" className="stroke-primary" strokeDasharray={`${gLen} ${c}`} />}
+      </svg>
+      <div className="space-y-2 text-sm">
+        <p className="font-medium">참석 인원 총 {total}명</p>
+        <p className="flex items-center gap-2"><span className="size-3 rounded-full bg-primary" /> 신랑 측 {g}명</p>
+        <p className="flex items-center gap-2"><span className="size-3 rounded-full bg-cream" /> 신부 측 {b}명</p>
+      </div>
+    </div>
+  );
 }
