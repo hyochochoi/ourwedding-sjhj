@@ -58,13 +58,6 @@ function AccountRow({ account }: { account: Account }) {
             </a>
           </Button>
         )}
-        {account.toss && (
-          <Button size="sm" variant="secondary" className="rounded-full" asChild>
-            <a href={account.toss} target="_blank" rel="noreferrer">
-              토스 송금
-            </a>
-          </Button>
-        )}
       </div>
     </div>
   );

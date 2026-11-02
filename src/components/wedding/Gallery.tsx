@@ -8,9 +8,9 @@ export function Gallery() {
         className="grid grid-cols-3 gap-1.5"
         onContextMenu={(e) => e.preventDefault()}
       >
-        {PHOTOS.map((photo) => (
+        {Array.from({ length: 18 }, (_, i) => PHOTOS[i % PHOTOS.length]).map((photo, i) => (
           <figure
-            key={photo.alt}
+            key={i}
             className="overflow-hidden rounded-lg border border-border"
           >
             <img
