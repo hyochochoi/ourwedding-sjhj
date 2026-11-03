@@ -32,7 +32,7 @@ export function Hero() {
             />
           )}
         </div>
-        <div className="absolute inset-x-0 top-[68%] text-paper-foreground">
+        <div className="absolute inset-x-0 top-[71%] text-paper-foreground">
           <p className="serif-title text-base font-semibold">
             {WEDDING.groom.name} — {WEDDING.bride.name}
           </p>
