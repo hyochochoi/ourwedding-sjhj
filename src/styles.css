@@ -47,6 +47,7 @@
   --font-sans: "Pretendard", system-ui, sans-serif;
   --font-serif: "Pretendard", sans-serif;
   --font-display: "Reenie Beanie", cursive;
+  --font-cover: "Great Vibes", cursive;
 }
 
 :root {
@@ -70,6 +71,11 @@
   --border: oklch(0.52 0.03 113 / 55%);
   --input: oklch(0.52 0.03 113 / 70%);
   --ring: oklch(0.896 0.093 113);
+  --paper-grain: repeating-linear-gradient(115deg, transparent 0 2px, oklch(0.32 0.03 115 / 3%) 2px 3px);
+  --cover-grain: repeating-linear-gradient(25deg, transparent 0 2px, oklch(0.96 0.025 95 / 3%) 2px 3px);
+  --envelope-shadow: 0 15px 28px -18px oklch(0.25 0.03 115 / 55%);
+  --seal-shadow: 0 2px 5px oklch(0.25 0.03 115 / 25%), inset 0 0 0 3px oklch(0.975 0.008 100 / 50%);
+  --clip-metal: oklch(0.72 0.008 100);
 
   /* 흰 종이 카드 (예식장 안내 등) */
   --paper: oklch(0.975 0.008 100);
@@ -264,4 +270,12 @@
 :root { --cover-shade: linear-gradient(to bottom, transparent 45%, oklch(0.12 0 0 / 80%)); }
 .cover-shade { background: var(--cover-shade); }
 body { letter-spacing: 0; }
+.font-cover { font-family: var(--font-cover); letter-spacing: 0; }
+.cover-paper { background-image: var(--cover-grain); }
+.invitation-paper { background-image: var(--paper-grain); }
+.envelope-stage { aspect-ratio: 4 / 3; box-shadow: var(--envelope-shadow); }
+.envelope-front, .envelope-back { background-image: var(--paper-grain); }
+.blank-seal { box-shadow: var(--seal-shadow); }
+.paper-clip { width: 15px; height: 48px; border: 2px solid var(--clip-metal); border-radius: 12px; transform: rotate(-15deg); }
+.paper-clip::after { content: ""; position: absolute; top: 3px; left: 3px; width: 7px; height: 35px; border: 1px solid var(--clip-metal); border-radius: 8px; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; } }

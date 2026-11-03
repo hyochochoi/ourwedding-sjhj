@@ -40,7 +40,7 @@ export function Section({
       {(eyebrow || title) && (
         <header className="mb-6 text-center" aria-label={title}>
           {eyebrow && (
-            <p className="font-display text-4xl leading-none tracking-normal text-primary">
+             <p className="font-display text-5xl leading-none tracking-normal text-primary">
               {eyebrow}
             </p>
           )}
