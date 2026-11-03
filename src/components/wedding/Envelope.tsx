@@ -35,7 +35,7 @@ export function Envelope({
           aria-label="봉투 열기"
           className={cn(
             "envelope-stage relative h-auto w-full shrink-0 rounded-none p-0 hover:bg-transparent [perspective:1000px]",
-            phase === "closed" ? "mt-0" : "mt-20",
+            phase === "closed" ? "mt-0" : "mt-32",
           )}
         >
           {/* 편지지: 약 50%만 빠져나옴 */}
