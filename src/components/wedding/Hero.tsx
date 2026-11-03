@@ -3,24 +3,24 @@ import { HERO_VIDEO_URL, WEDDING } from "@/lib/wedding-data";
 
 export function Hero() {
   return (
-    <section className="cover-paper relative w-full overflow-hidden bg-envelope pb-7 pt-7 text-center">
+    <section className="cover-paper relative w-full overflow-hidden bg-envelope pb-5 pt-8 text-center">
       <p className="text-[0.65rem] text-cream/80">
         · SANG JIN &amp; HYO JEONG ·
       </p>
-      <h1 className="font-cover relative z-10 mt-7 -rotate-6 text-[5.5rem] font-normal leading-[0.8] text-cream">
+      <h1 className="font-cover relative z-10 mt-8 -rotate-6 text-[6rem] font-normal leading-[0.78] text-cream">
         Our
         <br />
         Wedding
       </h1>
 
-      <div className="relative mx-auto -mt-1 aspect-[100/110] w-full">
-        <svg viewBox="0 0 100 92" className="absolute inset-0 size-full" aria-hidden>
+      <div className="relative mx-auto -mt-2 aspect-[100/110] w-full">
+        <svg viewBox="0 0 100 110" className="absolute inset-0 size-full" aria-hidden>
           <path
-            d="M50 92 C20 70 0 52 0 28 C0 12 12 0 27 0 C38 0 46 6 50 15 C54 6 62 0 73 0 C88 0 100 12 100 28 C100 52 80 70 50 92 Z"
+            d="M50 110 C30 90 0 66 0 36 C0 14 10 0 26 0 C38 0 46 9 50 22 C54 9 62 0 74 0 C90 0 100 14 100 36 C100 66 70 90 50 110 Z"
             className="fill-cream"
           />
         </svg>
-        <div className="absolute left-1/2 top-[25%] w-[46%] -translate-x-1/2">
+        <div className="absolute left-1/2 top-[24%] w-[50%] -translate-x-1/2">
           <span className="paper-clip absolute -top-8 left-[62%] z-10" aria-hidden />
           {HERO_VIDEO_URL ? (
             <video src={HERO_VIDEO_URL} poster={heroImage} autoPlay muted loop playsInline className="no-zoom aspect-square w-full object-cover" />
@@ -32,7 +32,7 @@ export function Hero() {
             />
           )}
         </div>
-        <div className="absolute inset-x-0 top-[70%] text-paper-foreground">
+        <div className="absolute inset-x-0 top-[72%] text-paper-foreground">
           <p className="serif-title text-base font-semibold">
             {WEDDING.groom.name} — {WEDDING.bride.name}
           </p>

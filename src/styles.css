@@ -73,7 +73,6 @@
   --ring: oklch(0.896 0.093 113);
   --paper-grain: repeating-linear-gradient(115deg, transparent 0 2px, oklch(0.32 0.03 115 / 1%) 2px 3px);
   --cover-grain: repeating-linear-gradient(25deg, transparent 0 2px, oklch(0.96 0.025 95 / 1%) 2px 3px);
-  --envelope-folds: linear-gradient(35deg, transparent 49.7%, oklch(0.96 0.025 95 / 18%) 50%, transparent 50.3%), linear-gradient(-35deg, transparent 49.7%, oklch(0.96 0.025 95 / 18%) 50%, transparent 50.3%);
   --envelope-shadow: 0 15px 28px -18px oklch(0.25 0.03 115 / 55%);
   --seal-shadow: 0 2px 5px oklch(0.25 0.03 115 / 25%), inset 0 0 0 3px oklch(0.975 0.008 100 / 50%);
   --clip-metal: oklch(0.72 0.008 100);
@@ -274,9 +273,9 @@ body { letter-spacing: 0; }
 .font-cover { font-family: var(--font-cover); letter-spacing: 0; }
 .cover-paper { background-image: var(--cover-grain); }
 .invitation-paper { background-image: var(--paper-grain); }
-.envelope-stage { aspect-ratio: 4 / 3; box-shadow: var(--envelope-shadow); }
-.envelope-front, .envelope-back { background-image: var(--paper-grain); }
-.envelope-front { background-image: var(--envelope-folds), var(--paper-grain); }
+.envelope-stage { aspect-ratio: 10 / 7; box-shadow: var(--envelope-shadow); perspective: 1000px; transition: margin-top 0.9s ease; }
+.envelope-front, .envelope-back, .envelope-flap { background-image: var(--paper-grain); }
+.envelope-flap { filter: drop-shadow(0 1px 0 var(--envelope-shade)); }
 .blank-seal { box-shadow: var(--seal-shadow); }
 .paper-clip { width: 15px; height: 48px; border: 2px solid var(--clip-metal); border-radius: 12px; transform: rotate(-15deg); }
 .paper-clip::after { content: ""; position: absolute; top: 3px; left: 3px; width: 7px; height: 35px; border: 1px solid var(--clip-metal); border-radius: 8px; }

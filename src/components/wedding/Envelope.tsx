@@ -34,34 +34,34 @@ export function Envelope({
           onClick={open}
           aria-label="봉투 열기"
           className={cn(
-            "envelope-stage relative h-auto w-full shrink-0 rounded-none p-0 hover:bg-transparent [perspective:1000px]",
-            phase === "closed" ? "mt-0" : "mt-32",
+            "envelope-stage relative block h-auto w-full shrink-0 rounded-none p-0 hover:bg-transparent",
+            phase === "closed" ? "mt-0" : "mt-24",
           )}
         >
           {/* 편지지: 약 50%만 빠져나옴 */}
           <div
             className={cn(
-              "invitation-paper absolute inset-x-12 bottom-3 z-[5] h-[85%] bg-paper px-3 pt-5 text-center text-paper-foreground",
+              "invitation-paper absolute inset-x-10 bottom-3 z-[5] h-[88%] bg-paper px-3 pt-5 text-center text-paper-foreground",
               phase !== "closed" && "letter-rise",
             )}
           >
-            <p className="font-display text-4xl leading-[0.8] text-envelope-shade">Save the<br />Date</p>
+            <p className="font-display text-[2.75rem] leading-[0.85] text-envelope-shade">Save the<br />Date</p>
             <p className="serif-title mt-4 text-xs">To. {guestName} 님</p>
             <p className="mt-2 text-[0.65rem]">{WEDDING.groom.name} &amp; {WEDDING.bride.name}</p>
           </div>
 
           {/* 봉투 몸통 */}
           <div className="envelope-back absolute inset-0 bg-envelope-shade" />
-          <div className="envelope-front absolute inset-0 z-10 bg-envelope [clip-path:polygon(0_0,50%_52%,100%_0,100%_100%,0_100%)]" />
+          <div className="envelope-front absolute inset-0 z-10 bg-envelope [clip-path:polygon(0_0,50%_48%,100%_0,100%_100%,0_100%)]" />
           {/* 덮개 */}
           <div
             className={cn(
-              "envelope-front absolute inset-x-0 top-0 h-[55%] bg-envelope [clip-path:polygon(0_0,100%_0,50%_100%)]",
-              phase === "closed" ? "z-20" : "flap-open z-0",
+              "envelope-flap absolute inset-x-0 top-0 h-[48%] bg-envelope [clip-path:polygon(0_0,100%_0,50%_100%)]",
+              phase === "closed" ? "z-20" : phase === "opening" ? "flap-open z-20" : "flap-open z-0",
             )}
           />
           {/* 실링 + 받는 분 */}
-          {phase === "closed" && <span className="blank-seal absolute left-1/2 top-[43%] z-30 size-12 -translate-x-1/2 rounded-full bg-cream" aria-hidden />}
+          {phase === "closed" && <span className="blank-seal absolute left-1/2 top-[48%] z-30 size-11 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cream" aria-hidden />}
         </Button>
 
         <div className="mt-8 w-full text-center">
