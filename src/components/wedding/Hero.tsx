@@ -1,8 +1,6 @@
 import { COVER_PHOTO as heroImage } from "@/lib/wedding-photos";
 import { HERO_VIDEO_URL, WEDDING } from "@/lib/wedding-data";
 
-const HEART = "path('M50 92 C20 70 0 52 0 28 C0 12 12 0 27 0 C38 0 46 6 50 15 C54 6 62 0 73 0 C88 0 100 12 100 28 C100 52 80 70 50 92 Z')";
-
 export function Hero() {
   return (
     <section className="relative w-full overflow-hidden bg-envelope pb-14 pt-10 text-center">
@@ -47,5 +45,3 @@ export function Hero() {
     </section>
   );
 }
-
-export const HEART_CLIP = HEART;

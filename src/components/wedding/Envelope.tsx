@@ -1,4 +1,3 @@
-import { Leaf } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { RsvpForm } from "@/components/wedding/RsvpForm";
@@ -43,9 +42,9 @@ export function Envelope({
               phase !== "closed" && "letter-rise",
             )}
           >
-            <p className="text-[0.65rem] tracking-[0.3em] opacity-60">INVITATION</p>
-            <p className="serif-title mt-1 text-lg">To. {guestName}{guestName === "소중한 분" ? "" : " 님"}</p>
-            <div className="mt-3 space-y-1 text-xs leading-relaxed">
+            <p className="font-display text-center text-4xl leading-none tracking-wide text-envelope-shade">Save the Date</p>
+            <p className="serif-title mt-2 text-center text-sm">To. {guestName}{guestName === "소중한 분" ? "" : " 님"}</p>
+            <div className="mt-2 space-y-0.5 text-center text-[0.7rem] leading-relaxed">
               <p>2027. 03. 14 SUN · 오후 1시</p>
               <p>
                 {WEDDING.venue} {WEDDING.hall}
@@ -55,7 +54,7 @@ export function Envelope({
           </div>
 
           {/* 봉투 몸통 */}
-          <div className="absolute inset-0 z-10 rounded-lg bg-envelope shadow-[0_24px_50px_-20px_rgba(0,0,0,0.8)] [clip-path:polygon(0_0,50%_52%,100%_0,100%_100%,0_100%)]" />
+          <div className="absolute inset-0 z-10 rounded-lg bg-envelope shadow-[0_24px_50px_-20px_rgba(0,0,0,0.6)] [clip-path:polygon(0_0,50%_52%,100%_0,100%_100%,0_100%)]" />
           {/* 덮개 */}
           <div
             className={cn(
@@ -65,11 +64,6 @@ export function Envelope({
           />
           {/* 실링 + 받는 분 */}
           <div className="absolute inset-x-0 bottom-5 z-30 text-center text-cream">
-            {phase === "closed" && (
-              <span className="serif-title mx-auto mb-2 flex size-11 items-center justify-center rounded-full bg-primary text-primary-foreground shadow">
-                <Leaf className="size-5" />
-              </span>
-            )}
             <p className="serif-title text-base">To. {guestName}{guestName === "소중한 분" ? "" : " 님"}</p>
             {phase === "closed" && (
               <p className="bounce-hint mt-1 text-[0.7rem] opacity-80">
