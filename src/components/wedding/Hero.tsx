@@ -3,25 +3,25 @@ import { HERO_VIDEO_URL, WEDDING } from "@/lib/wedding-data";
 
 export function Hero() {
   return (
-    <section className="relative w-full overflow-hidden bg-envelope pb-14 pt-10 text-center">
-      <p className="text-[0.65rem] tracking-[0.3em] text-cream/80">
+    <section className="cover-paper relative w-full overflow-hidden bg-envelope pb-7 pt-7 text-center">
+      <p className="text-[0.65rem] text-cream/80">
         · SANG JIN &amp; HYO JEONG ·
       </p>
-      <h1 className="font-display relative z-10 mt-2 -rotate-3 text-7xl leading-[0.8] tracking-wide text-primary">
+      <h1 className="font-cover relative z-10 mt-7 -rotate-6 text-[5.5rem] font-normal leading-[0.8] text-cream">
         Our
         <br />
         Wedding
       </h1>
 
-      <div className="relative mx-auto -mt-4 aspect-[100/92] w-[108%] max-w-none -translate-x-[3.7%]">
+      <div className="relative mx-auto -mt-1 aspect-[100/110] w-full">
         <svg viewBox="0 0 100 92" className="absolute inset-0 size-full" aria-hidden>
           <path
             d="M50 92 C20 70 0 52 0 28 C0 12 12 0 27 0 C38 0 46 6 50 15 C54 6 62 0 73 0 C88 0 100 12 100 28 C100 52 80 70 50 92 Z"
             className="fill-cream"
           />
         </svg>
-        <div className="absolute left-1/2 top-[20%] w-[46%] -translate-x-1/2 bg-cream p-1.5 shadow-lg">
-          <span className="absolute -top-3 left-1/2 z-10 h-6 w-2 -translate-x-1/2 rounded-full border-2 border-envelope-shade" aria-hidden />
+        <div className="absolute left-1/2 top-[25%] w-[46%] -translate-x-1/2">
+          <span className="paper-clip absolute -top-8 left-[62%] z-10" aria-hidden />
           {HERO_VIDEO_URL ? (
             <video src={HERO_VIDEO_URL} poster={heroImage} autoPlay muted loop playsInline className="no-zoom aspect-square w-full object-cover" />
           ) : (
@@ -32,7 +32,7 @@ export function Hero() {
             />
           )}
         </div>
-        <div className="absolute inset-x-0 top-[71%] text-paper-foreground">
+        <div className="absolute inset-x-0 top-[70%] text-paper-foreground">
           <p className="serif-title text-base font-semibold">
             {WEDDING.groom.name} — {WEDDING.bride.name}
           </p>

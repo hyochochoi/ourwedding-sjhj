@@ -14,3 +14,4 @@
 - RSVP validation and admin statistics use shared client-safe rules; submission revalidates inside a server function so side and attendance counts stay consistent.
 - Photo administration uses paginated listing and bounded deletion batches so large collections never require a single unbounded server request.
 - Human-readable invitations use /to-$slug on the existing site; custom domains require verified ownership and connection rather than fabricated URLs.
+- Normal section order is centralized in day-mode; accounts and contacts reuse Accounts with separate section variants, and normal-mode photo upload stays under Contact to preserve the specified order without removing uploads.

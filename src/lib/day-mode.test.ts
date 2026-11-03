@@ -2,6 +2,9 @@ import { describe, expect, it } from "vitest";
 import { getDayMode, orderSections } from "./day-mode";
 
 describe("wedding day mode", () => {
+  it("uses the requested invitation order in normal mode", () => {
+    expect(orderSections("normal")).toEqual(["invitation", "date", "location", "info", "gallery", "gift", "contact", "stars", "rsvp"]);
+  });
   it("is normal before the wedding day", () => {
     expect(getDayMode(new Date("2027-03-13T23:00:00+09:00"))).toBe("normal");
   });

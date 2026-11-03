@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Check, Copy, MessageSquare, Phone } from "lucide-react";
 import { Section } from "@/components/wedding/Section";
-import { cn } from "@/lib/utils";
+import { GuestPhotosButton } from "@/components/wedding/GuestPhotos";
 import { toast } from "sonner";
 import {
   Accordion,
@@ -92,31 +92,11 @@ function Group({ value, title, children }: { value: string; title: string; child
   );
 }
 
-export function Accounts() {
-  const [tab, setTab] = useState<"account" | "contact">("account");
+export function Accounts({ contactsOnly = false, includePhotos = false }: { contactsOnly?: boolean; includePhotos?: boolean }) {
   return (
-    <Section eyebrow="With Heart" title="마음 전하실 곳">
-      <div className="mb-5 grid grid-cols-2 gap-1 rounded-full bg-secondary/50 p-1">
-        {([
-          ["account", "계좌번호"],
-          ["contact", "연락하기"],
-        ] as const).map(([id, label]) => (
-          <button
-            key={id}
-            type="button"
-            onClick={() => setTab(id)}
-            className={cn(
-              "rounded-full py-2 text-sm transition-colors",
-              tab === id ? "bg-primary font-medium text-primary-foreground" : "text-foreground/80",
-            )}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
-
-      <div key={tab} className="tab-fade">
-        {tab === "account" ? (
+    <Section eyebrow={contactsOnly ? "Contact" : "With Heart"} title={contactsOnly ? "연락하기" : "마음 전하실 곳"}>
+      <div className="tab-fade">
+        {!contactsOnly ? (
           <>
             <p className="mb-4 text-center text-xs leading-relaxed text-muted-foreground">
               축하의 마음을 담아 축의금을 전달하실 수 있도록
@@ -143,6 +123,7 @@ export function Accounts() {
           </Accordion>
         )}
       </div>
+      {includePhotos && <div className="mt-6"><GuestPhotosButton /></div>}
     </Section>
   );
 }
