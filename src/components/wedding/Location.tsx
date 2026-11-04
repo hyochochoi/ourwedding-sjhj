@@ -48,7 +48,7 @@ export function Location() {
       <div className="mt-3 overflow-hidden rounded-2xl border border-border">
         <iframe
           title="예식장 위치 지도"
-          src={`https://map.kakao.com/link/map/${q},${WEDDING.lat},${WEDDING.lng}`}
+          src={`https://www.openstreetmap.org/export/embed.html?bbox=${WEDDING.lng - 0.006}%2C${WEDDING.lat - 0.004}%2C${WEDDING.lng + 0.006}%2C${WEDDING.lat + 0.004}&layer=mapnik&marker=${WEDDING.lat}%2C${WEDDING.lng}`}
           loading="lazy"
           className="h-64 w-full border-0"
         />
