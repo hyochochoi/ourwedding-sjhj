@@ -277,6 +277,8 @@ body { letter-spacing: 0; }
 .envelope-front, .envelope-back, .envelope-flap { background-image: var(--paper-grain); }
 .envelope-flap { filter: drop-shadow(0 1px 0 var(--envelope-shade)); }
 .blank-seal { box-shadow: var(--seal-shadow); }
+.stroke-clip { stroke: var(--clip-metal); }
+.envelope-crease { background: linear-gradient(to bottom right, transparent calc(50% - 0.5px), oklch(0.3 0.03 115 / 35%) 50%, transparent calc(50% + 0.5px)) left / 50% 100% no-repeat, linear-gradient(to bottom left, transparent calc(50% - 0.5px), oklch(0.3 0.03 115 / 35%) 50%, transparent calc(50% + 0.5px)) right / 50% 100% no-repeat; }
 .paper-clip { width: 15px; height: 48px; border: 2px solid var(--clip-metal); border-radius: 12px; transform: rotate(-15deg); }
 .paper-clip::after { content: ""; position: absolute; top: 3px; left: 3px; width: 7px; height: 35px; border: 1px solid var(--clip-metal); border-radius: 8px; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; } }
