@@ -78,7 +78,7 @@
   --clip-metal: oklch(0.72 0.008 100);
 
   /* 흰 종이 카드 (예식장 안내 등) */
-  --paper: oklch(0.975 0.008 100);
+  --paper: oklch(0.975 0.02 110);
   --paper-foreground: oklch(0.32 0.03 115);
 
   /* 방명록 포스트잇 */
@@ -171,9 +171,9 @@
 
 /* 편지봉투 오프닝 */
 :root {
-  --envelope: oklch(0.47 0.045 122);
-  --envelope-shade: oklch(0.4 0.04 120);
-  --cream: oklch(0.96 0.025 95);
+  --envelope: oklch(0.86 0.09 113);
+  --envelope-shade: oklch(0.78 0.095 115);
+  --cream: oklch(0.96 0.035 110);
   --tape-lime: oklch(0.89 0.1 113 / 75%);
   --tape-cream: oklch(0.95 0.03 95 / 80%);
   --tape-green: oklch(0.55 0.06 135 / 80%);
