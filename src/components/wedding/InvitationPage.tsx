@@ -33,7 +33,7 @@ export function InvitationPage({ guestName }: { guestName?: string | null }) {
     location: <Location />,
     info: <VenueInfo />,
     gift: <Accounts />,
-    contact: <Accounts contactsOnly includePhotos={mode === "normal"} />,
+    contact: <Accounts contactsOnly />,
     stars: <Guestbook />,
     photos: <GuestPhotosSection />,
     rsvp: <RsvpSection guestName={guestName ?? ""} />,

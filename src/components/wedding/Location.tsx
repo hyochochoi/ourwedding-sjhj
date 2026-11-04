@@ -15,28 +15,13 @@ const MAP_LINKS = [
 ];
 
 const TABS = [
-  {
-    id: "transit",
-    label: "대중교통",
-    items: [
-      ["지하철", "3호선 정발산역 3번 출구에서 도보 약 7분. 경의중앙선 백마역에서는 택시로 약 8분입니다."],
-      ["버스", "‘정발산역·웨스턴타워’ 정류장 하차 — 간선 1000, 1100, 지선 55, 88번 이용 가능합니다."],
-    ],
-  },
-  {
-    id: "parking",
-    label: "주차",
-    items: [["주차 안내", "웨스턴타워 3차 B동 지하주차장(지하 1~4층)을 이용해 주세요. 하객 2시간 무료이며 9층 안내데스크에서 주차 등록을 도와드립니다."]],
-  },
-  {
-    id: "shuttle",
-    label: "셔틀",
-    items: [["셔틀버스", "예식 당일 정발산역 3번 출구 앞에서 12:00부터 13:00까지 15분 간격으로 운행합니다."]],
-  },
+  { id: "subway", label: "지하철", items: ["3호선 정발산역 1번 출구 도보 10분", "3호선 마두역 4번 출구 도보 10분"] },
+  { id: "shuttle", label: "셔틀버스", items: ["마두역 4번 출구 수시 운행"] },
+  { id: "parking", label: "주차", items: ["웨스턴돔 B동 주차장 이용", "(하객 주차 2시간 무료)"] },
 ] as const;
 
 export function Location() {
-  const [tab, setTab] = useState<(typeof TABS)[number]["id"]>("transit");
+  const [tab, setTab] = useState<(typeof TABS)[number]["id"]>("subway");
   const current = TABS.find((t) => t.id === tab) ?? TABS[0];
 
   async function copyAddress() {
@@ -65,7 +50,7 @@ export function Location() {
           title="예식장 위치 지도"
           src={`https://www.openstreetmap.org/export/embed.html?bbox=${WEDDING.lng - 0.006}%2C${WEDDING.lat - 0.004}%2C${WEDDING.lng + 0.006}%2C${WEDDING.lat + 0.004}&layer=mapnik&marker=${WEDDING.lat}%2C${WEDDING.lng}`}
           loading="lazy"
-          className="h-56 w-full border-0"
+          className="h-64 w-full border-0"
         />
       </div>
 
@@ -96,12 +81,12 @@ export function Location() {
       </div>
 
       <div key={tab} className="tab-fade mt-3 space-y-2">
-        {current.items.map(([title, body]) => (
-          <div key={title} className="rounded-2xl bg-cream p-4 text-paper-foreground">
-            <p className="serif-title text-sm">{title}</p>
-            <p className="mt-1 text-xs leading-relaxed opacity-80">{body}</p>
-          </div>
-        ))}
+        <div className="rounded-2xl bg-cream p-4 text-center text-paper-foreground">
+          <p className="serif-title text-sm">{current.label}</p>
+          {current.items.map((line) => (
+            <p key={line} className="mt-1 text-xs leading-relaxed opacity-80 break-keep">{line}</p>
+          ))}
+        </div>
       </div>
     </Section>
   );

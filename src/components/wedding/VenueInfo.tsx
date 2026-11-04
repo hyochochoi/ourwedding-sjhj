@@ -24,7 +24,10 @@ export function VenueInfo() {
           </button>
         ))}
       </div>
-      <p key={active} className="tab-fade mt-6 min-h-16 px-2 text-center text-sm leading-relaxed break-keep">{CARDS[active]?.body}</p>
+      <div key={active} className="tab-fade mt-5 min-h-20 rounded-2xl bg-cream px-5 py-5 text-center text-paper-foreground">
+        <p className="serif-title mb-2 text-sm">{CARDS[active]?.title}</p>
+        <p className="text-[0.82rem] leading-relaxed break-keep [text-wrap:pretty]">{CARDS[active]?.body}</p>
+      </div>
     </Section>
   );
 }
