@@ -4,7 +4,7 @@ import { RsvpForm } from "@/components/wedding/RsvpForm";
 import { WEDDING } from "@/lib/wedding-data";
 import { cn } from "@/lib/utils";
 
-type Phase = "closed" | "opening" | "open";
+type Phase = "closed" | "opening" | "rising" | "open";
 
 export function Envelope({
   guestName,
@@ -21,7 +21,10 @@ export function Envelope({
   function open() {
     if (phase !== "closed") return;
     setPhase("opening");
-    timer.current = setTimeout(() => setPhase("open"), 1700);
+    timer.current = setTimeout(() => {
+      setPhase("rising");
+      timer.current = setTimeout(() => setPhase("open"), 1000);
+    }, 900);
   }
 
   return (
@@ -42,7 +45,7 @@ export function Envelope({
           <div
             className={cn(
               "invitation-paper absolute inset-x-10 bottom-3 z-[5] h-[88%] bg-paper px-3 pt-5 text-center text-paper-foreground",
-              phase !== "closed" && "letter-rise",
+              (phase === "rising" || phase === "open") && "letter-rise-now",
             )}
           >
             <p className="font-display text-[2.75rem] leading-[0.85] text-envelope-shade">Save the<br />Date</p>
@@ -52,16 +55,21 @@ export function Envelope({
 
           {/* 봉투 몸통 */}
           <div className="envelope-back absolute inset-0 bg-envelope-shade" />
-          <div className="envelope-front absolute inset-0 z-10 bg-envelope [clip-path:polygon(0_0,50%_48%,100%_0,100%_100%,0_100%)]" />
+          <div className="envelope-front absolute inset-0 z-10 bg-envelope [clip-path:polygon(0_0,50%_52%,100%_0,100%_100%,0_100%)]" />
+          {/* 접힘선: 아래 모서리에서 가운데로 */}
+          <svg viewBox="0 0 100 70" preserveAspectRatio="none" className="pointer-events-none absolute inset-0 z-[11] size-full" aria-hidden>
+            <path d="M0 70 L44 38 M100 70 L56 38" className="stroke-envelope-shade" strokeWidth="0.4" fill="none" />
+            <path d="M0 0 L50 36.4 L100 0" className="stroke-envelope-shade" strokeWidth="0.3" fill="none" opacity="0.6" />
+          </svg>
           {/* 덮개 */}
           <div
             className={cn(
-              "envelope-flap absolute inset-x-0 top-0 h-[48%] bg-envelope [clip-path:polygon(0_0,100%_0,50%_100%)]",
-              phase === "closed" ? "z-20" : phase === "opening" ? "flap-open z-20" : "flap-open z-0",
+              "envelope-flap absolute inset-x-0 top-0 h-[52%] bg-envelope [backface-visibility:hidden] [clip-path:polygon(0_0,100%_0,50%_100%)]",
+              phase === "closed" ? "z-20" : phase === "opening" ? "flap-open z-20" : "flap-open z-[1] opacity-0",
             )}
           />
           {/* 실링 + 받는 분 */}
-          {phase === "closed" && <span className="blank-seal absolute left-1/2 top-[48%] z-30 size-11 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cream" aria-hidden />}
+          {phase === "closed" && <span className="blank-seal absolute left-1/2 top-[52%] z-30 size-11 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cream" aria-hidden />}
         </Button>
 
         <div className="mt-8 w-full text-center">
