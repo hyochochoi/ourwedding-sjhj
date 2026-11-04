@@ -113,7 +113,7 @@ export function Accounts({ contactsOnly = false, includePhotos = false }: { cont
             </Accordion>
           </>
         ) : (
-          <Accordion type="multiple" defaultValue={["groom", "bride"]} className="space-y-3">
+          <Accordion type="multiple" className="space-y-3">
             <Group value="groom" title="신랑측 연락처">
               {GROOM_CONTACTS.map((p) => <ContactRow key={p.relation} person={p} />)}
             </Group>

@@ -6,13 +6,7 @@ import { cn } from "@/lib/utils";
 
 type Phase = "closed" | "opening" | "rising" | "open";
 
-export function Envelope({
-  guestName,
-  onClose,
-}: {
-  guestName: string;
-  onClose: () => void;
-}) {
+export function Envelope({ guestName, onClose }: { guestName: string; onClose: () => void }) {
   const [phase, setPhase] = useState<Phase>("closed");
   const [showRsvp, setShowRsvp] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -26,11 +20,12 @@ export function Envelope({
       timer.current = setTimeout(() => setPhase("open"), 1000);
     }, 900);
   }
+  const lifted = phase === "rising" || phase === "open";
 
   return (
-    <div className="invitation-paper fixed inset-0 z-50 overflow-y-auto bg-cream px-6 text-paper-foreground">
-      <div className="mx-auto flex min-h-full max-w-[320px] flex-col items-center justify-center py-8">
-        <p className="font-display mb-8 text-3xl text-envelope-shade">Wedding Invitation</p>
+    <div className="cover-paper fixed inset-0 z-50 overflow-y-auto bg-background px-6 text-foreground">
+      <div className="mx-auto flex min-h-full max-w-[320px] flex-col items-center justify-center py-10">
+        <p className="mb-14 text-[0.7rem] tracking-[0.35em] text-primary/80">WEDDING INVITATION</p>
         <Button
           type="button"
           variant="ghost"
@@ -41,44 +36,52 @@ export function Envelope({
             phase === "closed" ? "mt-0" : "mt-24",
           )}
         >
-          {/* 편지지: 약 50%만 빠져나옴 */}
+          {/* 봉투 안쪽 */}
+          <div className="envelope-back absolute inset-0 bg-envelope-shade" />
+          {/* 카드 */}
           <div
             className={cn(
-              "invitation-paper absolute inset-x-10 bottom-3 z-[5] h-[88%] bg-paper px-3 pt-5 text-center text-paper-foreground",
-              (phase === "rising" || phase === "open") && "letter-rise-now",
+              "invitation-paper absolute inset-x-[12%] bottom-2 z-[5] h-[90%] bg-paper px-3 pt-5 text-center text-paper-foreground shadow-sm",
+              lifted && "letter-rise-now",
             )}
           >
-            <p className="font-display text-[2.75rem] leading-[0.85] text-envelope-shade">Save the<br />Date</p>
-            <p className="serif-title mt-4 text-xs">To. {guestName} 님</p>
-            <p className="mt-2 text-[0.65rem]">{WEDDING.groom.name} &amp; {WEDDING.bride.name}</p>
+            <p className="font-display text-[2.6rem] leading-[0.85] text-paper-foreground">Save the<br />Date</p>
+            <p className="mt-3 text-xs">To. {guestName} 님</p>
+            <p className="mt-1 text-[0.65rem] opacity-70">{WEDDING.groom.name} &amp; {WEDDING.bride.name}</p>
           </div>
-
-          {/* 봉투 몸통 */}
-          <div className="envelope-back absolute inset-0 bg-envelope-shade" />
-          <div className="envelope-front absolute inset-0 z-10 bg-envelope [clip-path:polygon(0_0,50%_52%,100%_0,100%_100%,0_100%)]" />
-          {/* 접힘선: 아래 모서리에서 가운데로 */}
-          <svg viewBox="0 0 100 70" preserveAspectRatio="none" className="pointer-events-none absolute inset-0 z-[11] size-full" aria-hidden>
-            <path d="M0 70 L44 38 M100 70 L56 38" className="stroke-envelope-shade" strokeWidth="0.4" fill="none" />
-            <path d="M0 0 L50 36.4 L100 0" className="stroke-envelope-shade" strokeWidth="0.3" fill="none" opacity="0.6" />
+          {/* 앞 주머니: 좌우·아래 접힘 */}
+          <svg viewBox="0 0 100 70" preserveAspectRatio="none" className="envelope-front pointer-events-none absolute inset-0 z-10 size-full" aria-hidden>
+            <path d="M0 0 L46 40 L0 70 Z" className="fill-envelope" />
+            <path d="M100 0 L54 40 L100 70 Z" className="fill-envelope" />
+            <path d="M0 70 L50 34 L100 70 Z" className="fill-envelope" />
+            <path d="M0 70 L50 34 L100 70" className="stroke-envelope-shade" strokeWidth="0.5" fill="none" />
+            <path d="M0 0 L42 37 M100 0 L58 37" className="stroke-envelope-shade" strokeWidth="0.35" fill="none" opacity="0.7" />
           </svg>
           {/* 덮개 */}
-          <div
+          <svg
+            viewBox="0 0 100 40"
+            preserveAspectRatio="none"
             className={cn(
-              "envelope-flap absolute inset-x-0 top-0 h-[52%] bg-envelope [backface-visibility:hidden] [clip-path:polygon(0_0,100%_0,50%_100%)]",
-              phase === "closed" ? "z-20" : phase === "opening" ? "flap-open z-20" : "flap-open z-[1] opacity-0",
+              "envelope-flap pointer-events-none absolute inset-x-0 top-0 h-[57%] w-full",
+              phase === "closed" ? "z-20" : phase === "opening" ? "flap-open z-20" : "flap-open z-[1]",
             )}
-          />
-          {/* 실링 + 받는 분 */}
-          {phase === "closed" && <span className="blank-seal absolute left-1/2 top-[52%] z-30 size-11 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cream" aria-hidden />}
+            aria-hidden
+          >
+            <path d="M0 0 L100 0 L50 40 Z" className="fill-envelope" />
+            <path d="M0 0 L50 40 L100 0" className="stroke-envelope-shade" strokeWidth="0.5" fill="none" />
+          </svg>
+          {phase === "closed" && (
+            <span className="blank-seal absolute left-1/2 top-[57%] z-30 size-11 -translate-x-1/2 -translate-y-1/2 rounded-full bg-background" aria-hidden />
+          )}
         </Button>
 
-        <div className="mt-8 w-full text-center">
-          <p className="font-display text-2xl text-envelope-shade">Sang Jin &amp; Hyo Jeong</p>
-          <p className="mt-3 text-3xl text-envelope-shade">2027.03.14</p>
-          <p className="mt-1 text-xs text-paper-foreground/70">SUNDAY · 1:00 PM</p>
-          <div className="mx-auto my-5 h-px w-6 bg-envelope/40" />
+        <div className="mt-12 w-full text-center">
+          <p className="text-sm tracking-[0.3em] text-primary/80">SANG JIN <span className="text-primary">&amp;</span> HYO JEONG</p>
+          <p className="mt-4 text-4xl font-light tracking-wide text-primary">2027.03.14</p>
+          <p className="mt-2 text-xs tracking-[0.3em] text-foreground/70">SUNDAY · 1:00 PM</p>
+          <div className="mx-auto my-5 h-px w-8 bg-primary/40" />
           <p className="text-sm">{WEDDING.venue} {WEDDING.hall}</p>
-          <p className="mt-1 text-xs text-paper-foreground/60">{WEDDING.addressShort}</p>
+          <p className="mt-1 text-xs tracking-wider text-foreground/60">{WEDDING.addressShort}</p>
         </div>
 
         {phase === "open" && (
@@ -89,12 +92,8 @@ export function Envelope({
               </div>
             ) : (
               <>
-                <Button className="w-full rounded-full" onClick={() => setShowRsvp(true)}>
-                  참석 여부 알려주기
-                </Button>
-                <Button variant="secondary" className="w-full rounded-full" onClick={onClose}>
-                  청첩장 열어보기
-                </Button>
+                <Button className="w-full rounded-full" onClick={() => setShowRsvp(true)}>참석 여부 알려주기</Button>
+                <Button variant="secondary" className="w-full rounded-full" onClick={onClose}>청첩장 열어보기</Button>
               </>
             )}
           </div>
