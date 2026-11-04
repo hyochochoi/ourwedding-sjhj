@@ -63,8 +63,8 @@ export function DateSection() {
           ))}
         </div>
         <p className="serif-title mt-4 text-sm">
-          {WEDDING.groom.name} <span className="text-primary">♡</span> {WEDDING.bride.name}의 결혼식이{" "}
-          <span className="text-primary">D-{countdown ? countdown.days : "–"}</span> 남았습니다
+          {WEDDING.groom.name} <span className="text-primary">♥</span> {WEDDING.bride.name}의 결혼식이{" "}
+          <span className="mx-0.5 text-2xl font-semibold text-primary">{countdown ? countdown.days : "–"}일</span> 남았습니다
         </p>
       </div>
 
