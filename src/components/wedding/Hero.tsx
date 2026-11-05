@@ -31,7 +31,7 @@ export function Hero() {
             className="fill-cream"
           />
         </svg>
-        <div className="absolute left-1/2 top-[19%] w-[44%] -translate-x-1/2 shadow-lg">
+        <div className="absolute left-1/2 top-[17%] w-[40%] -translate-x-1/2 shadow-lg">
           <PaperClip className="absolute -top-5 right-4 z-10 h-12 w-4 rotate-[6deg]" />
           {HERO_VIDEO_URL ? (
             <video src={HERO_VIDEO_URL} poster={heroImage} autoPlay muted loop playsInline className="no-zoom aspect-square w-full object-cover" />
@@ -39,7 +39,7 @@ export function Hero() {
             <img src={heroImage} alt={`${WEDDING.groom.name} 그리고 ${WEDDING.bride.name}`} className="no-zoom aspect-square w-full object-cover" />
           )}
         </div>
-        <div className="absolute inset-x-[24%] top-[64%] text-paper-foreground">
+        <div className="absolute inset-x-[24%] top-[66%] text-paper-foreground">
           <p className="text-base font-semibold tracking-wide">
             {WEDDING.groom.name} <span className="mx-1 font-light">—</span> {WEDDING.bride.name}
           </p>
