@@ -50,9 +50,9 @@ export function Envelope({ guestName, onClose }: { guestName: string; onClose: (
             <p className="mt-1 text-[0.65rem] opacity-70">{WEDDING.groom.name} &amp; {WEDDING.bride.name}</p>
           </div>
           {/* 앞 주머니: 좌우·아래 접힘 */}
-          <svg viewBox="0 0 100 70" preserveAspectRatio="none" className="envelope-front pointer-events-none absolute inset-0 z-10 size-full" aria-hidden>
-            <path d="M0 0 L46 40 L0 70 Z" className="fill-envelope" />
-            <path d="M100 0 L54 40 L100 70 Z" className="fill-envelope" />
+          <svg viewBox="0 0 100 70" preserveAspectRatio="none" className="envelope-front pointer-events-none absolute inset-0 z-10 !size-full" aria-hidden>
+            <path d="M0 0 L52 40 L0 70 Z" className="fill-envelope" />
+            <path d="M100 0 L48 40 L100 70 Z" className="fill-envelope" />
             <path d="M0 70 L50 34 L100 70 Z" className="fill-envelope" />
             <path d="M0 70 L50 34 L100 70" className="stroke-envelope-shade" strokeWidth="0.5" fill="none" />
             <path d="M0 0 L42 37 M100 0 L58 37" className="stroke-envelope-shade" strokeWidth="0.35" fill="none" opacity="0.7" />
@@ -62,7 +62,7 @@ export function Envelope({ guestName, onClose }: { guestName: string; onClose: (
             viewBox="0 0 100 40"
             preserveAspectRatio="none"
             className={cn(
-              "envelope-flap pointer-events-none absolute inset-x-0 top-0 h-[57%] w-full",
+              "envelope-flap pointer-events-none absolute inset-x-0 top-0 !h-[57%] !w-full",
               phase === "closed" ? "z-20" : phase === "opening" ? "flap-open z-20" : "flap-open z-[1]",
             )}
             aria-hidden
