@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { WEDDING } from "@/lib/wedding-data";
 
-const KEY = import.meta.env.VITE_KAKAO_MAP_KEY as string | undefined;
+const KEY = import.meta.env["VITE_KAKAO_MAP_KEY"] as string | undefined;
 
 declare global {
   interface Window { kakao?: any }
