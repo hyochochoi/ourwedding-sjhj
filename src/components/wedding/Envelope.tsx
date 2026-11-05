@@ -70,9 +70,36 @@ export function Envelope({ guestName, onClose }: { guestName: string; onClose: (
             <path d="M0 0 L100 0 L50 40 Z" className="fill-envelope" />
             <path d="M0 0 L50 40 L100 0" className="stroke-envelope-shade" strokeWidth="0.5" fill="none" />
           </svg>
-          {phase === "closed" && (
-            <span className="blank-seal absolute left-1/2 top-[57%] z-30 size-11 -translate-x-1/2 -translate-y-1/2 rounded-full bg-background" aria-hidden />
-          )}
+          {/* 새틴 리본 */}
+          <div
+            className={cn(
+              "pointer-events-none absolute inset-0 z-30 transition-all duration-500",
+              phase === "closed" ? "opacity-100" : "scale-110 opacity-0",
+            )}
+            aria-hidden
+          >
+            <div className="ribbon-band absolute inset-x-0 top-[57%] h-[13%] -translate-y-1/2" />
+            <svg viewBox="0 0 120 90" className="absolute left-1/2 top-[57%] !h-auto !w-[46%] -translate-x-1/2 -translate-y-[42%] drop-shadow-md">
+              <defs>
+                <linearGradient id="satin" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" style={{ stopColor: "var(--ribbon-light)" }} />
+                  <stop offset="0.5" style={{ stopColor: "var(--ribbon)" }} />
+                  <stop offset="1" style={{ stopColor: "var(--ribbon-dark)" }} />
+                </linearGradient>
+              </defs>
+              {/* 꼬리 */}
+              <path d="M56 34 L34 86 L42 80 L47 88 L62 38 Z" fill="url(#satin)" />
+              <path d="M64 34 L86 86 L78 80 L73 88 L58 38 Z" fill="url(#satin)" />
+              {/* 루프 */}
+              <path d="M60 32 C44 10 14 6 8 18 C2 32 26 44 60 38 Z" fill="url(#satin)" />
+              <path d="M60 32 C76 10 106 6 112 18 C118 32 94 44 60 38 Z" fill="url(#satin)" />
+              <path d="M58 33 C42 20 22 16 16 22" fill="none" style={{ stroke: "var(--ribbon-light)" }} strokeWidth="1.2" opacity="0.7" />
+              <path d="M62 33 C78 20 98 16 104 22" fill="none" style={{ stroke: "var(--ribbon-light)" }} strokeWidth="1.2" opacity="0.7" />
+              {/* 매듭 */}
+              <rect x="53" y="28" width="14" height="14" rx="4" fill="url(#satin)" />
+              <path d="M55 31 Q60 35 65 31" fill="none" style={{ stroke: "var(--ribbon-dark)" }} strokeWidth="1" />
+            </svg>
+          </div>
         </Button>
 
         <div className="mt-12 w-full text-center">

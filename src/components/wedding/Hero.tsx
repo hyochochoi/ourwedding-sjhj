@@ -16,7 +16,7 @@ function PaperClip({ className }: { className?: string }) {
 
 export function Hero() {
   return (
-    <section className="cover-paper relative w-full overflow-hidden bg-background pb-10 pt-8 text-center">
+    <section className="dotted-bg relative w-full overflow-hidden pb-10 pt-8 text-center">
       <p className="serif-title text-[0.7rem] tracking-[0.3em] text-primary/80">SANG JIN &amp; HYO JEONG</p>
       <h1 className="font-cover relative z-10 mt-5 -rotate-3 text-[5rem] font-normal leading-[0.8] text-primary">
         Our
@@ -24,7 +24,7 @@ export function Hero() {
         Wedding
       </h1>
 
-      <div className="relative -mt-6 mx-auto aspect-[100/92] w-[104%] -translate-x-[2%]">
+      <div className="relative mt-6 mx-auto aspect-[100/92] w-[104%] -translate-x-[2%]">
         <svg viewBox="0 0 100 92" className="absolute inset-0 size-full drop-shadow-xl" aria-hidden>
           <path
             d="M50 92 C30 78 0 58 0 28 C0 10 12 0 26 0 C38 0 46 7 50 16 C54 7 62 0 74 0 C88 0 100 10 100 28 C100 58 70 78 50 92 Z"
@@ -39,12 +39,12 @@ export function Hero() {
             <img src={heroImage} alt={`${WEDDING.groom.name} 그리고 ${WEDDING.bride.name}`} className="no-zoom aspect-square w-full object-cover" />
           )}
         </div>
-        <div className="absolute inset-x-[24%] top-[66%] text-paper-foreground">
-          <p className="text-base font-semibold tracking-wide">
-            {WEDDING.groom.name} <span className="mx-1 font-light">—</span> {WEDDING.bride.name}
+        <div className="absolute inset-x-[18%] top-[63%] text-paper-foreground">
+          <p className="text-lg font-semibold tracking-[0.12em]">
+            {WEDDING.groom.name} <span className="mx-2 font-light">—</span> {WEDDING.bride.name}
           </p>
-          <p className="mt-1.5 text-[0.68rem] opacity-80">2027. 03. 14 일요일 오후 1시</p>
-          <p className="text-[0.68rem] opacity-80">{WEDDING.venue}</p>
+          <p className="mt-2 text-xs tracking-wide opacity-85">2027. 03. 14 일요일 오후 1시</p>
+          <p className="mt-0.5 text-xs opacity-75">{WEDDING.venue}</p>
         </div>
       </div>
     </section>
