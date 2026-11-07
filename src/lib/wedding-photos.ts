@@ -1,12 +1,38 @@
-import cover from "@/assets/효정님-05848_복사.jpeg.asset.json";
-import p1 from "@/assets/DSC05540.jpeg.asset.json";
-import p2 from "@/assets/DSC05350.jpeg.asset.json";
-import p3 from "@/assets/IMG_2596.jpeg.asset.json";
-import p4 from "@/assets/IMG_2811.jpeg.asset.json";
-import p5 from "@/assets/IMG_2753.jpeg.asset.json";
-import p6 from "@/assets/IMG_2804.jpeg.asset.json";
-import p7 from "@/assets/IMG_2663.jpeg.asset.json";
-import p8 from "@/assets/IMG_2788.jpeg.asset.json";
-import p9 from "@/assets/IMG_2756.jpeg.asset.json";
-export const COVER_PHOTO = cover.url;
-export const WEDDING_PHOTOS = [p1,p2,p3,p4,p5,p6,p7,p8,p9].map((asset, i) => ({ src: asset.url, alt: `상진과 효정의 순간 ${i + 1}` }));
+export const COVER_PHOTO = "/wedding-cover.jpg";
+export const WEDDING_PHOTOS = Array.from({ length: 24 }, (_, i) => ({
+  src: `/wedding-gallery/${String(i + 1).padStart(2, "0")}.jpg`,
+  alt: `상진과 효정의 순간 ${i + 1}`,
+}));
+const invitationFilmPhotoFiles = [
+  "KakaoTalk_20261107_115540288.jpg",
+  "KakaoTalk_20261107_115540288_01.jpg",
+  "KakaoTalk_20261107_115540288_02.jpg",
+  "KakaoTalk_20261107_115540288_03.jpg",
+  "KakaoTalk_20261107_115540288_04.jpg",
+  "KakaoTalk_20261107_115540288_05.jpg",
+  "KakaoTalk_20261107_115540288_06.jpg",
+  "KakaoTalk_20261107_115540288_07.jpg",
+  "KakaoTalk_20261107_115540288_09.jpg",
+  "KakaoTalk_20261107_115540288_10.jpg",
+  "KakaoTalk_20261107_115540288_11.jpg",
+  "KakaoTalk_20261107_115540288_12.jpg",
+  "KakaoTalk_20261107_115540288_15.jpg",
+  "KakaoTalk_20261107_115540288_16.jpg",
+  "KakaoTalk_20261107_115540288_18.jpg",
+  "KakaoTalk_20261107_115540288_19.jpg",
+  "KakaoTalk_20261107_115540288_20.jpg",
+  "KakaoTalk_20261107_115540288_21.jpg",
+  "KakaoTalk_20261107_115540288_22.jpg",
+  "KakaoTalk_20261107_115729175.jpg",
+  "KakaoTalk_20261107_115729175_01.jpg",
+  "KakaoTalk_20261107_115729175_02.jpg",
+  "KakaoTalk_20261107_115729175_03.jpg",
+  "KakaoTalk_20261107_115729175_04.jpg",
+  "KakaoTalk_20261107_115729175_05.jpg",
+  "KakaoTalk_20261107_115729175_06.jpg",
+  "KakaoTalk_20261107_115729175_07.jpg",
+] as const;
+export const INVITATION_FILM_PHOTOS = invitationFilmPhotoFiles.map((file, i) => ({
+  src: `/invitation-film/${file}`,
+  alt: `상진과 효정의 추억 ${i + 1}`,
+}));

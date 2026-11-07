@@ -1,7 +1,26 @@
 export type DayMode = "normal" | "day" | "after";
-export type SectionId = "invitation" | "gallery" | "date" | "location" | "info" | "gift" | "contact" | "stars" | "photos" | "rsvp";
+export type SectionId =
+  | "invitation"
+  | "date"
+  | "location"
+  | "info"
+  | "gallery"
+  | "gift"
+  | "stars"
+  | "photos"
+  | "thankyou";
 
-const NORMAL: SectionId[] = ["invitation", "date", "location", "info", "gallery", "gift", "contact", "photos", "stars", "rsvp"];
+const NORMAL: SectionId[] = [
+  "invitation",
+  "date",
+  "location",
+  "info",
+  "gallery",
+  "gift",
+  "stars",
+  "photos",
+  "thankyou",
+];
 const DAY_FIRST: SectionId[] = ["date", "location", "stars", "photos"];
 const AFTER_FIRST: SectionId[] = ["photos", "gift"];
 

@@ -16,36 +16,62 @@ function PaperClip({ className }: { className?: string }) {
 
 export function Hero() {
   return (
-    <section className="dotted-bg relative w-full overflow-hidden pb-10 pt-8 text-center">
-      <p className="serif-title text-[0.7rem] tracking-[0.3em] text-primary/80">SANG JIN &amp; HYO JEONG</p>
-      <h1 className="font-cover relative z-10 mt-5 -rotate-3 text-[5rem] font-normal leading-[0.8] text-primary">
-        Our
-        <br />
-        Wedding
+    <section className="hero-invitation relative isolate min-h-[min(100svh,900px)] w-full overflow-hidden text-center">
+      <div className="hero-name-label absolute inset-x-5 top-[1.5%] z-20 flex justify-between text-[0.82rem] font-bold tracking-[0.16em]">
+        <span>SANGJIN</span>
+        <span>HYOJEONG</span>
+      </div>
+      <h1 className="hero-script-title absolute inset-x-0 top-[4%] z-10 flex flex-col items-center">
+        <span>Our</span>
+        <span>Wedding</span>
       </h1>
 
-      <div className="relative mt-6 mx-auto aspect-[100/92] w-[104%] -translate-x-[2%]">
-        <svg viewBox="0 0 100 92" className="absolute inset-0 size-full drop-shadow-xl" aria-hidden>
+      <svg
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        className="hero-heart absolute left-1/2 top-[25%] w-[142%] max-w-none -translate-x-1/2"
+        aria-hidden
+      >
+        <defs>
           <path
-            d="M50 92 C30 78 0 58 0 28 C0 10 12 0 26 0 C38 0 46 7 50 16 C54 7 62 0 74 0 C88 0 100 10 100 28 C100 58 70 78 50 92 Z"
-            className="fill-cream"
+            id="hero-heart-shape"
+            d="M50 100 C38 89 0 58 0 29 C0 11 12 0 27 0 C38 0 46 7 50 18 C54 7 62 0 73 0 C88 0 100 11 100 29 C100 58 62 89 50 100 Z"
           />
-        </svg>
-        <div className="absolute left-1/2 top-[17%] w-[40%] -translate-x-1/2 shadow-lg">
-          <PaperClip className="absolute -top-5 right-4 z-10 h-12 w-4 rotate-[6deg]" />
+        </defs>
+        <use href="#hero-heart-shape" className="hero-heart-paper" />
+      </svg>
+
+      <div className="hero-photo absolute left-1/2 top-[40%] z-10 w-[min(60%,260px)] -translate-x-1/2">
+        <PaperClip className="absolute -top-[14%] left-[68%] z-10 h-[22%] w-[8%] rotate-[6deg]" />
+        <div className="hero-photo-frame aspect-square overflow-hidden">
           {HERO_VIDEO_URL ? (
-            <video src={HERO_VIDEO_URL} poster={heroImage} autoPlay muted loop playsInline className="no-zoom aspect-square w-full object-cover" />
+            <video
+              src={HERO_VIDEO_URL}
+              poster={heroImage}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="no-zoom slow-zoom aspect-square w-full object-cover"
+            />
           ) : (
-            <img src={heroImage} alt={`${WEDDING.groom.name} 그리고 ${WEDDING.bride.name}`} className="no-zoom aspect-square w-full object-cover" />
+            <img
+              src={heroImage}
+              alt={`${WEDDING.groom.name} 그리고 ${WEDDING.bride.name}`}
+              className="no-zoom slow-zoom aspect-square w-full object-cover"
+            />
           )}
         </div>
-        <div className="absolute inset-x-[18%] top-[63%] text-paper-foreground">
-          <p className="text-lg font-semibold tracking-[0.12em]">
-            {WEDDING.groom.name} <span className="mx-2 font-light">—</span> {WEDDING.bride.name}
-          </p>
-          <p className="mt-2 text-xs tracking-wide opacity-85">2027. 03. 14 일요일 오후 1시</p>
-          <p className="mt-0.5 text-xs opacity-75">{WEDDING.venue}</p>
-        </div>
+      </div>
+
+      <div className="hero-caption absolute inset-x-0 top-[74%] z-10 px-4">
+        <p className="text-lg font-semibold tracking-[0.08em]">
+          {WEDDING.groom.name} <span className="mx-2 font-light">—</span> {WEDDING.bride.name}
+        </p>
+        <p className="mt-2 text-xs tracking-wide">{WEDDING.dateLabel}</p>
+        <p className="mt-1 text-xs">
+          {WEDDING.venue} {WEDDING.hall}
+        </p>
       </div>
     </section>
   );

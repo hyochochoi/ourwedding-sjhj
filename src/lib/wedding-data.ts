@@ -35,18 +35,16 @@ export type Account = {
   name: string;
   bank: string;
   number: string;
-  kakaopay?: string;
-  toss?: string;
 };
 
 export const GROOM_ACCOUNTS: Account[] = [
-  { relation: "신랑", name: "이상진", bank: "국민은행", number: "123456-01-234567", kakaopay: "https://qr.kakaopay.com/FAKE0001" },
+  { relation: "신랑", name: "이상진", bank: "국민은행", number: "123456-01-234567" },
   { relation: "신랑 아버지", name: "이승학", bank: "농협은행", number: "301-1234-5678-91" },
   { relation: "신랑 어머니", name: "박영미", bank: "우리은행", number: "1002-345-678901" },
 ];
 
 export const BRIDE_ACCOUNTS: Account[] = [
-  { relation: "신부", name: "최효정", bank: "신한은행", number: "110-534-567890", kakaopay: "https://qr.kakaopay.com/FAKE0002" },
+  { relation: "신부", name: "최효정", bank: "신한은행", number: "110-534-567890" },
   { relation: "신부 아버지", name: "최진혁", bank: "하나은행", number: "123-456789-01234" },
   { relation: "신부 어머니", name: "정대영", bank: "기업은행", number: "010-1234-5678-9" },
 ];

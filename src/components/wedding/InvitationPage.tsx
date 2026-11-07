@@ -9,9 +9,8 @@ import { VenueInfo } from "@/components/wedding/VenueInfo";
 import { Accounts } from "@/components/wedding/Accounts";
 import { Guestbook } from "@/components/wedding/Guestbook";
 import { GuestPhotosSection } from "@/components/wedding/GuestPhotos";
-import { RsvpSection } from "@/components/wedding/RsvpSection";
 import { WeddingDayPopup } from "@/components/wedding/WeddingDayPopup";
-import { Footer } from "@/components/wedding/Footer";
+import { ThankYou } from "@/components/wedding/ThankYou";
 import { StarDivider } from "@/components/wedding/Section";
 import { getDayMode, orderSections, type DayMode, type SectionId } from "@/lib/day-mode";
 
@@ -33,10 +32,9 @@ export function InvitationPage({ guestName }: { guestName?: string | null }) {
     location: <Location />,
     info: <VenueInfo />,
     gift: <Accounts />,
-    contact: <Accounts contactsOnly />,
     stars: <Guestbook />,
     photos: <GuestPhotosSection />,
-    rsvp: <RsvpSection guestName={guestName ?? ""} />,
+    thankyou: <ThankYou />,
   };
 
   return (
@@ -44,13 +42,13 @@ export function InvitationPage({ guestName }: { guestName?: string | null }) {
       {envelopeOpen && <Envelope guestName={displayName} onClose={() => setEnvelopeOpen(false)} />}
       {!envelopeOpen && mode !== "normal" && <WeddingDayPopup />}
       <Hero />
+      <StarDivider />
       {orderSections(mode).map((id, i) => (
         <Fragment key={id}>
           {i > 0 && <StarDivider />}
           {sections[id]}
         </Fragment>
       ))}
-      <Footer />
     </div>
   );
 }

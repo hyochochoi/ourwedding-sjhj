@@ -28,7 +28,10 @@ export function DateSection() {
   const countdown = useCountdown();
 
   return (
-    <Section eyebrow="The Day" title="2027. 03. 14">
+    <Section eyebrow="The Day" title="2027년 3월 14일 오후 1시">
+      <p className="mb-5 text-center text-sm font-medium tracking-wide text-foreground">
+        2027년 3월 14일 오후 1시
+      </p>
       <div className="soft-card p-4">
         <p className="serif-title mb-3 text-center text-lg">3월</p>
         <div className="grid grid-cols-7 gap-y-1 text-center">

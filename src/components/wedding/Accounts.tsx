@@ -3,6 +3,7 @@ import { Check, Copy, MessageSquare, Phone } from "lucide-react";
 import { Section } from "@/components/wedding/Section";
 import { GuestPhotosButton } from "@/components/wedding/GuestPhotos";
 import { toast } from "sonner";
+import type { ReactNode } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -19,9 +20,10 @@ import {
   type Contact,
 } from "@/lib/wedding-data";
 
-function AccountRow({ account }: { account: Account }) {
+function AccountRow({ account, contact }: { account: Account; contact?: Contact }) {
   const [copied, setCopied] = useState(false);
   const full = `${account.bank} ${account.number} ${account.name}`;
+  const tel = contact?.phone.replace(/\D/g, "");
 
   async function copy() {
     if (!account.number) {
@@ -39,7 +41,7 @@ function AccountRow({ account }: { account: Account }) {
   }
 
   return (
-    <div className="rounded-2xl border border-border bg-secondary/30 p-4">
+    <div className="account-card rounded-2xl border border-border bg-secondary/30 p-4">
       <p className="text-[0.7rem] text-muted-foreground">{account.relation}</p>
       <p className="serif-title mt-0.5 text-sm">{account.name}</p>
       <p className="mt-1 text-xs text-foreground/85">
@@ -51,39 +53,26 @@ function AccountRow({ account }: { account: Account }) {
           {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
           {copied ? "복사 완료" : "계좌번호 복사"}
         </Button>
-        {account.kakaopay && (
-          <Button size="sm" variant="secondary" className="rounded-full" asChild>
-            <a href={account.kakaopay} target="_blank" rel="noreferrer">
-              카카오페이 송금
-            </a>
-          </Button>
+        {contact && tel && (
+          <>
+            <Button size="sm" variant="secondary" className="rounded-full" asChild>
+              <a href={`tel:${tel}`} aria-label={`${contact.name}에게 전화`}>
+                <Phone className="size-3.5" /> 통화
+              </a>
+            </Button>
+            <Button size="sm" variant="secondary" className="rounded-full" asChild>
+              <a href={`sms:${tel}`} aria-label={`${contact.name}에게 문자`}>
+                <MessageSquare className="size-3.5" /> 메시지
+              </a>
+            </Button>
+          </>
         )}
       </div>
     </div>
   );
 }
 
-function ContactRow({ person }: { person: Contact }) {
-  const tel = person.phone.replace(/-/g, "");
-  return (
-    <div className="flex items-center justify-between rounded-2xl border border-border bg-secondary/30 px-4 py-3">
-      <div>
-        <p className="text-[0.7rem] text-muted-foreground">{person.relation}</p>
-        <p className="serif-title text-sm">{person.name}</p>
-      </div>
-      <div className="flex gap-2">
-        <a href={`tel:${tel}`} aria-label={`${person.name}에게 전화`} className="rounded-full border border-primary/40 p-2 text-primary">
-          <Phone className="size-4" />
-        </a>
-        <a href={`sms:${tel}`} aria-label={`${person.name}에게 문자`} className="rounded-full border border-primary/40 p-2 text-primary">
-          <MessageSquare className="size-4" />
-        </a>
-      </div>
-    </div>
-  );
-}
-
-function Group({ value, title, children }: { value: string; title: string; children: React.ReactNode }) {
+function Group({ value, title, children }: { value: string; title: string; children: ReactNode }) {
   return (
     <AccordionItem value={value} className="soft-card overflow-hidden border-b-0 px-4">
       <AccordionTrigger className="text-sm hover:no-underline">{title}</AccordionTrigger>
@@ -92,38 +81,39 @@ function Group({ value, title, children }: { value: string; title: string; child
   );
 }
 
-export function Accounts({ contactsOnly = false, includePhotos = false }: { contactsOnly?: boolean; includePhotos?: boolean }) {
+export function Accounts({ includePhotos = false }: { includePhotos?: boolean }) {
   return (
-    <Section eyebrow={contactsOnly ? "Contact" : "With Heart"} title={contactsOnly ? "연락하기" : "마음 전하실 곳"}>
+    <Section eyebrow="With Heart" title="마음 전하실 곳">
       <div className="tab-fade">
-        {!contactsOnly ? (
-          <>
-            <p className="mb-4 text-center text-xs leading-relaxed text-muted-foreground">
-              축하의 마음을 담아 축의금을 전달하실 수 있도록
-              <br />
-              계좌번호를 안내드립니다.
-            </p>
-            <Accordion type="single" collapsible className="space-y-3">
-              <Group value="groom" title="신랑측 계좌번호">
-                {GROOM_ACCOUNTS.map((a) => <AccountRow key={a.relation} account={a} />)}
-              </Group>
-              <Group value="bride" title="신부측 계좌번호">
-                {BRIDE_ACCOUNTS.map((a) => <AccountRow key={a.relation} account={a} />)}
-              </Group>
-            </Accordion>
-          </>
-        ) : (
-          <Accordion type="multiple" className="space-y-3">
-            <Group value="groom" title="신랑측 연락처">
-              {GROOM_CONTACTS.map((p) => <ContactRow key={p.relation} person={p} />)}
-            </Group>
-            <Group value="bride" title="신부측 연락처">
-              {BRIDE_CONTACTS.map((p) => <ContactRow key={p.relation} person={p} />)}
-            </Group>
-          </Accordion>
-        )}
+        <p className="mb-4 text-center text-xs leading-relaxed text-muted-foreground">
+          축하의 마음을 전달하실 수 있도록 안내 드립니다.
+        </p>
+        <Accordion type="single" collapsible className="space-y-3">
+          <Group value="groom" title="신랑측">
+            {GROOM_ACCOUNTS.map((account) => (
+              <AccountRow
+                key={account.relation}
+                account={account}
+                contact={GROOM_CONTACTS.find((person) => person.relation === account.relation)}
+              />
+            ))}
+          </Group>
+          <Group value="bride" title="신부측">
+            {BRIDE_ACCOUNTS.map((account) => (
+              <AccountRow
+                key={account.relation}
+                account={account}
+                contact={BRIDE_CONTACTS.find((person) => person.relation === account.relation)}
+              />
+            ))}
+          </Group>
+        </Accordion>
       </div>
-      {includePhotos && <div className="mt-6"><GuestPhotosButton /></div>}
+      {includePhotos && (
+        <div className="mt-6">
+          <GuestPhotosButton />
+        </div>
+      )}
     </Section>
   );
 }
