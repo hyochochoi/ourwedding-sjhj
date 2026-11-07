@@ -5,7 +5,10 @@ const CARDS = [
   { title: "식사", lines: ["뷔페 · 9층 웨딩홀 옆 연회장 이용"] },
   { title: "주차", lines: ["하객 주차 2시간 무료", "홀 내부 주차 정산기 등록 필요"] },
   { title: "ATM", lines: ["1층 · 기업은행 ATM", "9층 · 하나은행 ATM"] },
-  { title: "포토부스", lines: ["홀 입구에 포토부스 위치", "즉석 인화 사진과 함께 오늘의 추억을 남겨주세요."] },
+  {
+    title: "포토부스",
+    lines: ["홀 입구에 포토부스 위치", "즉석 인화 사진과 함께 오늘의 추억을 남겨주세요."],
+  },
 ];
 
 export function VenueInfo() {
@@ -23,7 +26,7 @@ export function VenueInfo() {
 
   return (
     <Section eyebrow="Information" title="안내 사항">
-      <div className="notice-carousel px-1">
+      <div className="notice-carousel mx-auto max-w-[380px] px-1">
         <div
           className="notice-carousel__viewport"
           role="region"
@@ -48,26 +51,28 @@ export function VenueInfo() {
                 aria-hidden={active !== i}
                 aria-label={`${i + 1} / ${CARDS.length}: ${card.title}`}
               >
-                    <header className="flex items-center justify-between border-b border-paper-foreground/15 pb-3 text-[0.62rem] tracking-[0.16em] text-paper-foreground/60">
-                      <span className="flex items-center gap-2 font-semibold">
-                        <span className="size-1.5 rounded-full bg-primary" aria-hidden="true" />
-                        NOTICE
-                      </span>
-                      <span>
-                        {String(i + 1).padStart(2, "0")} / {String(CARDS.length).padStart(2, "0")}
-                      </span>
-                    </header>
-                    <div className="pt-6">
-                      <h3 className="serif-title text-base text-paper-foreground">{card.title}</h3>
-                      <ul className="mt-3 space-y-1.5 text-[0.78rem] leading-relaxed text-paper-foreground/80">
-                        {card.lines.map((line) => (
-                          <li key={line} className="break-keep">
-                            {line}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </article>
+                <header className="flex items-center justify-between border-b border-paper-foreground/15 pb-3 text-[0.62rem] tracking-[0.16em] text-paper-foreground/60">
+                  <span className="flex items-center gap-2 font-semibold">
+                    <span className="size-1.5 rounded-full bg-primary" aria-hidden="true" />
+                    NOTICE
+                  </span>
+                  <span>
+                    {String(i + 1).padStart(2, "0")} / {String(CARDS.length).padStart(2, "0")}
+                  </span>
+                </header>
+                <div className="pt-6">
+                  <h3 className="serif-title text-base font-bold text-paper-foreground">
+                    {card.title}
+                  </h3>
+                  <ul className="mt-3 space-y-1.5 text-[0.78rem] leading-relaxed text-paper-foreground/80">
+                    {card.lines.map((line) => (
+                      <li key={line} className="break-keep">
+                        {line}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
             ))}
           </div>
         </div>

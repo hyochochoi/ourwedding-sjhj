@@ -17,11 +17,11 @@ function PaperClip({ className }: { className?: string }) {
 export function Hero() {
   return (
     <section className="hero-invitation relative isolate min-h-[min(100svh,900px)] w-full overflow-hidden text-center">
-      <div className="hero-name-label absolute inset-x-5 top-[1.5%] z-20 flex justify-between text-[0.82rem] font-bold tracking-[0.16em]">
+      <div className="hero-name-label absolute inset-x-5 top-[0.5%] z-20 flex justify-between text-[0.82rem] font-bold tracking-[0.16em]">
         <span>SANGJIN</span>
         <span>HYOJEONG</span>
       </div>
-      <h1 className="hero-script-title absolute inset-x-0 top-[4%] z-10 flex flex-col items-center">
+      <h1 className="hero-script-title absolute inset-x-0 top-[6%] z-10 flex flex-col items-center">
         <span>Our</span>
         <span>Wedding</span>
       </h1>

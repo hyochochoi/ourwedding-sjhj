@@ -22,8 +22,8 @@ function FilmStrip({
     >
       <div className={`flex w-max ${reverse ? "film-roll-reverse" : "film-roll"}`}>
         {frames.map((src, i) => (
-          <div key={i} className="w-[calc(480px/3.5714)] max-w-[28vw] shrink-0 px-[3px]">
-            <div className="film-sprockets h-2" />
+          <div key={i} className="w-[calc(480px/4)] max-w-[25vw] shrink-0 px-[3px]">
+            <div className="film-sprockets h-1.5" />
             <div className="my-1 border border-film bg-film p-[2px]">
               <img
                 src={src}
@@ -32,7 +32,7 @@ function FilmStrip({
                 className="no-zoom aspect-[3/2] w-full object-cover"
               />
             </div>
-            <div className="film-sprockets h-2" />
+            <div className="film-sprockets h-1.5" />
           </div>
         ))}
       </div>
@@ -81,12 +81,14 @@ export function Invitation() {
 
       <div className="mx-[-0.5rem] mt-10 space-y-1 text-center text-[0.95rem] text-foreground/80">
         <p className="whitespace-nowrap">
-          {WEDDING.groom.father} · {WEDDING.groom.mother}의 장남{" "}
-          <strong className="font-bold">{WEDDING.groom.name}</strong>
+          {WEDDING.groom.father} · {WEDDING.groom.mother}
+          <span className="text-xs">의 장남</span>{" "}
+          <strong className="font-bold">{WEDDING.groom.name.slice(1)}</strong>
         </p>
         <p className="whitespace-nowrap">
-          {WEDDING.bride.father} · {WEDDING.bride.mother}의 장녀{" "}
-          <strong className="font-bold">{WEDDING.bride.name}</strong>
+          {WEDDING.bride.father} · {WEDDING.bride.mother}
+          <span className="text-xs">의 장녀</span>{" "}
+          <strong className="font-bold">{WEDDING.bride.name.slice(1)}</strong>
         </p>
       </div>
     </Section>

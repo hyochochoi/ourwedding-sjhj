@@ -55,7 +55,7 @@ export function Envelope({ guestName, onClose }: { guestName: string; onClose: (
           <div
             className={cn(
               "invitation-paper absolute inset-x-[12%] bottom-2 z-[5] h-[90%] bg-paper px-3 pt-5 text-center text-paper-foreground shadow-sm",
-              lifted && "letter-rise-now",
+              lifted && "letter-rise-now z-[9]",
             )}
           >
             <p className="whitespace-nowrap font-display text-[2.2rem] leading-none text-paper-foreground">
@@ -98,7 +98,10 @@ export function Envelope({ guestName, onClose }: { guestName: string; onClose: (
             aria-hidden
           />
           <div
-            className="envelope-stitches pointer-events-none absolute inset-[4%] z-[16]"
+            className={cn(
+              "envelope-stitches pointer-events-none absolute inset-[4%]",
+              phase === "closed" ? "z-[16]" : "z-[8]",
+            )}
             aria-hidden
           />
           {/* 덮개 */}

@@ -1,7 +1,8 @@
 export const COVER_PHOTO = "/wedding-cover.jpg";
-export const WEDDING_PHOTOS = Array.from({ length: 24 }, (_, i) => ({
-  src: `/wedding-gallery/${String(i + 1).padStart(2, "0")}.jpg`,
-  alt: `상진과 효정의 순간 ${i + 1}`,
+const weddingPhotoNumbers = [1, 3, 4, 5, 6, 8, 9, 11, 12, 13, 15, 16, 17, 20, 19, 18, 21, 22];
+export const WEDDING_PHOTOS = weddingPhotoNumbers.map((photoNumber) => ({
+  src: `/wedding-gallery/${String(photoNumber).padStart(2, "0")}.jpg`,
+  alt: `상진과 효정의 순간 ${photoNumber}`,
 }));
 const invitationFilmPhotoFiles = [
   "KakaoTalk_20261107_115540288.jpg",

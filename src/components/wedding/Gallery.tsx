@@ -8,19 +8,13 @@ export function Gallery() {
 
   return (
     <Section eyebrow="Gallery" title="우리의 순간">
-      <div
-        className="grid grid-cols-4 gap-1.5"
-        onContextMenu={(e) => e.preventDefault()}
-      >
+      <div className="grid grid-cols-3 gap-1.5" onContextMenu={(e) => e.preventDefault()}>
         {PHOTOS.map((photo, i) => (
-          <figure
-            key={i}
-            className="overflow-hidden rounded-lg border border-border"
-          >
+          <figure key={i} className="overflow-hidden rounded-lg border border-border">
             <button
               type="button"
               className="block w-full cursor-pointer"
-              aria-label={`사진 ${i + 1} 크게 보기`}
+              aria-label={`${photo.alt} 크게 보기`}
               onClick={() => setSelectedPhoto(photo)}
             >
               <img
@@ -36,7 +30,10 @@ export function Gallery() {
           </figure>
         ))}
       </div>
-      <Dialog open={selectedPhoto !== null} onOpenChange={(open) => !open && setSelectedPhoto(null)}>
+      <Dialog
+        open={selectedPhoto !== null}
+        onOpenChange={(open) => !open && setSelectedPhoto(null)}
+      >
         <DialogContent
           className="w-[calc(100%-1rem)] max-w-[900px] border-0 bg-transparent p-2 shadow-none sm:rounded-none"
           onContextMenu={(event) => event.preventDefault()}

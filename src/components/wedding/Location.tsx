@@ -54,9 +54,9 @@ const DIRECTIONS = [
       <>
         <strong>웨스턴타워 3차 B동 지하주차장</strong> 이용 (1,300대 가능)
       </>,
-      <>B2층 주차 시 CGV 엘리베이터 탑승 후 B1층 하차</>,
       <>
-        건너편 <strong>6, 7호기 엘리베이터</strong> 이용
+        B2층 주차 시 CGV 엘리베이터 탑승 후 B1층 하차
+        <br />→ 건너편 <strong>6, 7호기 엘리베이터</strong> 이용하여 <strong>9F 하차</strong>
       </>,
     ],
   },
