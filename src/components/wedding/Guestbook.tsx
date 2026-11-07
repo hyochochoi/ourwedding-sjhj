@@ -168,7 +168,7 @@ export function Guestbook() {
           {sent
             ? "우리의 밤하늘에 별이 함께 빛나요"
             : stars.length > 0
-              ? `모두의 축하 별 ${stars.length}개 · 밤하늘을 눌러 내 별 놓기`
+              ? "모두의 축하 별이 빛나요 · 밤하늘을 눌러 내 별 놓기"
               : pos
                 ? "자리를 골랐어요"
                 : "눌러서 내 별 자리 고르기"}

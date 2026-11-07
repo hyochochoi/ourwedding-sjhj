@@ -35,7 +35,13 @@ export function Envelope({ guestName, onClose }: { guestName: string; onClose: (
             Wedding Invitation
           </h1>
           <p className="mt-4 text-center text-sm leading-relaxed text-foreground/90">
-            저희의 특별한 날에 {guestName === "소중한 분" ? "당신" : `${guestName}님`}을 초대합니다.
+            이상진 · 최효정, 저희 둘의
+            <br />
+            가장 특별한 순간에{" "}
+            <span className="text-[calc(1em+0.5px)] font-semibold">
+              {guestName === "소중한 분" ? "당신" : `${guestName}님`}
+            </span>
+            을 초대합니다.
           </p>
         </div>
         <Button
