@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { WEDDING } from "@/lib/wedding-data";
 
-const KEY = import.meta.env["KAKAO_MAP_KEY"] as string | undefined;
+// 로컬(Vite)과 Lovable 환경 변수 이름을 모두 지원하도록 설정
+const KEY = import.meta.env["VITE_KAKAO_MAP_KEY"] || "45e030ffdede598b85a726096551427a";
 
 type KakaoLatLng = object;
 type KakaoMapInstance = object;
