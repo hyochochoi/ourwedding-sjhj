@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { WEDDING } from "@/lib/wedding-data";
 
-const KEY = import.meta.env["VITE_KAKAO_MAP_KEY"] as string | undefined;
+const KEY = import.meta.env["KAKAO_MAP_KEY"] as string | undefined;
 
 type KakaoLatLng = object;
 type KakaoMapInstance = object;
