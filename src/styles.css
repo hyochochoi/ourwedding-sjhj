@@ -6,7 +6,7 @@
 
 /*
  * 모바일 청첩장 디자인 시스템
- * 다크 올리브 배경 + 라임 그린 포인트
+ * 소프트 핑크 배경 + 로즈 핑크 포인트
  */
 
 @theme inline {
@@ -52,53 +52,53 @@
 
 :root {
   --radius: 0.75rem;
-  --background: oklch(0.372 0.028 115);
-  --foreground: oklch(0.955 0.014 100);
-  --card: oklch(0.418 0.028 115);
-  --card-foreground: oklch(0.955 0.014 100);
-  --popover: oklch(0.372 0.028 115);
-  --popover-foreground: oklch(0.955 0.014 100);
-  --primary: oklch(0.896 0.093 113);
-  --primary-foreground: oklch(0.3 0.03 115);
-  --secondary: oklch(0.455 0.026 115);
-  --secondary-foreground: oklch(0.955 0.014 100);
-  --muted: oklch(0.44 0.025 115);
-  --muted-foreground: oklch(0.8 0.025 110);
-  --accent: oklch(0.896 0.093 113);
-  --accent-foreground: oklch(0.3 0.03 115);
+  --background: oklch(0.975 0.018 355);
+  --foreground: oklch(0.3 0.045 350);
+  --card: oklch(0.995 0.008 350);
+  --card-foreground: oklch(0.3 0.045 350);
+  --popover: oklch(0.99 0.012 355);
+  --popover-foreground: oklch(0.3 0.045 350);
+  --primary: oklch(0.66 0.19 2);
+  --primary-foreground: oklch(0.99 0.008 350);
+  --secondary: oklch(0.93 0.035 350);
+  --secondary-foreground: oklch(0.34 0.06 350);
+  --muted: oklch(0.95 0.02 350);
+  --muted-foreground: oklch(0.49 0.045 350);
+  --accent: oklch(0.88 0.09 355);
+  --accent-foreground: oklch(0.34 0.07 350);
   --destructive: oklch(0.62 0.17 25);
-  --destructive-foreground: oklch(0.97 0.01 100);
-  --border: oklch(0.52 0.03 113 / 55%);
-  --input: oklch(0.52 0.03 113 / 70%);
-  --ring: oklch(0.896 0.093 113);
+  --destructive-foreground: oklch(0.99 0.008 350);
+  --border: oklch(0.84 0.045 350 / 65%);
+  --input: oklch(0.84 0.045 350 / 78%);
+  --ring: oklch(0.66 0.19 2);
   --paper-grain: repeating-linear-gradient(
     115deg,
     transparent 0 2px,
-    oklch(0.32 0.03 115 / 1%) 2px 3px
+    oklch(0.48 0.06 350 / 1%) 2px 3px
   );
   --cover-grain: repeating-linear-gradient(
     25deg,
     transparent 0 2px,
-    oklch(0.96 0.025 95 / 1%) 2px 3px
+    oklch(0.96 0.035 350 / 1%) 2px 3px
   );
   --envelope-shadow:
-    0 22px 38px -14px oklch(0.25 0.03 115 / 48%), 0 8px 18px -10px oklch(0.25 0.03 115 / 28%);
-  --seal-shadow: 0 2px 5px oklch(0.25 0.03 115 / 25%), inset 0 0 0 3px oklch(0.975 0.008 100 / 50%);
-  --clip-metal: oklch(0.72 0.008 100);
+    0 22px 38px -14px oklch(0.38 0.08 350 / 24%), 0 8px 18px -10px oklch(0.38 0.08 350 / 16%);
+  --seal-shadow: 0 2px 5px oklch(0.38 0.08 350 / 18%), inset 0 0 0 3px oklch(0.99 0.01 350 / 50%);
+  --clip-metal: oklch(0.72 0.025 350);
 
   /* 흰 종이 카드 (예식장 안내 등) */
-  --paper: oklch(0.975 0.02 110);
-  --paper-foreground: oklch(0.32 0.03 115);
+  --paper: oklch(0.99 0.012 20);
+  --paper-foreground: oklch(0.32 0.045 350);
 
   /* 방명록 포스트잇 */
-  --note-1: oklch(0.93 0.09 105);
-  --note-2: oklch(0.92 0.06 60);
-  --note-3: oklch(0.92 0.05 20);
-  --note-4: oklch(0.91 0.05 330);
-  --note-5: oklch(0.91 0.06 250);
-  --note-6: oklch(0.92 0.07 160);
+  --note-1: oklch(0.94 0.06 350);
+  --note-2: oklch(0.94 0.055 25);
+  --note-3: oklch(0.93 0.06 5);
+  --note-4: oklch(0.93 0.055 330);
+  --note-5: oklch(0.93 0.045 300);
+  --note-6: oklch(0.94 0.04 15);
 
-  --dot-pattern: radial-gradient(oklch(0.896 0.093 113 / 16%) 1px, transparent 1px);
+  --dot-pattern: radial-gradient(oklch(0.66 0.19 2 / 13%) 1px, transparent 1px);
 }
 
 @layer base {
@@ -108,7 +108,7 @@
 
   html,
   body {
-    background-color: oklch(0.3 0.025 115);
+    background-color: oklch(0.94 0.025 350);
   }
 
   body {
@@ -118,7 +118,7 @@
   }
 }
 
-/* 라임 도트 패턴 배경 */
+/* 핑크 도트 패턴 배경 */
 @utility dotted-bg {
   background-color: var(--background);
   background-image: var(--dot-pattern);
@@ -177,42 +177,42 @@
 
 /* 편지봉투 오프닝 */
 :root {
-  --envelope: oklch(0.86 0.09 113);
-  --envelope-shade: oklch(0.78 0.095 115);
-  --cream: oklch(0.96 0.035 110);
-  --tape-lime: oklch(0.89 0.1 113 / 75%);
-  --tape-cream: oklch(0.95 0.03 95 / 80%);
-  --tape-green: oklch(0.55 0.06 135 / 80%);
+  --envelope: oklch(0.86 0.1 5);
+  --envelope-shade: oklch(0.76 0.12 2);
+  --cream: oklch(0.97 0.025 350);
+  --tape-pink: oklch(0.89 0.09 355 / 82%);
+  --tape-cream: oklch(0.97 0.025 20 / 85%);
+  --tape-rose: oklch(0.65 0.15 2 / 80%);
   --film: rgb(46 47 49 / 70%);
-  --sky: oklch(0.15 0.03 125);
-  --star-1: oklch(0.93 0.12 110);
-  --star-2: oklch(0.95 0.08 85);
-  --star-3: oklch(0.9 0.08 20);
-  --star-4: oklch(0.9 0.07 250);
-  --star-5: oklch(0.97 0.01 100);
-  --star-6: oklch(0.9 0.1 160);
+  --sky: oklch(0.2 0.055 350);
+  --star-1: oklch(0.96 0.07 350);
+  --star-2: oklch(0.97 0.05 20);
+  --star-3: oklch(0.94 0.08 5);
+  --star-4: oklch(0.94 0.06 320);
+  --star-5: oklch(0.98 0.015 350);
+  --star-6: oklch(0.95 0.055 30);
 }
 
 .guestbook-sky {
   background-image:
     radial-gradient(1.5px 1.5px at 12% 18%, rgb(255 255 255 / 75%) 50%, transparent 100%),
-    radial-gradient(1px 1px at 27% 72%, oklch(0.94 0.07 110 / 70%) 50%, transparent 100%),
+    radial-gradient(1px 1px at 27% 72%, oklch(0.97 0.05 350 / 70%) 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 43% 31%, rgb(255 255 255 / 65%) 50%, transparent 100%),
-    radial-gradient(1px 1px at 64% 16%, oklch(0.94 0.07 110 / 75%) 50%, transparent 100%),
+    radial-gradient(1px 1px at 64% 16%, oklch(0.97 0.05 350 / 75%) 50%, transparent 100%),
     radial-gradient(1px 1px at 79% 58%, rgb(255 255 255 / 70%) 50%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 91% 34%, oklch(0.94 0.07 110 / 65%) 50%, transparent 100%),
-    radial-gradient(ellipse at 20% 5%, oklch(0.7 0.08 125 / 12%), transparent 48%),
-    radial-gradient(ellipse at 88% 92%, oklch(0.65 0.07 105 / 10%), transparent 48%),
-    linear-gradient(155deg, oklch(0.17 0.035 125), oklch(0.12 0.03 135) 58%, oklch(0.15 0.04 112));
+    radial-gradient(1.5px 1.5px at 91% 34%, oklch(0.97 0.05 350 / 65%) 50%, transparent 100%),
+    radial-gradient(ellipse at 20% 5%, oklch(0.72 0.13 5 / 18%), transparent 48%),
+    radial-gradient(ellipse at 88% 92%, oklch(0.68 0.12 350 / 16%), transparent 48%),
+    linear-gradient(155deg, oklch(0.27 0.08 350), oklch(0.18 0.065 5) 58%, oklch(0.23 0.08 330));
 }
 
 @theme inline {
   --color-envelope: var(--envelope);
   --color-envelope-shade: var(--envelope-shade);
   --color-cream: var(--cream);
-  --color-tape-lime: var(--tape-lime);
+  --color-tape-pink: var(--tape-pink);
   --color-tape-cream: var(--tape-cream);
-  --color-tape-green: var(--tape-green);
+  --color-tape-rose: var(--tape-rose);
   --color-film: var(--film);
   --color-sky: var(--sky);
 }
@@ -262,8 +262,8 @@
   50% {
     transform: translateY(6px);
     box-shadow:
-      0 28px 42px -12px oklch(0.2 0.03 115 / 50%),
-      0 12px 22px -8px oklch(0.2 0.03 115 / 34%);
+      0 28px 42px -12px oklch(0.38 0.08 350 / 26%),
+      0 12px 22px -8px oklch(0.38 0.08 350 / 18%);
   }
 }
 @keyframes envelope-open-hint {
@@ -442,7 +442,7 @@ body {
 }
 .cover-paper {
   background-image:
-    radial-gradient(ellipse at center, transparent 55%, oklch(0.18 0.02 115 / 13%) 100%),
+    radial-gradient(ellipse at center, transparent 55%, oklch(0.48 0.08 350 / 10%) 100%),
     var(--cover-grain);
   background-size: cover, auto;
 }
@@ -498,7 +498,7 @@ body {
   box-sizing: border-box;
   flex: 0 0 100%;
   isolation: isolate;
-  border: 1px solid oklch(0.82 0.02 110 / 75%);
+  border: 1px solid oklch(0.85 0.035 350 / 75%);
   background-color: var(--paper);
   background-image: var(--paper-grain);
   color: var(--paper-foreground);
@@ -508,8 +508,8 @@ body {
 .notice-card::after {
   position: absolute;
   z-index: -1;
-  border: 1px solid oklch(0.82 0.02 110 / 55%);
-  background-color: oklch(0.94 0.018 110);
+  border: 1px solid oklch(0.85 0.035 350 / 55%);
+  background-color: oklch(0.96 0.022 350);
   content: "";
 }
 .notice-card::before {
@@ -581,10 +581,10 @@ body {
   opacity: 0.65;
 }
 .envelope-stitches {
-  border: 1px dotted oklch(0.3 0.03 115 / 25%);
+  border: 1px dotted oklch(0.42 0.08 350 / 25%);
 }
 .envelope-flap {
-  filter: drop-shadow(0 2px 2px oklch(0.25 0.03 115 / 20%));
+  filter: drop-shadow(0 2px 2px oklch(0.38 0.08 350 / 18%));
   backface-visibility: hidden;
 }
 .envelope-open-hint {
@@ -612,9 +612,9 @@ body {
   box-shadow: var(--seal-shadow);
 }
 :root {
-  --ribbon: oklch(0.36 0.04 118);
-  --ribbon-light: oklch(0.5 0.05 116);
-  --ribbon-dark: oklch(0.26 0.03 118);
+  --ribbon: oklch(0.63 0.17 2);
+  --ribbon-light: oklch(0.75 0.14 355);
+  --ribbon-dark: oklch(0.48 0.16 2);
 }
 .ribbon-band {
   background-image:
@@ -622,14 +622,14 @@ body {
     linear-gradient(to bottom, var(--ribbon-light), var(--ribbon) 45%, var(--ribbon-dark));
   box-shadow:
     inset 0 1px 0 oklch(1 0 0 / 35%),
-    inset 0 -1px 0 oklch(0.2 0.03 115 / 25%),
-    0 2px 4px oklch(0.2 0.03 115 / 30%);
+    inset 0 -1px 0 oklch(0.35 0.09 350 / 22%),
+    0 2px 4px oklch(0.35 0.09 350 / 24%);
 }
 .ribbon-bow {
-  filter: drop-shadow(0 3px 4px oklch(0.2 0.03 115 / 24%));
+  filter: drop-shadow(0 3px 4px oklch(0.35 0.09 350 / 20%));
 }
 .ribbon-knot {
-  filter: drop-shadow(0 1px 1.5px oklch(0.2 0.03 115 / 35%));
+  filter: drop-shadow(0 1px 1.5px oklch(0.35 0.09 350 / 28%));
 }
 .stroke-clip {
   stroke: var(--clip-metal);
@@ -639,14 +639,14 @@ body {
     linear-gradient(
         to bottom right,
         transparent calc(50% - 0.5px),
-        oklch(0.3 0.03 115 / 35%) 50%,
+        oklch(0.42 0.08 350 / 30%) 50%,
         transparent calc(50% + 0.5px)
       )
       left / 50% 100% no-repeat,
     linear-gradient(
         to bottom left,
         transparent calc(50% - 0.5px),
-        oklch(0.3 0.03 115 / 35%) 50%,
+        oklch(0.42 0.08 350 / 30%) 50%,
         transparent calc(50% + 0.5px)
       )
       right / 50% 100% no-repeat;

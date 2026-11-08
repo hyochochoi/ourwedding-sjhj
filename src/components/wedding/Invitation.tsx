@@ -50,7 +50,7 @@ export function Invitation() {
       <FilmStrip photos={TOP} tilt="-rotate-[0.3deg]" />
 
       <div className="relative mx-auto my-10 max-w-[320px] px-1">
-        <Tape className="-top-2 left-1/2 -translate-x-1/2 -rotate-3 bg-tape-lime" />
+        <Tape className="-top-2 left-1/2 -translate-x-1/2 -rotate-3 bg-tape-pink" />
         <div className="invitation-letter relative flex min-h-[360px] items-center justify-center rounded-md bg-cream px-5 py-10 text-paper-foreground shadow-[0_18px_40px_-20px_rgba(0,0,0,0.9)]">
           {HANDWRITTEN_LETTER_URL ? (
             <img

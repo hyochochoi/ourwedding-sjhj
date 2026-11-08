@@ -10,6 +10,7 @@ export function Envelope({ guestName, onClose }: { guestName: string; onClose: (
   const [phase, setPhase] = useState<Phase>("closed");
   const [showRsvp, setShowRsvp] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   useEffect(
     () => () => {
       if (timer.current) clearTimeout(timer.current);
@@ -25,6 +26,7 @@ export function Envelope({ guestName, onClose }: { guestName: string; onClose: (
       timer.current = setTimeout(() => setPhase("open"), 1300);
     }, 500);
   }
+
   const lifted = phase === "rising" || phase === "open";
 
   return (
@@ -44,19 +46,21 @@ export function Envelope({ guestName, onClose }: { guestName: string; onClose: (
             을 초대합니다.
           </p>
         </div>
+
         <Button
           type="button"
           variant="ghost"
           onClick={open}
           aria-label="봉투 열기"
           className={cn(
-            "envelope-stage relative block h-auto w-full shrink-0 rounded-none p-0 hover:bg-transparent",
+            "envelope-stage relative block h-[210px] w-full shrink-0 rounded-none p-0 hover:bg-transparent",
             phase === "closed" && "envelope-idle",
             phase === "closed" ? "mt-10" : "mt-8",
           )}
         >
           {/* 봉투 안쪽 */}
           <div className="envelope-back absolute inset-0 bg-envelope-shade" />
+
           {/* 카드 */}
           <div
             className={cn(
@@ -75,6 +79,7 @@ export function Envelope({ guestName, onClose }: { guestName: string; onClose: (
               <p>일산 웨스턴빌리프 웨딩홀(9F)</p>
             </div>
           </div>
+
           {/* 앞 주머니: 좌우·아래 접힘 */}
           <svg
             viewBox="0 0 100 70"
@@ -99,6 +104,7 @@ export function Envelope({ guestName, onClose }: { guestName: string; onClose: (
               opacity="0.75"
             />
           </svg>
+
           <div
             className="envelope-finish pointer-events-none absolute inset-0 z-[15]"
             aria-hidden
@@ -110,6 +116,7 @@ export function Envelope({ guestName, onClose }: { guestName: string; onClose: (
             )}
             aria-hidden
           />
+
           {/* 덮개 */}
           <svg
             viewBox="0 0 100 40"
@@ -132,70 +139,85 @@ export function Envelope({ guestName, onClose }: { guestName: string; onClose: (
               fill="none"
             />
           </svg>
-          {/* 새틴 리본 */}
+
+          {/* 봉투 중앙 크기에 맞춘 아이보리 무늬 없는 실링 왁스 */}
           <div
             className={cn(
-              "pointer-events-none absolute inset-0 z-30 transition-all duration-500",
+              "pointer-events-none absolute inset-0 z-30 transition-all duration-500 flex items-center justify-center",
               phase === "closed" ? "opacity-100" : "scale-110 opacity-0",
             )}
+            style={{ top: "14%" }}
             aria-hidden
           >
-            <div className="ribbon-band absolute inset-x-0 top-[57%] h-[13%] -translate-y-1/2" />
             <svg
-              viewBox="0 0 120 90"
-              className="ribbon-bow absolute left-1/2 top-[57%] !h-auto !w-[46%] -translate-x-1/2 -translate-y-[42%]"
+              viewBox="0 0 100 100"
+              className="w-16 h-16 shrink-0 drop-shadow-md"
             >
               <defs>
-                <linearGradient id="satin" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" style={{ stopColor: "var(--ribbon-light)" }} />
-                  <stop offset="0.5" style={{ stopColor: "var(--ribbon)" }} />
-                  <stop offset="1" style={{ stopColor: "var(--ribbon-dark)" }} />
-                </linearGradient>
+                <radialGradient id="ivory-wax-grad" cx="35%" cy="30%" r="65%">
+                  <stop offset="0%" stopColor="#ffffff" />
+                  <stop offset="45%" stopColor="#fefcf8" />
+                  <stop offset="75%" stopColor="#f3ede2" />
+                  <stop offset="100%" stopColor="#ded4c3" />
+                </radialGradient>
+                <filter id="ivory-shadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="2.5" stdDeviation="2" floodOpacity="0.25" />
+                </filter>
               </defs>
-              {/* 꼬리 */}
-              <path d="M56 34 L34 86 L42 80 L47 88 L62 38 Z" fill="url(#satin)" />
-              <path d="M64 34 L86 86 L78 80 L73 88 L58 38 Z" fill="url(#satin)" />
-              {/* 루프 */}
-              <path d="M60 32 C44 10 14 6 8 18 C2 32 26 44 60 38 Z" fill="url(#satin)" />
-              <path d="M60 32 C76 10 106 6 112 18 C118 32 94 44 60 38 Z" fill="url(#satin)" />
+
+              {/* 왁스 외곽 무늬 없는 형태 */}
               <path
-                d="M58 33 C42 20 22 16 16 22"
-                fill="none"
-                style={{ stroke: "var(--ribbon-light)" }}
-                strokeWidth="1.2"
-                opacity="0.7"
+                d="M50 7 
+                   C64 6, 73 12, 84 19 
+                   C93 27, 97 39, 94 53 
+                   C91 68, 83 79, 71 87 
+                   C58 94, 42 94, 28 87 
+                   C15 80, 6 68, 7 53 
+                   C8 38, 16 26, 27 16 
+                   C38 9, 43 8, 50 7 Z"
+                fill="url(#ivory-wax-grad)"
+                filter="url(#ivory-shadow)"
               />
+
+              {/* 안쪽 음각 림 (테두리) */}
               <path
-                d="M62 33 C78 20 98 16 104 22"
+                d="M50 17 
+                   C61 16, 69 21, 76 27 
+                   C83 34, 85 43, 83 52 
+                   C81 62, 75 70, 65 76 
+                   C55 82, 43 81, 33 76 
+                   C23 71, 17 61, 18 51 
+                   C19 40, 25 31, 33 24 
+                   C41 18, 45 17, 50 17 Z"
                 fill="none"
-                style={{ stroke: "var(--ribbon-light)" }}
-                strokeWidth="1.2"
-                opacity="0.7"
+                stroke="#c7baa4"
+                strokeWidth="1.4"
+                opacity="0.6"
               />
-              {/* 매듭 */}
-              <rect
-                x="53"
-                y="28"
-                width="14"
-                height="14"
-                rx="4"
-                fill="url(#satin)"
-                className="ribbon-knot"
-              />
+
+              {/* 안쪽 왁스 면 */}
               <path
-                d="M56 30 Q60 28 64 30"
+                d="M50 19 
+                   C60 18, 67 22, 74 28 
+                   C80 34, 82 43, 80 51 
+                   C78 60, 72 68, 63 73 
+                   C54 78, 44 77, 34 73 
+                   C25 69, 19 60, 20 50 
+                   C21 40, 26 32, 34 25 
+                   C42 19, 46 18, 50 19 Z"
+                fill="url(#ivory-wax-grad)"
+              />
+
+              {/* 하이라이트 광택 */}
+              <path
+                d="M32 25 C41 19, 53 18, 62 21"
                 fill="none"
-                style={{ stroke: "var(--ribbon-light)" }}
-                strokeWidth="1.2"
+                stroke="#ffffff"
+                strokeWidth="3.2"
                 strokeLinecap="round"
-                opacity="0.8"
+                opacity="0.85"
               />
-              <path
-                d="M55 31 Q60 35 65 31"
-                fill="none"
-                style={{ stroke: "var(--ribbon-dark)" }}
-                strokeWidth="1"
-              />
+              <circle cx="27" cy="33" r="2.2" fill="#ffffff" opacity="0.6" />
             </svg>
           </div>
         </Button>
