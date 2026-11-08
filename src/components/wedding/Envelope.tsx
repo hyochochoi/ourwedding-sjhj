@@ -6,6 +6,86 @@ import { cn } from "@/lib/utils";
 
 type Phase = "closed" | "opening" | "rising" | "open";
 
+const WAX_PALETTES = {
+  pearl: { light: "#FFFFFF", mid: "#F6F3EB", dark: "#D9D3C6", edge: "#A59E8E", ink: "#A59E8E" },
+  burgundy: { light: "#B8404E", mid: "#8C1D2C", dark: "#5E0F1C", edge: "#45090F", ink: "#45090F" },
+  rose: { light: "#DDA5AA", mid: "#B8737C", dark: "#8A4D56", edge: "#6B3841", ink: "#6B3841" },
+  ice: { light: "#B4CCDA", mid: "#7F9EB3", dark: "#566F82", edge: "#415667", ink: "#415667" },
+} as const;
+
+// 'pearl' | 'burgundy' | 'rose' | 'ice' 중에서 고르면 왁스 색이 바뀝니다
+const WAX = WAX_PALETTES.pearl;
+
+// 거의 완전한 원에 아주 미세한 불규칙함만 준 왁스 외곽
+const WAX_OUTLINE = (() => {
+  const n = 120;
+  const pts: string[] = [];
+  for (let i = 0; i < n; i++) {
+    const t = (i / n) * Math.PI * 2;
+    const r = 44 + 0.9 * Math.sin(4 * t + 0.6) + 0.6 * Math.sin(7 * t + 2);
+    pts.push(`${(50 + r * Math.cos(t)).toFixed(2)} ${(50 + r * Math.sin(t)).toFixed(2)}`);
+  }
+  return `M${pts.join("L")}Z`;
+})();
+
+// 조개(가리비) 모양 무늬: 아래 꼭짓점에서 부채꼴로 퍼지는 물결 가장자리 + 골
+const SHELL = (() => {
+  const cx = 50;
+  const cy = 67;
+  const R = 38;
+  const lobes = 7;
+  const a0 = -63;
+  const step = 126 / lobes;
+  const rad = (d: number) => (d * Math.PI) / 180;
+  const P = (deg: number, r: number) => [cx + r * Math.sin(rad(deg)), cy - r * Math.cos(rad(deg))];
+  const f = (n: number) => n.toFixed(2);
+
+  const start = P(a0, R);
+  let outline = `M${cx} ${cy} L${f(start[0])} ${f(start[1])}`;
+  for (let i = 0; i < lobes; i++) {
+    const mid = P(a0 + step * (i + 0.5), R * 1.12);
+    const end = P(a0 + step * (i + 1), R);
+    outline += ` Q${f(mid[0])} ${f(mid[1])} ${f(end[0])} ${f(end[1])}`;
+  }
+  outline += " Z";
+
+  let ribs = "";
+  for (let i = 0; i <= lobes * 2; i++) {
+    const deg = a0 + (step / 2) * i;
+    const end = P(deg, i % 2 === 0 ? R * 0.96 : R * 1.04);
+    ribs += `M${cx} ${cy - 2} L${f(end[0])} ${f(end[1])} `;
+  }
+
+  // 아래쪽 귀(힌지) 부분
+  const ears = `M${cx} ${cy - 1} L${cx - 14} ${cy + 4} Q${cx - 12} ${cy + 10} ${cx} ${cy + 9} Q${cx + 12} ${cy + 10} ${cx + 14} ${cy + 4} Z`;
+
+  return { outline, ribs, ears };
+})();
+
+function WaxShell({
+  fill,
+  stroke,
+  strokeWidth = 0,
+  rib,
+  ribWidth = 0.8,
+  ribOpacity = 1,
+}: {
+  fill: string;
+  stroke?: string;
+  strokeWidth?: number;
+  rib: string;
+  ribWidth?: number;
+  ribOpacity?: number;
+}) {
+  return (
+    <g strokeLinejoin="round" strokeLinecap="round">
+      <path d={SHELL.ears} fill={fill} stroke={stroke} strokeWidth={strokeWidth} />
+      <path d={SHELL.outline} fill={fill} stroke={stroke} strokeWidth={strokeWidth} />
+      <path d={SHELL.ribs} fill="none" stroke={rib} strokeWidth={ribWidth} opacity={ribOpacity} />
+    </g>
+  );
+}
+
 export function Envelope({ guestName, onClose }: { guestName: string; onClose: () => void }) {
   const [phase, setPhase] = useState<Phase>("closed");
   const [showRsvp, setShowRsvp] = useState(false);
@@ -33,7 +113,7 @@ export function Envelope({ guestName, onClose }: { guestName: string; onClose: (
     <div className="cover-paper fixed inset-0 z-50 overflow-y-auto bg-background px-6 text-foreground">
       <div className="mx-auto flex min-h-full max-w-[320px] flex-col items-center justify-center py-10">
         <div className={cn("envelope-welcome", phase !== "closed" && "envelope-welcome-hidden")}>
-          <h1 className="font-display text-[2.8rem] leading-none text-primary">
+          <h1 className="font-display text-[3.2rem] leading-none text-primary">
             Wedding Invitation
           </h1>
           <p className="mt-4 text-center text-sm leading-relaxed text-foreground/90">
@@ -140,84 +220,49 @@ export function Envelope({ guestName, onClose }: { guestName: string; onClose: (
             />
           </svg>
 
-          {/* 봉투 중앙 크기에 맞춘 아이보리 무늬 없는 실링 왁스 */}
+          {/* 실링 왁스 */}
           <div
             className={cn(
-              "pointer-events-none absolute inset-0 z-30 transition-all duration-500 flex items-center justify-center",
+              "pointer-events-none absolute inset-0 z-30 flex items-center justify-center transition-all duration-500",
               phase === "closed" ? "opacity-100" : "scale-110 opacity-0",
             )}
             style={{ top: "14%" }}
             aria-hidden
           >
-            <svg
-              viewBox="0 0 100 100"
-              className="w-16 h-16 shrink-0 drop-shadow-md"
-            >
+            <svg viewBox="0 0 100 100" className="!size-[68px] shrink-0 drop-shadow-md">
               <defs>
-                <radialGradient id="ivory-wax-grad" cx="35%" cy="30%" r="65%">
-                  <stop offset="0%" stopColor="#ffffff" />
-                  <stop offset="45%" stopColor="#fefcf8" />
-                  <stop offset="75%" stopColor="#f3ede2" />
-                  <stop offset="100%" stopColor="#ded4c3" />
+                <radialGradient id="wax-body" cx="32%" cy="28%" r="85%">
+                  <stop offset="0%" stopColor={WAX.light} />
+                  <stop offset="55%" stopColor={WAX.mid} />
+                  <stop offset="100%" stopColor={WAX.dark} />
                 </radialGradient>
-                <filter id="ivory-shadow" x="-20%" y="-20%" width="140%" height="140%">
-                  <feDropShadow dx="0" dy="2.5" stdDeviation="2" floodOpacity="0.25" />
-                </filter>
               </defs>
 
-              {/* 왁스 외곽 무늬 없는 형태 */}
-              <path
-                d="M50 7 
-                   C64 6, 73 12, 84 19 
-                   C93 27, 97 39, 94 53 
-                   C91 68, 83 79, 71 87 
-                   C58 94, 42 94, 28 87 
-                   C15 80, 6 68, 7 53 
-                   C8 38, 16 26, 27 16 
-                   C38 9, 43 8, 50 7 Z"
-                fill="url(#ivory-wax-grad)"
-                filter="url(#ivory-shadow)"
-              />
+              {/* 둥근 바깥 왁스 */}
+              <path d={WAX_OUTLINE} fill="url(#wax-body)" stroke={WAX.edge} strokeWidth="0.8" />
 
-              {/* 안쪽 음각 림 (테두리) */}
+              {/* 도톰하게 올라온 테두리 */}
+              <circle cx="50" cy="50" r="38" fill="none" stroke={WAX.edge} strokeWidth="0.9" opacity="0.5" />
+              <circle cx="50" cy="50" r="39.6" fill="none" stroke="#fff" strokeWidth="1" opacity="0.9" />
+
+              {/* 양각 조개 무늬: 하이라이트 → 그림자 → 본체 */}
+              <g transform="translate(0.8 0.9)" opacity="0.95">
+                <WaxShell fill="#fff" rib="#fff" ribWidth={0.9} />
+              </g>
+              <g transform="translate(-0.6 -0.6)" opacity="0.45">
+                <WaxShell fill={WAX.edge} rib={WAX.edge} ribWidth={0.9} />
+              </g>
+              <WaxShell fill={WAX.mid} stroke={WAX.edge} strokeWidth={0.5} rib={WAX.edge} ribWidth={0.7} ribOpacity={0.75} />
+
+              {/* 광택 */}
               <path
-                d="M50 17 
-                   C61 16, 69 21, 76 27 
-                   C83 34, 85 43, 83 52 
-                   C81 62, 75 70, 65 76 
-                   C55 82, 43 81, 33 76 
-                   C23 71, 17 61, 18 51 
-                   C19 40, 25 31, 33 24 
-                   C41 18, 45 17, 50 17 Z"
+                d="M22 24 C30 14 43 10 56 11"
                 fill="none"
-                stroke="#c7baa4"
-                strokeWidth="1.4"
-                opacity="0.6"
-              />
-
-              {/* 안쪽 왁스 면 */}
-              <path
-                d="M50 19 
-                   C60 18, 67 22, 74 28 
-                   C80 34, 82 43, 80 51 
-                   C78 60, 72 68, 63 73 
-                   C54 78, 44 77, 34 73 
-                   C25 69, 19 60, 20 50 
-                   C21 40, 26 32, 34 25 
-                   C42 19, 46 18, 50 19 Z"
-                fill="url(#ivory-wax-grad)"
-              />
-
-              {/* 하이라이트 광택 */}
-              <path
-                d="M32 25 C41 19, 53 18, 62 21"
-                fill="none"
-                stroke="#ffffff"
-                strokeWidth="3.2"
+                stroke="#fff"
+                strokeWidth="2.2"
                 strokeLinecap="round"
-                opacity="0.85"
+                opacity="0.55"
               />
-              <circle cx="27" cy="33" r="2.2" fill="#ffffff" opacity="0.6" />
             </svg>
           </div>
         </Button>

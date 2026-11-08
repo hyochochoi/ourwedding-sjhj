@@ -1,44 +1,5 @@
 import { Section } from "@/components/wedding/Section";
 import { HANDWRITTEN_LETTER_URL, WEDDING } from "@/lib/wedding-data";
-import { INVITATION_FILM_PHOTOS } from "@/lib/wedding-photos";
-const TOP = INVITATION_FILM_PHOTOS.map((photo) => photo.src);
-const BOTTOM = [...TOP].reverse();
-
-/** 실제 35mm 필름처럼: 위아래 구멍 줄 + 프레임 + 프레임 번호. 한 화면에 약 5컷. */
-function FilmStrip({
-  photos,
-  reverse,
-  tilt,
-}: {
-  photos: string[];
-  reverse?: boolean;
-  tilt: string;
-}) {
-  const frames = [...photos, ...photos];
-  return (
-    <div
-      className={`film-strip-track -mx-6 overflow-hidden border-y border-primary/20 bg-film py-1.5 shadow-[0_6px_18px_rgba(0,0,0,0.28)] ${tilt}`}
-      aria-hidden
-    >
-      <div className={`flex w-max ${reverse ? "film-roll-reverse" : "film-roll"}`}>
-        {frames.map((src, i) => (
-          <div key={i} className="w-[calc(480px/4)] max-w-[25vw] shrink-0 px-[3px]">
-            <div className="film-sprockets h-1.5" />
-            <div className="my-1 border border-film bg-film p-[2px]">
-              <img
-                src={src}
-                alt=""
-                draggable={false}
-                className="no-zoom aspect-[3/2] w-full object-cover"
-              />
-            </div>
-            <div className="film-sprockets h-1.5" />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 function Tape({ className }: { className: string }) {
   return <span className={`absolute z-20 h-5 w-16 ${className}`} aria-hidden />;
@@ -47,10 +8,8 @@ function Tape({ className }: { className: string }) {
 export function Invitation() {
   return (
     <Section eyebrow="Invitation" title="초대합니다">
-      <FilmStrip photos={TOP} tilt="-rotate-[0.3deg]" />
-
       <div className="relative mx-auto my-10 max-w-[320px] px-1">
-        <Tape className="-top-2 left-1/2 -translate-x-1/2 -rotate-3 bg-tape-pink" />
+        <Tape className="-top-2 left-1/2 -translate-x-1/2 -rotate-3 bg-tape-blush" />
         <div className="invitation-letter relative flex min-h-[360px] items-center justify-center rounded-md bg-cream px-5 py-10 text-paper-foreground shadow-[0_18px_40px_-20px_rgba(0,0,0,0.9)]">
           {HANDWRITTEN_LETTER_URL ? (
             <img
@@ -76,8 +35,6 @@ export function Invitation() {
           )}
         </div>
       </div>
-
-      <FilmStrip photos={BOTTOM} reverse tilt="rotate-[0.3deg]" />
 
       <div className="mx-[-0.5rem] mt-10 space-y-1 text-center text-[0.95rem] text-foreground/80">
         <p className="whitespace-nowrap">

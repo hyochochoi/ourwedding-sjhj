@@ -117,7 +117,7 @@ export function Location() {
               aria-hidden="true"
             />
             <div className="min-w-0">
-              <h3 className="w-fit rounded-sm bg-tape-pink px-1.5 py-0.5 text-sm font-semibold text-paper-foreground shadow-[0_1px_2px_rgba(0,0,0,0.12)]">
+              <h3 className="w-fit rounded-sm bg-tape-blush px-1.5 py-0.5 text-sm font-semibold text-paper-foreground shadow-[0_1px_2px_rgba(0,0,0,0.12)]">
                 {label}
               </h3>
               <ul className="mt-1 space-y-1 text-sm leading-relaxed text-foreground/80">
