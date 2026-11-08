@@ -71,18 +71,9 @@
   --border: rgb(211 163 163 / 38%);
   --input: rgb(211 163 163 / 52%);
   --ring: #c77f88;
-  --paper-grain: repeating-linear-gradient(
-    115deg,
-    transparent 0 2px,
-    rgb(90 68 70 / 1%) 2px 3px
-  );
-  --cover-grain: repeating-linear-gradient(
-    25deg,
-    transparent 0 2px,
-    rgb(255 255 255 / 1%) 2px 3px
-  );
-  --envelope-shadow:
-    0 22px 38px -14px rgb(90 68 70 / 20%), 0 8px 18px -10px rgb(90 68 70 / 14%);
+  --paper-grain: repeating-linear-gradient(115deg, transparent 0 2px, rgb(90 68 70 / 1%) 2px 3px);
+  --cover-grain: repeating-linear-gradient(25deg, transparent 0 2px, rgb(255 255 255 / 1%) 2px 3px);
+  --envelope-shadow: 0 22px 38px -14px rgb(90 68 70 / 20%), 0 8px 18px -10px rgb(90 68 70 / 14%);
   --seal-shadow: 0 2px 5px rgb(90 68 70 / 16%), inset 0 0 0 3px rgb(255 255 255 / 55%);
   --clip-metal: #9a8688;
 
@@ -442,8 +433,7 @@ body {
 }
 .cover-paper {
   background-image:
-    radial-gradient(ellipse at center, transparent 55%, rgb(90 68 70 / 8%) 100%),
-    var(--cover-grain);
+    radial-gradient(ellipse at center, transparent 55%, rgb(90 68 70 / 8%) 100%), var(--cover-grain);
   background-size: cover, auto;
 }
 .hero-invitation {
@@ -463,7 +453,7 @@ body {
   filter: drop-shadow(0 14px 18px rgb(0 0 0 / 18%));
 }
 .hero-heart-paper {
-  fill: var(--cream);
+  fill: color-mix(in oklab, var(--cream) 84%, var(--primary));
 }
 .hero-name-label {
   color: color-mix(in oklab, var(--primary) 16%, var(--background));
@@ -498,18 +488,20 @@ body {
   box-sizing: border-box;
   flex: 0 0 100%;
   isolation: isolate;
-  border: 1px solid rgb(211 163 163 / 45%);
-  background-color: var(--paper);
-  background-image: var(--paper-grain);
-  color: var(--paper-foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-2xl);
+  background-color: color-mix(in oklab, var(--card) 85%, transparent);
+  color: var(--foreground);
+  backdrop-filter: blur(2px);
   box-shadow: 0 12px 24px -16px rgb(0 0 0 / 65%);
 }
 .notice-card::before,
 .notice-card::after {
   position: absolute;
   z-index: -1;
-  border: 1px solid rgb(211 163 163 / 35%);
-  background-color: #f6e8e5;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-2xl);
+  background-color: color-mix(in oklab, var(--card) 85%, var(--background));
   content: "";
 }
 .notice-card::before {

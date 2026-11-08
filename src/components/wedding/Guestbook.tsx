@@ -57,6 +57,7 @@ export function Guestbook() {
   const [stars, setStars] = useState<GuestbookStar[]>([]);
   const [sent, setSent] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [composerOpen, setComposerOpen] = useState(false);
   const skyRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -80,7 +81,7 @@ export function Guestbook() {
   }, []);
 
   function placeStar(event: React.MouseEvent<HTMLDivElement>) {
-    if (sent) return;
+    if (!composerOpen || sent) return;
     const rect = skyRef.current?.getBoundingClientRect();
     if (!rect) return;
     const x = ((event.clientX - rect.left) / rect.width) * 100;
@@ -127,7 +128,7 @@ export function Guestbook() {
   return (
     <Section eyebrow="Constellation" title="축하의 별 띄우기">
       <p className="mb-4 text-center text-xs leading-relaxed text-muted-foreground">
-        밤하늘을 눌러 자리를 고르고, 축하의 별을 띄워주세요.
+        밤하늘에 놓인 축하의 별을 감상해 주세요.
         <br />
         이름과 메시지는 신랑 · 신부에게만 전해집니다.
       </p>
@@ -137,7 +138,10 @@ export function Guestbook() {
         onClick={placeStar}
         role="img"
         aria-label={`축하의 별 ${stars.length}개가 빛나는 밤하늘`}
-        className="guestbook-sky relative aspect-[4/3] w-full cursor-crosshair overflow-hidden rounded-3xl border border-white/15 bg-sky"
+        className={cn(
+          "guestbook-sky relative aspect-[4/3] w-full overflow-hidden rounded-3xl border border-white/15 bg-sky",
+          composerOpen && !sent && "cursor-crosshair",
+        )}
       >
         {stars.map((star) => (
           <span
@@ -167,16 +171,28 @@ export function Guestbook() {
         <span className="pointer-events-none absolute bottom-3 left-0 right-0 text-center text-[0.7rem] text-white/75">
           {sent
             ? "우리의 밤하늘에 별이 함께 빛나요"
-            : stars.length > 0
-              ? "모두의 축하 별이 빛나요 · 밤하늘을 눌러 내 별 놓기"
+            : !composerOpen
+              ? "별 보내기를 눌러 축하를 남겨주세요"
               : pos
                 ? "자리를 골랐어요"
-                : "눌러서 내 별 자리 고르기"}
+                : "밤하늘을 눌러 내 별 자리 고르기"}
         </span>
       </div>
 
-      {!sent && (
-        <form onSubmit={submit} className="soft-card mt-4 space-y-4 p-4">
+      {!sent && !composerOpen && (
+        <Button
+          type="button"
+          className="mt-4 w-full rounded-full"
+          onClick={() => setComposerOpen(true)}
+          aria-expanded={composerOpen}
+          aria-controls="guestbook-composer"
+        >
+          별 보내기
+        </Button>
+      )}
+
+      {!sent && composerOpen && (
+        <form id="guestbook-composer" onSubmit={submit} className="soft-card mt-4 space-y-4 p-4">
           <div className="grid grid-cols-4 gap-2">
             {STAR_TYPES.map((type) => (
               <button

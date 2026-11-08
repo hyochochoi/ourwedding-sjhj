@@ -17,7 +17,12 @@ export function VenueInfo() {
 
   function handleTouchEnd(event: TouchEvent<HTMLDivElement>) {
     if (touchStartX.current === null) return;
-    const delta = event.changedTouches[0].clientX - touchStartX.current;
+    const touch = event.changedTouches.item(0);
+    if (!touch) {
+      touchStartX.current = null;
+      return;
+    }
+    const delta = touch.clientX - touchStartX.current;
     if (Math.abs(delta) > 40) {
       setActive((index) => (index + (delta < 0 ? 1 : -1) + CARDS.length) % CARDS.length);
     }
@@ -33,7 +38,7 @@ export function VenueInfo() {
           aria-label="예식 안내"
           aria-roledescription="carousel"
           onTouchStart={(event) => {
-            touchStartX.current = event.touches[0].clientX;
+            touchStartX.current = event.touches.item(0)?.clientX ?? null;
           }}
           onTouchEnd={handleTouchEnd}
           onTouchCancel={() => {
@@ -51,7 +56,7 @@ export function VenueInfo() {
                 aria-hidden={active !== i}
                 aria-label={`${i + 1} / ${CARDS.length}: ${card.title}`}
               >
-                <header className="flex items-center justify-between border-b border-paper-foreground/15 pb-3 text-[0.62rem] tracking-[0.16em] text-paper-foreground/60">
+                <header className="flex items-center justify-between border-b border-border/60 pb-3 text-[0.62rem] tracking-[0.16em] text-muted-foreground">
                   <span className="flex items-center gap-2 font-semibold">
                     <span className="size-1.5 rounded-full bg-primary" aria-hidden="true" />
                     NOTICE
@@ -61,10 +66,8 @@ export function VenueInfo() {
                   </span>
                 </header>
                 <div className="pt-6">
-                  <h3 className="serif-title text-base font-bold text-paper-foreground">
-                    {card.title}
-                  </h3>
-                  <ul className="mt-3 space-y-1.5 text-[0.78rem] leading-relaxed text-paper-foreground/80">
+                  <h3 className="serif-title text-base font-bold text-foreground">{card.title}</h3>
+                  <ul className="mt-3 space-y-1.5 text-[0.78rem] leading-relaxed text-muted-foreground">
                     {card.lines.map((line) => (
                       <li key={line} className="break-keep">
                         {line}

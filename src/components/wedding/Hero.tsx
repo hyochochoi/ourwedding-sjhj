@@ -1,5 +1,4 @@
-import { COVER_PHOTO as heroImage } from "@/lib/wedding-photos";
-import { HERO_VIDEO_URL, WEDDING } from "@/lib/wedding-data";
+import { WEDDING } from "@/lib/wedding-data";
 
 function PaperClip({ className }: { className?: string }) {
   return (
@@ -44,25 +43,11 @@ export function Hero() {
 
       <div className="hero-photo absolute left-1/2 top-[40%] z-10 w-[min(60%,260px)] -translate-x-1/2">
         <PaperClip className="absolute -top-[14%] left-[68%] z-10 h-[22%] w-[8%] rotate-[6deg]" />
-        <div className="hero-photo-frame aspect-square overflow-hidden">
-          {HERO_VIDEO_URL ? (
-            <video
-              src={HERO_VIDEO_URL}
-              poster={heroImage}
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="no-zoom slow-zoom aspect-square w-full object-cover"
-            />
-          ) : (
-            <img
-              src={heroImage}
-              alt={`${WEDDING.groom.name} 그리고 ${WEDDING.bride.name}`}
-              className="no-zoom slow-zoom aspect-square w-full object-cover"
-            />
-          )}
-        </div>
+        <div
+          className="hero-photo-frame aspect-square bg-white"
+          role="img"
+          aria-label="표지 사진 자리"
+        />
       </div>
 
       <div className="hero-caption absolute inset-x-0 top-[74%] z-10 px-4">
