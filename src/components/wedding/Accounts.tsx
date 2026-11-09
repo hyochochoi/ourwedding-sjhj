@@ -74,7 +74,11 @@ function AccountRow({ account, contact }: { account: Account; contact?: Contact 
 
 function Group({ value, title, children }: { value: string; title: string; children: ReactNode }) {
   return (
-    <AccordionItem value={value} className="soft-card overflow-hidden border-b-0 px-4">
+    <AccordionItem
+      value={value}
+      className="soft-card overflow-hidden border-b-0 px-4"
+      style={{ backgroundColor: "var(--invitation-paper)" }}
+    >
       <AccordionTrigger className="text-sm hover:no-underline">{title}</AccordionTrigger>
       <AccordionContent className="space-y-3 pb-4">{children}</AccordionContent>
     </AccordionItem>

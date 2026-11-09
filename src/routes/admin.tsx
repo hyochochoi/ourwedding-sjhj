@@ -42,12 +42,12 @@ type AdminData = Awaited<ReturnType<typeof getAdminData>>;
 type Photo = { name: string; downloadUrl: string; previewUrl: string; category?: string };
 
 const STAR_COLORS = [
-  "var(--star-1)",
-  "var(--star-2)",
-  "var(--star-3)",
-  "var(--star-4)",
-  "var(--star-5)",
-  "var(--star-6)",
+  "var(--guest-star-1)",
+  "var(--guest-star-2)",
+  "var(--guest-star-3)",
+  "var(--guest-star-4)",
+  "var(--guest-star-5)",
+  "var(--guest-star-6)",
 ];
 
 function AdminPage() {

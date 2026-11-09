@@ -42,12 +42,12 @@ export function Envelope({ guestName, onClose }: { guestName: string; onClose: (
     <div className="cover-paper fixed inset-0 z-50 overflow-y-auto bg-background px-6 text-foreground">
       <div className="mx-auto flex min-h-full max-w-[320px] flex-col items-center justify-center py-10">
         <div className={cn("envelope-welcome", phase !== "closed" && "envelope-welcome-hidden")}>
-          <h1 className="flex flex-col font-cover text-[clamp(6rem,10vw,2.7rem)] leading-[0.8] text-primary">
+          <h1 className="flex flex-col font-cover text-[clamp(5rem,10vw,2.7rem)] leading-[0.8] text-primary">
             <span>Wedding</span>
             <span>Invitation</span>
           </h1>
           <p className="mt-4 text-center text-base font-medium leading-relaxed text-foreground/90">
-            {guestName === "소중한 분" ? "To. 초대합니다." : `To.${guestName}`}
+            {guestName === "소중한 분" ? "소중한 날, 당신을 초대합니다." : `To.${guestName}`}
           </p>
         </div>
 

@@ -22,10 +22,10 @@ const DIRECTIONS = [
     Icon: TrainFront,
     items: [
       <>
-        3호선 <strong>정발산역 1번 출구</strong>에서 도보 10분
+        <strong>정발산역 1번 출구</strong> · 도보 10분
       </>,
       <>
-        3호선 <strong>마두역 4번 출구</strong>에서 도보 10분
+        <strong>마두역 4번 출구</strong> · 도보 10분
       </>,
     ],
   },
@@ -34,7 +34,7 @@ const DIRECTIONS = [
     Icon: BusFront,
     items: [
       <>
-        <strong>일산 동구청(중)</strong> 하차 · 도보 7분
+        <strong>일산 동구청(중)</strong> · 도보 7분
       </>,
     ],
   },
@@ -43,7 +43,7 @@ const DIRECTIONS = [
     Icon: BusFront,
     items: [
       <>
-        <strong>마두역 4번 출구</strong>에서 수시 운행
+        <strong>마두역 4번 출구</strong> (순환 셔틀 운행)
       </>,
     ],
   },
@@ -52,11 +52,11 @@ const DIRECTIONS = [
     Icon: CarFront,
     items: [
       <>
-        <strong>웨스턴타워 3차 B동 지하주차장</strong> 이용 (1,300대 가능)
+        <strong>웨스턴타워 3차 B동 지하주차장</strong> (1,300대 가능)
       </>,
       <>
         B2층 주차 시 CGV 엘리베이터 탑승 후 B1층 하차
-        <br />→ 건너편 <strong>6, 7호기 엘리베이터</strong> 이용하여 <strong>9F 하차</strong>
+        <br />→ 건너편 6, 7호기 엘리베이터 이용 · <strong>9F 웨딩홀</strong>
       </>,
     ],
   },
@@ -117,7 +117,7 @@ export function Location() {
               aria-hidden="true"
             />
             <div className="min-w-0">
-              <h3 className="w-fit rounded-sm bg-tape-blush px-1.5 py-0.5 text-sm font-semibold text-paper-foreground shadow-[0_1px_2px_rgba(0,0,0,0.12)]">
+              <h3 className="w-fit rounded-sm bg-tape-blush px-1.5 py-0.5 text-sm font-normal text-paper-foreground shadow-[0_1px_2px_rgba(0,0,0,0.12)]">
                 {label}
               </h3>
               <ul className="mt-1 space-y-1 text-sm leading-relaxed text-foreground/80">

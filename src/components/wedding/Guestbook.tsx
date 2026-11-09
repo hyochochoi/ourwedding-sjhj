@@ -16,12 +16,12 @@ const STAR_TYPES = [
 ] as const;
 
 const STAR_COLORS = [
-  "var(--star-1)",
-  "var(--star-2)",
-  "var(--star-3)",
-  "var(--star-4)",
-  "var(--star-5)",
-  "var(--star-6)",
+  "var(--guest-star-1)",
+  "var(--guest-star-2)",
+  "var(--guest-star-3)",
+  "var(--guest-star-4)",
+  "var(--guest-star-5)",
+  "var(--guest-star-6)",
 ];
 
 type GuestbookStar = {
@@ -151,7 +151,7 @@ export function Guestbook() {
           >
             <StarIcon
               type={star.star_type}
-              color={STAR_COLORS[star.color_index] ?? "var(--star-1)"}
+              color={STAR_COLORS[star.color_index] ?? "var(--guest-star-1)"}
               className="size-7"
             />
           </span>
@@ -163,7 +163,7 @@ export function Guestbook() {
           >
             <StarIcon
               type={starType}
-              color={STAR_COLORS[colorIndex] ?? "var(--star-1)"}
+              color={STAR_COLORS[colorIndex] ?? "var(--guest-star-1)"}
               className="size-7"
             />
           </span>
@@ -206,7 +206,7 @@ export function Guestbook() {
               >
                 <StarIcon
                   type={type.id}
-                  color={STAR_COLORS[colorIndex] ?? "var(--star-1)"}
+                  color={STAR_COLORS[colorIndex] ?? "var(--guest-star-1)"}
                   className="size-5"
                 />
                 {type.label}

@@ -10,7 +10,7 @@ export function Invitation() {
     <Section eyebrow="Invitation" title="초대합니다">
       <div className="relative mx-auto my-10 max-w-[320px] px-1">
         <Tape className="-top-2 left-1/2 -translate-x-1/2 -rotate-3 bg-tape-blush" />
-        <div className="invitation-letter relative flex min-h-[360px] items-center justify-center rounded-md bg-cream px-5 py-10 text-paper-foreground shadow-[0_18px_40px_-20px_rgba(0,0,0,0.9)]">
+        <div className="invitation-letter relative flex min-h-[360px] items-center justify-center rounded-md px-5 py-10 text-paper-foreground">
           {HANDWRITTEN_LETTER_URL ? (
             <img
               src={HANDWRITTEN_LETTER_URL}

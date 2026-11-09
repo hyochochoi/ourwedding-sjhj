@@ -80,18 +80,26 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       {
         name: "viewport",
-        content: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
+        content:
+          "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no",
       },
       { name: "author", content: "이상진 · 최효정" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
       {
         rel: "preconnect",
-        href: "https://fonts.gstatic.com",
+        href: "https://cdn.jsdelivr.net",
         crossOrigin: "anonymous",
+      },
+      {
+        rel: "stylesheet",
+        href: "https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquare.css",
+      },
+      {
+        rel: "stylesheet",
+        href: "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css",
       },
       {
         rel: "stylesheet",
@@ -101,7 +109,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "stylesheet", href: "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
@@ -132,7 +139,16 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
-      <Toaster position="bottom-center" toastOptions={{ classNames: { toast: "!bg-primary !text-primary-foreground !border-primary/40 !rounded-full !shadow-lg", description: "!text-primary-foreground/80" } }} />
+      <Toaster
+        position="bottom-center"
+        toastOptions={{
+          classNames: {
+            toast:
+              "!bg-primary !text-primary-foreground !border-primary/40 !rounded-full !shadow-lg",
+            description: "!text-primary-foreground/80",
+          },
+        }}
+      />
     </QueryClientProvider>
   );
 }

@@ -44,10 +44,10 @@
   --color-note-4: var(--note-4);
   --color-note-5: var(--note-5);
   --color-note-6: var(--note-6);
-  --font-sans: "Pretendard", system-ui, sans-serif;
-  --font-serif: "Pretendard", sans-serif;
-  --font-display: "Reenie Beanie", cursive;
-  --font-cover: "Great Vibes", cursive;
+  --font-sans: "NanumSquare", system-ui, sans-serif;
+  --font-serif: "NanumSquare", sans-serif;
+  --font-display: "Reenie Beanie", "NanumSquare", cursive;
+  --font-cover: "Great Vibes", "NanumSquare", cursive;
 }
 
 :root {
@@ -100,6 +100,7 @@
   html,
   body {
     background-color: #fbf3f1;
+    touch-action: pan-x pan-y;
   }
 
   body {
@@ -171,6 +172,8 @@
   --envelope: #f0cfcb;
   --envelope-shade: #d3a3a3;
   --cream: #fbf3f1;
+  --hero-heart-paper: color-mix(in oklab, var(--cream) 84%, var(--primary));
+  --invitation-paper: #fffaf9;
   --tape-blush: rgb(240 207 203 / 88%);
   --tape-cream: rgb(251 243 241 / 90%);
   --tape-rose: rgb(199 127 136 / 80%);
@@ -182,6 +185,12 @@
   --star-4: #f3d9d7;
   --star-5: #fbf3f1;
   --star-6: #f2dcd7;
+  --guest-star-1: #fff3a6;
+  --guest-star-2: #d7f5a3;
+  --guest-star-3: #ffc1df;
+  --guest-star-4: #ffd0a3;
+  --guest-star-5: #aee8f5;
+  --guest-star-6: #d8c5f5;
 }
 
 .guestbook-sky {
@@ -437,13 +446,13 @@ body {
   background-size: cover, auto;
 }
 .hero-invitation {
-  min-height: clamp(820px, 100svh, 900px);
+  min-height: clamp(720px, 92svh, 840px);
   background: transparent;
 }
 .hero-script-title {
   color: var(--primary);
   font-family: var(--font-cover);
-  font-size: clamp(5rem, 18vw, 7rem);
+  font-size: clamp(4rem, 14vw, 5.5rem);
   letter-spacing: 0;
   line-height: 0.66;
   text-shadow: 0 2px 4px rgb(0 0 0 / 22%);
@@ -453,10 +462,11 @@ body {
   filter: drop-shadow(0 14px 18px rgb(0 0 0 / 18%));
 }
 .hero-heart-paper {
-  fill: color-mix(in oklab, var(--cream) 84%, var(--primary));
+  fill: var(--hero-heart-paper);
 }
 .hero-name-label {
-  color: color-mix(in oklab, var(--primary) 16%, var(--background));
+  color: color-mix(in oklab, var(--foreground) 28%, var(--background));
+  font-family: "Pretendard", "NanumSquare", sans-serif;
 }
 .hero-photo {
   box-shadow: 0 6px 18px rgb(0 0 0 / 30%);
@@ -466,7 +476,9 @@ body {
   text-shadow: 0 1px 0 rgb(255 255 255 / 35%);
 }
 .invitation-letter {
+  background-color: var(--invitation-paper);
   background-image: var(--paper-grain);
+  box-shadow: 0 16px 34px -18px rgb(90 68 70 / 55%), 0 3px 8px rgb(90 68 70 / 12%);
 }
 .invitation-paper {
   background-image: var(--paper-grain);
