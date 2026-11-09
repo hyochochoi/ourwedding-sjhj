@@ -444,7 +444,7 @@ body {
   color: var(--primary);
   font-family: var(--font-cover);
   font-size: clamp(5rem, 18vw, 7rem);
-  letter-spacing: -0.035em;
+  letter-spacing: 0;
   line-height: 0.66;
   text-shadow: 0 2px 4px rgb(0 0 0 / 22%);
 }
@@ -475,7 +475,7 @@ body {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding: 2px 8px 10px 0;
+  padding: 2px 0 10px;
   touch-action: pan-y;
 }
 .notice-carousel__track {
@@ -489,29 +489,25 @@ body {
   flex: 0 0 100%;
   isolation: isolate;
   border: 1px solid var(--border);
-  border-radius: var(--radius-2xl);
-  background-color: color-mix(in oklab, var(--card) 85%, transparent);
+  border-radius: 1.25rem;
+  background-color: var(--card);
   color: var(--foreground);
-  backdrop-filter: blur(2px);
-  box-shadow: 0 12px 24px -16px rgb(0 0 0 / 65%);
+  box-shadow: 0 12px 28px -20px rgb(90 68 70 / 55%);
 }
 .notice-card::before,
 .notice-card::after {
   position: absolute;
   z-index: -1;
   border: 1px solid var(--border);
-  border-radius: var(--radius-2xl);
-  background-color: color-mix(in oklab, var(--card) 85%, var(--background));
+  border-radius: inherit;
+  background-color: var(--card);
   content: "";
 }
 .notice-card::before {
-  inset: 3px -4px -5px 4px;
-  transform: rotate(0.8deg);
-  box-shadow: 0 8px 14px -12px rgb(0 0 0 / 70%);
+  inset: 0 4px -4px;
 }
 .notice-card::after {
-  inset: 6px -7px -9px 7px;
-  transform: rotate(-0.7deg);
+  inset: 0 8px -8px;
 }
 .venue-map-marker {
   display: flex;

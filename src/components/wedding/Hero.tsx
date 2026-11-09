@@ -1,4 +1,5 @@
 import { WEDDING } from "@/lib/wedding-data";
+import { COVER_PHOTO } from "@/lib/wedding-photos";
 
 function PaperClip({ className }: { className?: string }) {
   return (
@@ -43,10 +44,13 @@ export function Hero() {
 
       <div className="hero-photo absolute left-1/2 top-[40%] z-10 w-[min(60%,260px)] -translate-x-1/2">
         <PaperClip className="absolute -top-[14%] left-[68%] z-10 h-[22%] w-[8%] rotate-[6deg]" />
-        <div
-          className="hero-photo-frame aspect-square bg-white"
-          role="img"
-          aria-label="표지 사진 자리"
+        <img
+          src={COVER_PHOTO}
+          alt="상진과 효정의 결혼 사진"
+          width={768}
+          height={1152}
+          draggable={false}
+          className="hero-photo-frame aspect-square w-full bg-white object-cover object-[center_78%]"
         />
       </div>
 

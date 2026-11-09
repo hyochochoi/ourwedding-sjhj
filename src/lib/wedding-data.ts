@@ -19,15 +19,15 @@ export type Contact = {
 };
 
 export const GROOM_CONTACTS: Contact[] = [
-  { relation: "신랑", name: "이상진", phone: "010-2345-6781" },
+  { relation: "신랑", name: "이상진", phone: "010-9385-1675" },
   { relation: "신랑 아버지", name: "이승학", phone: "010-3456-7812" },
   { relation: "신랑 어머니", name: "박영미", phone: "010-4567-8123" },
 ];
 
 export const BRIDE_CONTACTS: Contact[] = [
-  { relation: "신부", name: "최효정", phone: "010-5678-1234" },
-  { relation: "신부 아버지", name: "최진혁", phone: "010-6781-2345" },
-  { relation: "신부 어머니", name: "정대영", phone: "010-7812-3456" },
+  { relation: "신부", name: "최효정", phone: "010-7193-5184" },
+  { relation: "신부 아버지", name: "최진혁", phone: "010-9071-5184" },
+  { relation: "신부 어머니", name: "정대영", phone: "010-6369-5184" },
 ];
 
 export type Account = {
@@ -44,9 +44,9 @@ export const GROOM_ACCOUNTS: Account[] = [
 ];
 
 export const BRIDE_ACCOUNTS: Account[] = [
-  { relation: "신부", name: "최효정", bank: "신한은행", number: "110-534-567890" },
-  { relation: "신부 아버지", name: "최진혁", bank: "하나은행", number: "123-456789-01234" },
-  { relation: "신부 어머니", name: "정대영", bank: "기업은행", number: "010-1234-5678-9" },
+  { relation: "신부", name: "최효정", bank: "신한은행", number: "110-535-219167" },
+  { relation: "신부 아버지", name: "최진혁", bank: "국민은행", number: "224601-04-028890" },
+  { relation: "신부 어머니", name: "정대영", bank: "기업은행", number: "010-63695184" },
 ];
 
 /** 하객 사진 업로드용 구글 드라이브 폴더 링크 (받는 즉시 교체) */

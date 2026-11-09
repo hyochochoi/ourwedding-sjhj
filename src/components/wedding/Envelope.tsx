@@ -15,18 +15,6 @@ const WAX_PALETTES = {
 
 const WAX = WAX_PALETTES.pearl;
 
-const WAX_OUTLINE = (() => {
-  const n = 120;
-  const pts: string[] = [];
-  for (let i = 0; i < n; i++) {
-    const t = (i / n) * Math.PI * 2;
-    const r =
-      43.5 + 2.2 * Math.sin(3 * t + 0.4) + 1.4 * Math.sin(5 * t + 1.3) + 0.7 * Math.sin(9 * t + 2);
-    pts.push(`${(50 + r * Math.cos(t)).toFixed(2)} ${(50 + r * Math.sin(t)).toFixed(2)}`);
-  }
-  return `M${pts.join("L")}Z`;
-})();
-
 export function Envelope({ guestName, onClose }: { guestName: string; onClose: () => void }) {
   const [phase, setPhase] = useState<Phase>("closed");
   const [showRsvp, setShowRsvp] = useState(false);
@@ -54,15 +42,12 @@ export function Envelope({ guestName, onClose }: { guestName: string; onClose: (
     <div className="cover-paper fixed inset-0 z-50 overflow-y-auto bg-background px-6 text-foreground">
       <div className="mx-auto flex min-h-full max-w-[320px] flex-col items-center justify-center py-10">
         <div className={cn("envelope-welcome", phase !== "closed" && "envelope-welcome-hidden")}>
-          <h1 className="font-display text-[4.5rem] leading-none text-primary">
-            Invitation
+          <h1 className="flex flex-col font-cover text-[clamp(6rem,10vw,2.7rem)] leading-[0.8] text-primary">
+            <span>Wedding</span>
+            <span>Invitation</span>
           </h1>
-          <p className="mt-4 text-center text-sm leading-relaxed text-foreground/90">
-            저희의 가장 특별한 순간에{" "}
-            <span className="text-[calc(1em+0.5px)] font-semibold">
-              {guestName === "소중한 분" ? "당신" : `${guestName}님`}
-            </span>
-            을 초대합니다.
+          <p className="mt-4 text-center text-base font-medium leading-relaxed text-foreground/90">
+            {guestName === "소중한 분" ? "To. 초대합니다." : `To.${guestName}`}
           </p>
         </div>
 
@@ -181,35 +166,33 @@ export function Envelope({ guestName, onClose }: { guestName: string; onClose: (
                 </radialGradient>
               </defs>
 
-              <path d={WAX_OUTLINE} fill="url(#wax-body)" stroke={WAX.edge} strokeWidth="0.8" />
-              <path
-                d={WAX_OUTLINE}
-                fill="url(#wax-gloss)"
-                stroke="#fff"
-                strokeWidth="0.8"
-                strokeOpacity="0.75"
+              <circle
+                cx="50"
+                cy="50"
+                r="44"
+                fill="url(#wax-body)"
+                stroke={WAX.edge}
+                strokeWidth="1"
               />
+              <circle
+                cx="50"
+                cy="50"
+                r="38.5"
+                fill="none"
+                stroke="#fff"
+                strokeOpacity="0.72"
+                strokeWidth="0.8"
+              />
+              <circle cx="50" cy="50" r="34" fill="url(#wax-gloss)" />
               <text
                 x="50"
-                y="54"
+                y="57"
                 textAnchor="middle"
                 fontFamily="Georgia, serif"
-                fontSize="15"
-                letterSpacing="1.5"
-                fill={WAX.edge}
-                opacity="0.68"
-              >
-                Join us!
-              </text>
-              <text
-                x="49.5"
-                y="53.5"
-                textAnchor="middle"
-                fontFamily="Georgia, serif"
-                fontSize="13"
-                letterSpacing="1.5"
+                fontSize="20"
+                letterSpacing="1"
                 fill="#fff"
-                opacity="0.75"
+                opacity="0.92"
               >
                 S · H
               </text>
