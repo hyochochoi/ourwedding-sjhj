@@ -47,7 +47,7 @@ export function Envelope({ guestName, onClose }: { guestName: string; onClose: (
             <span>Invitation</span>
           </h1>
           <p className="mt-4 text-center text-base font-medium leading-relaxed text-foreground/90">
-            {guestName === "소중한 분" ? "소중한 날, 당신을 초대합니다." : `To.${guestName}`}
+            {guestName === "소중한 분" ? "소중한 날, 당신을 초대합니다." : `To. ${guestName}`}
           </p>
         </div>
 
