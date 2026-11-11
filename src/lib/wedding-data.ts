@@ -80,6 +80,3 @@ export const FAQS: { q: string; a: string }[] = [
 
 /** 커버 배경 영상 주소 (mp4). 비어 있으면 대표 사진이 천천히 움직이는 효과로 대신 보여줍니다. */
 export const HERO_VIDEO_URL = "";
-
-/** 손편지 스캔 이미지 주소. 비어 있으면 디자인된 편지 문구가 보입니다. */
-export const HANDWRITTEN_LETTER_URL = "";

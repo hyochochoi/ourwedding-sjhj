@@ -34,7 +34,7 @@ export function InvitationPage({ guestName }: { guestName?: string | null }) {
     gift: <Accounts />,
     stars: <Guestbook />,
     photos: <GuestPhotosSection />,
-    thankyou: <ThankYou />,
+    thankyou: <ThankYou guestName={guestName ?? null} />,
   };
 
   return (

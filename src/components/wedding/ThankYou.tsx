@@ -3,8 +3,9 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Section } from "@/components/wedding/Section";
 import { WEDDING } from "@/lib/wedding-data";
+import { INVITATION_SHARE_DESCRIPTION, INVITATION_SHARE_TITLE } from "@/lib/social-preview";
 
-export function ThankYou() {
+export function ThankYou({ guestName }: { guestName?: string | null }) {
   async function copyLink() {
     try {
       await navigator.clipboard.writeText(window.location.href);
@@ -16,8 +17,8 @@ export function ThankYou() {
 
   async function share() {
     const shareData = {
-      title: `${WEDDING.groom.name} · ${WEDDING.bride.name} 결혼합니다`,
-      text: `${WEDDING.dateLabel} · ${WEDDING.venue}`,
+      title: guestName?.trim() ? `To. ${guestName.trim()}` : INVITATION_SHARE_TITLE,
+      text: INVITATION_SHARE_DESCRIPTION,
       url: window.location.href,
     };
 

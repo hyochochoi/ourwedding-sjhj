@@ -1,9 +1,28 @@
 export const COVER_PHOTO = "/wedding-cover.jpg";
+export const SHARE_PHOTO_URL = "https://ourwedding-sjhj.lovable.app/og-wedding.jpg";
 const weddingPhotoNumbers = [1, 3, 4, 5, 6, 8, 9, 11, 12, 13, 15, 16, 17, 20, 19, 18, 21, 22];
-export const WEDDING_PHOTOS = weddingPhotoNumbers.map((photoNumber) => ({
-  src: `/wedding-gallery/${String(photoNumber).padStart(2, "0")}.jpg`,
-  alt: `상진과 효정의 순간 ${photoNumber}`,
-}));
+const highResolutionPhotoUrls: Record<number, string> = {
+  4: "https://ourwedding-sjhj.lovable.app/__l5e/assets-v1/7e3a0b8b-9e5c-43ec-a0b7-7b3584e0cf22/IMG_2756.jpeg",
+  8: "https://ourwedding-sjhj.lovable.app/__l5e/assets-v1/c7db3d4a-3d72-40c8-99a4-d249a1028e84/IMG_2804.jpeg",
+  9: "https://ourwedding-sjhj.lovable.app/__l5e/assets-v1/637066df-2e0b-4da6-999f-53d1f672f311/IMG_2811.jpeg",
+};
+const landscapePhotoNumbers = new Set([12, 21]);
+
+export const WEDDING_PHOTOS = weddingPhotoNumbers.map((photoNumber) => {
+  const highResolutionSrc = highResolutionPhotoUrls[photoNumber];
+  const dimensions = highResolutionSrc
+    ? { width: 1280, height: 1920 }
+    : landscapePhotoNumbers.has(photoNumber)
+      ? { width: 1152, height: 768 }
+      : { width: 768, height: 1152 };
+
+  return {
+    src:
+      highResolutionSrc ?? `/wedding-gallery/${String(photoNumber).padStart(2, "0")}.jpg`,
+    alt: `상진과 효정의 순간 ${photoNumber}`,
+    ...dimensions,
+  };
+});
 const invitationFilmPhotoFiles = [
   "KakaoTalk_20261107_115540288.jpg",
   "KakaoTalk_20261107_115540288_01.jpg",

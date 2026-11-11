@@ -45,8 +45,8 @@ export function Gallery() {
                 src={photo.src}
                 alt={photo.alt}
                 loading="lazy"
-                width={1024}
-                height={1280}
+                width={photo.width}
+                height={photo.height}
                 draggable={false}
                 className="no-zoom aspect-square w-full object-cover"
               />
@@ -87,6 +87,8 @@ export function Gallery() {
               <img
                 src={selectedPhoto.src}
                 alt={selectedPhoto.alt}
+                width={selectedPhoto.width}
+                height={selectedPhoto.height}
                 draggable={false}
                 className="no-zoom touch-none max-h-[88svh] w-auto max-w-full select-none object-contain"
               />

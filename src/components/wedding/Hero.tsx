@@ -21,7 +21,7 @@ export function Hero() {
         <span>SANGJIN</span>
         <span>HYOJEONG</span>
       </div>
-      <h1 className="hero-script-title absolute inset-x-0 top-[6%] z-8 flex flex-col items-center">
+      <h1 className="hero-script-title absolute inset-x-0 top-[8%] z-8 flex flex-col items-center">
         <span>Our</span>
         <span>Wedding</span>
         <span>Day</span>
@@ -54,7 +54,7 @@ export function Hero() {
         />
       </div>
 
-      <div className="hero-caption absolute inset-x-0 top-[80%] z-10 px-4">
+      <div className="hero-caption absolute inset-x-0 top-[78%] z-10 px-4">
         <p className="text-lg font-semibold tracking-[0.08em]">
           {WEDDING.groom.name} <span className="mx-2 font-light">—</span> {WEDDING.bride.name}
         </p>
