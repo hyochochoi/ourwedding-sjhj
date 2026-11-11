@@ -21,7 +21,7 @@ export function Hero() {
         <span>SANGJIN</span>
         <span>HYOJEONG</span>
       </div>
-      <h1 className="hero-script-title absolute inset-x-0 top-[8%] z-8 flex flex-col items-center">
+      <h1 className="hero-script-title absolute inset-x-0 top-[8%] z-10 flex flex-col items-center">
         <span>Our</span>
         <span>Wedding</span>
         <span>Day</span>
