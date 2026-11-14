@@ -452,7 +452,7 @@ body {
 .hero-script-title {
   color: var(--primary);
   font-family: var(--font-cover);
-  font-size: clamp(4rem, 14vw, 5.5rem);
+  font-size: clamp(4rem, 16vw, 5.5rem);
   letter-spacing: 0;
   line-height: 0.66;
   text-shadow: 0 2px 4px rgb(0 0 0 / 22%);
